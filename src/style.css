@@ -1,0 +1,31 @@
+:root {
+    --main-bg: #09090B;
+    --secondary-bg: #0f0f12;
+    --accent-color: #4F46E5;
+    --text-primary: #ffffff;
+    --text-secondary: whitesmoke;
+    --hover-accent: #85b1e6;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --font-size-base: 16px;
+    --common-white: #ffff;
+  }
+  
+  .light-theme {
+    --main-bg: #EEF3FE;
+    --secondary-bg: #FEFEFE;
+    --accent-color: #4F46E5;
+    --text-primary: #000000;
+    --text-secondary: #67707B;
+    --hover-accent: #0056b3;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --font-size-base: 16px;
+    --common-white: #ffff;
+  }
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
