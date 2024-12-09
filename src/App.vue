@@ -94,6 +94,6 @@ function changeTab(tab) {
 
 .main-content {
   flex-grow: 1;
-  padding: 1rem;
+  margin-left: 17.5rem;
 }
 </style>

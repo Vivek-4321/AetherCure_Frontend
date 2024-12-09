@@ -1,0 +1,53 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Production build
+/build
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Testing
+/coverage
+
+# Environment variables
+.env
+.env.*.local
+
+# Local project settings
+/.idea
+/.vscode
+*.swp
+
+# Mac system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+
+# Parcel-bundler cache (if using Parcel)
+/.cache
+
+# Optional npm cache directory
+.npm
+
+# eslint cache
+.eslintcache
+
+# Temporary files
+*.tmp
+*.temp
+
+# Output of npm pack
+*.tgz
+
+# React Native specific
+.expo
+.expo-shared
+
+# Editor folders and files
