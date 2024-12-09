@@ -1,5 +1,5 @@
 <template>
-    <h1>Challenges</h1>
+    <h1>Challenge</h1>
 </template>
 
 <script setup>
