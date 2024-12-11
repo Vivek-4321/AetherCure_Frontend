@@ -92,6 +92,11 @@
     background-color: var(--accent-color);
     color: var(--common-white);
   }
+
+  .sidebar-item.active {
+    background-color: var(--accent-color);
+    color: var(--common-white);
+  }
   
   /* Add more styling as needed */
   </style>

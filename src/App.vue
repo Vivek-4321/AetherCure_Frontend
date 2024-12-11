@@ -16,10 +16,14 @@
       />
       
       <main class="main-content">
+        
         <keep-alive>
-          <component :is="currentComponent" :key="activeTab"></component>
+          <component :is="currentComponent" :key="activeTab">
+        
+          </component>
         </keep-alive>
       </main>
+    
     </div>
   </div>
 </template>
@@ -95,5 +99,6 @@ function changeTab(tab) {
 .main-content {
   flex-grow: 1;
   padding: 1rem;
+  margin-left: 17.5rem;
 }
 </style>
