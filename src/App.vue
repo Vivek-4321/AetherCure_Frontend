@@ -49,7 +49,7 @@ const activeTab = ref('dashboard')
 const components = {
   dashboard: Dashboard,
   symptoms: SymptomChecker,
-   DataCollection,
+   data:DataCollection,
   vault: StorageVault,
   environmental: EnvironmentalHealth,
   news: HealthNews,
@@ -94,6 +94,6 @@ function changeTab(tab) {
 
 .main-content {
   flex-grow: 1;
-  padding: 1rem;
+  margin-left: 17.5rem;
 }
 </style>
