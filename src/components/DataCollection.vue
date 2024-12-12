@@ -329,5 +329,14 @@
         color: #EEF3FE;
     }
 }
+@media screen and (min-width:760px){
+    .data-third-first{
+        flex-direction: row;
+        
+    }
+    .data-third-right-first{
+        flex-direction: row;
+    }
+}
 
 </style>
