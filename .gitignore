@@ -1,0 +1,58 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Static files
+*.log
+*.lock
+*.gz
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Cache files
+.vscode/
+*.cache/
+*.tmp/
+.cache-loader/
+public/
+.DS_Store
+
+# Test output
+coverage/
+jest-cache/
+jest-output/
+
+# Editor files
+.idea/
+*.iml
+
+# Dependency directories
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Next.js and Nuxt.js specific
+.next/
+.nuxt/
+out/
+
+# Parcel-bundler cache
+.cache/
+
+# Storybook
+storybook-static/
+
+# MacOS system files
+.DS_Store
+# VSCode settings
+.vscode/
+
+# Temporary files
+*.swp
+*.swo

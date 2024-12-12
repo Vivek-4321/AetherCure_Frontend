@@ -44,7 +44,7 @@
 
         </div>
         <div class="input-bar-sent">
-            <Icon icon="lsicon:send-outline" class="icon" :style="{ fontSize: '40px', paddingTop:'10px' }" />
+            <Icon icon="lsicon:send-outline" class="icon" :style="{ fontSize: '40px', paddingTop:'10px',marginLeft:'5px' }" />
         </div>
 
     </div>
@@ -60,11 +60,11 @@ import {Icon} from "@iconify/vue"
 
 <style>
 .bot-main{
-  width: 100%;
-  height: 90vh;
-  background-color: var(--main-bg);
-  color: var(--text-primary);
-  padding: 1rem;
+    width: 100%;
+    height: 90vh;
+    background-color: var(--main-bg);
+    color: var(--text-primary);
+    padding: 1rem;
 }
 .bot-main-sub{
     background-color: var(--secondary-bg);
@@ -101,26 +101,25 @@ import {Icon} from "@iconify/vue"
     display: flex;
     height: 2rem;
     justify-content: end;
+   
     
 
 }
 .top-second-text-sub{
     width: 5%;
+    height: 1.5rem;
     background-color: var(--accent-color);
     align-items: flex-end;
     border-radius: 0.5rem;
-    padding-left: 0.8rem;
     font-family: 'Poppins', sans-serif;
-    text-align: end;
-   padding-right: 20px;
-   padding-top:7px;
-}
-  
+    text-align: center;
+    padding-top: 3px;
+}  
 .top-third-text{
-width: 100%;
-height: 3rem;
-display: flex;
-align-items: flex-start;
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    align-items: flex-start;
 
 }
 .top-third-text-sub{
@@ -151,13 +150,14 @@ align-items: flex-start;
    input{
     width: 65rem;
     height: 3rem;
-
+    border-radius: 0.5rem;
+    border: none;
    }
   
 }
 .input-first-icon{
     background-color: var(--main-bg);
-    width: 2.5rem;
+    width: 4rem;
     height: 3rem;
     display: flex;
     justify-content: center;
@@ -171,6 +171,9 @@ align-items: flex-start;
     background-color: var(--accent-color);
     margin-left: 3px;
     border-radius: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    
 }
 
 
