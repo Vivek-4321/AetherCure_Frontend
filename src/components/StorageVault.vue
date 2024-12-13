@@ -92,9 +92,10 @@ import {Icon} from '@iconify/vue'
     flex-direction: column;
     align-items: center;
     h1{
+        font-family: 'Poppins', sans-serif;
         margin-top: 1rem;
         margin-bottom: 0.5rem;
-        margin-left: -65rem;
+        margin-left: -62rem;
     }
 }
 .second-div{
@@ -146,7 +147,10 @@ import {Icon} from '@iconify/vue'
         align-items: flex-start;
         justify-content: center;
         color: var(--accent-color);
-        margin-top: 1rem;
+        margin-top: 0.7rem;
+        font-size: var(--font-size-base);
+        font-family: 'Poppins', sans-serif;
+       
     }
 }
 .sec-first-third{
@@ -159,6 +163,8 @@ import {Icon} from '@iconify/vue'
         justify-content: center;
         color: var(--text-secondary);
         margin-top: 1rem;
+        font-size: var(--font-size-base);
+        font-family: 'Poppins', sans-serif;
     }
 }
 .third-div{
@@ -167,9 +173,8 @@ import {Icon} from '@iconify/vue'
     background-color: var(--secondary-bg);
     border-radius: 0.5rem;
     h2{
-        
+        font-family: 'Poppins', sans-serif;
         margin: 1rem;
-        
     }
    
 
@@ -181,6 +186,8 @@ import {Icon} from '@iconify/vue'
     background-color: var(--main-bg);
     border-radius: 0.5rem;
     p{
+        font-size: var(--font-size-base);
+        font-family: 'Poppins', sans-serif;
         color: var(--text-primary);
     }
     display: flex;
@@ -215,6 +222,8 @@ import {Icon} from '@iconify/vue'
 .third-first-right-sec{
     width: 25%;
     p{
+        font-size: var(--font-size-base);
+        font-family: 'Poppins', sans-serif;
         color: var(--text-secondary);
     }
 }
@@ -229,6 +238,8 @@ import {Icon} from '@iconify/vue'
     background-color: var(--main-bg);
     border-radius: 0.5rem;
     p{
+        font-size: var(--font-size-base);
+        font-family: 'Poppins', sans-serif;
         color: var(--text-primary);
     }
     display: flex;
@@ -260,12 +271,16 @@ import {Icon} from '@iconify/vue'
     align-items: center;
     justify-content: flex-start;
     p{
+        font-size: var(--font-size-base);
+        font-family: 'Poppins', sans-serif;
         color: green;
     }
 }
 .third-sec-right-sec{
     width: 25%;
     p{
+        font-size: var(--font-size-base);
+        font-family: 'Poppins', sans-serif;
         color: var(--text-secondary);
     }
 }
@@ -280,6 +295,8 @@ import {Icon} from '@iconify/vue'
     background-color: var(--main-bg);
     border-radius: 0.5rem;
     p{
+        font-size: var(--font-size-base);
+        font-family: 'Poppins', sans-serif;
         color: var(--text-primary);
     }
     display: flex;
@@ -314,7 +331,8 @@ import {Icon} from '@iconify/vue'
 .third-third-right-sec{
     width: 25%;
     p{
-
+        font-size: var(--font-size-base);
+        font-family: 'Poppins', sans-serif;
         color: var(--text-secondary);
     }
 }
@@ -324,6 +342,8 @@ import {Icon} from '@iconify/vue'
 }
 .third-ptag-first{
     p{
+        font-size: var(--font-size-base);
+        font-family: 'Poppins', sans-serif;
         color: var(--text-secondary);
         font-size: 0.9rem;
         margin-top: 0.2rem;
@@ -331,6 +351,8 @@ import {Icon} from '@iconify/vue'
 }
 .third-ptag-sec{
     p{
+        font-size: var(--font-size-base);
+        font-family: 'Poppins', sans-serif;
         color: var(--text-secondary);
         font-size: 0.9rem;
         margin-top: 0.2rem;
@@ -338,9 +360,122 @@ import {Icon} from '@iconify/vue'
 }
 .third-ptag-third{
     p{
+        font-size: var(--font-size-base);
+        font-family: 'Poppins', sans-serif;
         margin-top: 0.2rem;
         color: var(--text-secondary);
         font-size: 0.9rem;
     }
 }
+@media screen and (max-width: 768px) {
+    .main-div {
+        height: 100vh;
+        padding: 0 1rem;
+    }
+
+    .main-div h1 {
+        margin-left: -14.5rem;
+        text-align: center;
+        font-size: 1.5rem;
+    }
+
+    .second-div {
+        width: 100%;
+        height: 25%;
+        margin-bottom: 1rem;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .second-first {
+        width: 92%;
+        height: 95%;
+        margin-bottom: 1.1rem;
+
+    }
+
+    .sec-first-first {
+        height: 60%;
+        align-items: center;
+    }
+
+    .sec-first-first .icon-first {
+        font-size: 4.3rem !important;
+    }
+
+    .sec-first-sec p, 
+    .sec-first-third p {
+        font-size: 0.9rem;
+    }
+
+    .third-div {
+        width: 100%;
+        height: 55%;
+    }
+
+    .third-div h2 {
+        font-size: 1.2rem;
+        margin: 0.5rem;
+        text-align: center;
+        margin-left: -14rem;
+    }
+
+    .third-first, 
+    .third-sec, 
+    .third-third {
+        width: 100%;
+        margin-left: 0;
+        flex-direction: column;
+        height: auto;
+        padding: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .third-first-left, 
+    .third-sec-left, 
+    .third-third-left {
+        width: 100%;
+        padding: 0.5rem;
+    }
+
+    .third-first-right, 
+    .third-sec-right, 
+    .third-third-right {
+        width: 100%;
+        align-items: center;
+        justify-content: flex-end;
+
+        padding: 0;
+    }
+
+    .third-first-right-first, 
+    .third-sec-right-first, 
+    .third-third-right-first {
+        width: 10%;
+    }
+
+    .third-first-right-sec, 
+    .third-sec-right-sec, 
+    .third-third-right-sec {
+        width: 50%;
+        text-align: center;
+
+    }
+
+    .third-first-right-third, 
+    .third-sec-right-third, 
+    .third-third-right-third {
+        width: 15%;
+    }
+
+    .third-ptag-first p, 
+    .third-ptag-sec p, 
+    .third-ptag-third p {
+        font-size: 0.8rem;
+    }
+}
+
+
+
+
 </style>

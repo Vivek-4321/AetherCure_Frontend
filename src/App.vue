@@ -96,4 +96,11 @@ function changeTab(tab) {
   flex-grow: 1;
   margin-left: 17.5rem;
 }
+
+@media (max-width:768px) {
+  .main-content {
+    width: 100%;
+    margin-left: 0rem;
+  }
+}
 </style>

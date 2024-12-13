@@ -1,7 +1,7 @@
 <template>
     <div class="data-first-div">
         
-        <h2>Data Collection</h2>
+        <h1>Data Collection</h1>
         <div class="data-sec-div">
             <div class="data-third-div">
                 <div class="third-inner">
@@ -10,14 +10,15 @@
                        <input placeholder="Andy Dufresne"/>
                     </div>
                     <div class="third-inner-second">
-                        <p>Blood Pressure</p>
-                        <input placeholder="120/80"/>
+                        <p>Age</p>
+                        <input placeholder="18"/>
                     </div>
                 </div>
                 <div class="third-inner-right">
                     <div class="third-inner-right-first">
-                        <p>Age</p>
-                        <input placeholder="18"/>
+                        <p>Blood Pressure</p>
+                        <input placeholder="120/80"/>
+                        
                     </div>
                     <div class="third-inner-right-second">
                         <p>Blood Sugar</p>
@@ -53,6 +54,21 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
+const formData = ref({
+  fullName: '',
+  bloodPressure: '',
+  age: '',
+  bloodSugar: '',
+  medicalCondition: '',
+  medicalBackground: '',
+  shareData: false
+})
+
+const saveInformation = () => {
+  console.log('Form data:', formData.value)
+}
 
 </script>
 
@@ -65,11 +81,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    h2{
+    h1{
         font-family: 'Poppins', sans-serif;
         margin-top: 0.5rem;
-        margin-left: -65rem;
+        margin-left: -62rem;
         margin-bottom: 1rem;
+        font-size: var(font-size-base);
     }
    
 }
@@ -115,6 +132,8 @@
     padding: 1rem;
     p{
         margin-bottom: 0.5rem;
+        font-size: var(font-size-base);
+        font-family: 'Poppins', sans-serif;
     }
     input{
         width: 90%;
@@ -125,6 +144,7 @@
         transform: translateY(5px);
         padding-left: 0.5rem;
         border-radius: 0.2rem;
+        background-color: var(--secondary-bg);
     }
 }
 .third-inner-second{
@@ -139,9 +159,12 @@
     padding: 1rem;
     p{
         margin-bottom: 0.5rem;
+        font-size: var(font-size-base);
+        font-family: 'Poppins', sans-serif;
     }
     input{
         width: 90%;
+        background-color: var(--secondary-bg);
         border: 0rem;
         border: none;
         border-bottom: 1px solid var(--border-color);
@@ -162,9 +185,12 @@
     color:var(--text-primary) ;
     p{
         margin-bottom: 0.5rem;
+        font-size: var(font-size-base);
+        font-family: 'Poppins', sans-serif;
     }
     input{
         width: 90%;
+        background-color: var(--secondary-bg);
         border: 0rem;
         border: none;
         border-bottom: 1px solid var(--border-color);
@@ -185,10 +211,13 @@
     padding: 1rem;
     p{
         margin-bottom: 0.5rem;
+        font-size: var(font-size-base);
+        font-family: 'Poppins', sans-serif;
     }
     input{
         width: 90%;
         border: 0rem;
+        background-color: var(--secondary-bg);
         border: none;
         border-bottom: 1px solid var(--border-color);
         height: 1.3rem;
@@ -209,9 +238,13 @@
     padding: 1rem;
     p{
         margin-bottom: 0.5rem;
+        font-size: var(font-size-base);
+        font-family: 'Poppins', sans-serif;
     }
     textarea{
+        padding-left: 0.5rem;
         height: 5rem;
+        background-color: var(--secondary-bg);
         width: 99%;
         border: 0rem;
         border: none;
@@ -231,10 +264,14 @@
     padding: 1rem;
     p{
         margin-bottom: 0.5rem;
+        font-size: var(font-size-base);
+        font-family: 'Poppins', sans-serif;
     }
     textarea{
+        padding-left: 0.5rem;
         height: 5rem;
         width: 99%;
+        background-color: var(--secondary-bg);
         border: 2rem solid black;
         border: none;
         border-bottom: 1px solid var(--border-color);
@@ -253,8 +290,8 @@
     p{
         justify-content: center;
         margin: 1rem;
-       
-    
+        font-size: var(font-size-base);
+        font-family: 'Poppins', sans-serif;
         align-items: center;
     }
     .switch {
@@ -279,7 +316,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: #dad0d0;
+        background-color: var(--main-bg);
         -webkit-transition: .4s;
         transition: .4s;
       }
@@ -326,17 +363,65 @@
         margin: 1rem;
         border-radius: 0.5rem;
         background-color: var(--accent-color);
-        color: #EEF3FE;
+        color:white;
     }
 }
-@media screen and (min-width:760px){
-    .data-third-first{
-        flex-direction: row;
-        
+@media screen and (max-width: 1024px) {
+    .data-first-div h1 {
+        margin-left: 0;
+        text-align: center;
     }
-    .data-third-right-first{
-        flex-direction: row;
+    
+    .data-sec-div {
+        width: 95%;
+        height: auto;
     }
 }
+@media screen and (max-width: 768px) {
+    .data-first-div {
+        h1{
+            margin-top: 0.5rem;
+            margin-left: -11rem;
+            margin-bottom: 1rem;
+        }
+        height: auto;
+        padding: 1rem 0;
+    }
+    
+    .data-third-div {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .third-inner,
+    .third-inner-right {
+        width: 100%;
+    }
+    
+    .third-inner-first,
+    .third-inner-second,
+    .third-inner-right-first,
+    .third-inner-right-second {
+        p{
+            margin-left: 0;
+        }
+        input {
+            width: 100%;
+        }
+    }
+    
+    .four-first,
+    .four-Second {
+        p{
+            margin-left: 0;
+        }
+        height: auto;
+        textarea {
+            width: 100%;
+            min-height: 6rem;
+        }
+    }
+}
+
 
 </style>
