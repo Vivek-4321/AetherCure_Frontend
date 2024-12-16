@@ -1,23 +1,88 @@
-
 <template>
-    <aside 
-      class="app-sidebar" 
-      :class="{ 'mobile-open': mobileMenuOpen }"
-    >
-      <nav class="sidebar-nav">
-        <button
-          v-for="item in menuItems"
-          :key="item.id"
-          @click="$emit('change-tab', item.id)"
-          class="sidebar-item"
-          :class="{ 'active': activeTab === item.id }"
-        >
-          <Icon :icon="item.icon" />
-          <span>{{ item.label }}</span>
-        </button>
-      </nav>
-    </aside>
-  </template>
+  <aside 
+    class="app-sidebar" 
+    :class="{ 'mobile-open': mobileMenuOpen }"
+  >
+    <nav class="sidebar-nav">
+      <button
+        v-for="item in menuItems"
+        :key="item.id"
+        @click="$emit('change-tab', item.id)"
+        class="sidebar-item"
+        :class="{ 'active': activeTab === item.id }"
+      >
+        <Icon :icon="item.icon" />
+        <span>{{ item.label }}</span>
+      </button>
+    </nav>
+  </aside>
+</template>
+
+<style scoped>
+.app-sidebar {
+  background-color: var(--secondary-bg);
+  width: 270px;
+  height: calc(100vh - 73px);
+  position: fixed;
+  top: 73px;
+  border-right: 1px solid var(--border-color);
+  transition: transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .app-sidebar {
+    transform: translateX(-100%);
+    z-index: 40;
+  }
+
+  .app-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+}
+
+.sidebar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  margin: 0.5rem 0;
+  background-color: var(--secondary-bg);
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+}
+
+.sidebar-item span {
+  margin-left: 0.7rem;
+}
+
+.sidebar-item svg {
+  font-size: 24px;
+}
+
+.sidebar-item:hover {
+  background-color: var(--accent-color);
+  color: var(--common-white);
+}
+
+.sidebar-item.active {
+  background-color: var(--accent-color);
+  color: var(--common-white);
+}
+</style>
   
   <script setup>
   import { Icon } from '@iconify/vue'
@@ -43,56 +108,5 @@
     { id: 'outbreaks', label: 'Outbreak Alerts', icon: 'hugeicons:triangle' }
   ]
   </script>
-  
-  <style scoped>
-  .app-sidebar {
-    background-color: var(--secondary-bg);
-    width: 270px;
-    height: calc(100vh - 73px);
-    position: fixed;
-    top: 73px;
-    border-right: 1px solid var(--border-color);
-  }
 
-  .sidebar-nav{
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: column;
-    transition: transform 0.3s ease-in-out;
-    height: 100%;
-    width: 100%;
-    padding: 1rem;
-  }
-
-  .sidebar-item {
-    display: flex;
-    align-items: center;
-    padding: 0.6rem 1rem;
-    margin: 0.5rem 0;
-    background-color: var(--secondary-bg);
-    color: var(--text-secondary);
-    font-size: var(--font-size-base);
-    border: 1px solid transparent;
-    border-radius: 0.5rem;
-    width: 100%;
-    cursor: pointer;
-    transition: all 0.2s ease-in;
-
-    span {
-      margin-left: 0.7rem;
-    }
-
-    svg{
-      font-size: 24px;
-    }
-  }
-
-  .sidebar-item:hover {
-    background-color: var(--accent-color);
-    color: var(--common-white);
-  }
-  
-  /* Add more styling as needed */
-  </style>
   

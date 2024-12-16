@@ -15,7 +15,7 @@
         :theme="theme"
       />
       
-      <main class="main-content">
+      <main class="main-content" :class="{ 'sidebar-open': isMobileMenuOpen }">
         <keep-alive>
           <component :is="currentComponent" :key="activeTab"></component>
         </keep-alive>
@@ -23,6 +23,33 @@
     </div>
   </div>
 </template>
+
+<style>
+.app {
+  min-height: 100vh;
+  background-color: var(--main-bg);
+  color: var(--text-primary);
+}
+
+.app-container {
+  display: flex;
+  padding-top: 73px;
+}
+
+.main-content {
+  flex-grow: 1;
+  margin-left: 17.5rem;
+  transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+</style>
+
 
 <script setup>
 import { ref, computed, shallowRef } from 'vue'
@@ -49,7 +76,7 @@ const activeTab = ref('dashboard')
 const components = {
   dashboard: Dashboard,
   symptoms: SymptomChecker,
-   DataCollection,
+  data: DataCollection,
   vault: StorageVault,
   environmental: EnvironmentalHealth,
   news: HealthNews,
@@ -78,22 +105,3 @@ function changeTab(tab) {
   isMobileMenuOpen.value = false
 }
 </script>
-
-<style>
-
-.app {
-  min-height: 100vh;
-  background-color: var(--main-bg);
-  color: var(--text-primary);
-}
-
-.app-container {
-  display: flex;
-  padding-top: 73px;
-}
-
-.main-content {
-  flex-grow: 1;
-  margin-left: 17.5rem;
-}
-</style>
