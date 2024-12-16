@@ -1,53 +1,59 @@
-# Dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Node modules
+node_modules/
 
-# Production build
-/build
+# Build output
+dist/
+build/
 
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Testing
-/coverage
+# Static files
+*.log
+*.lock
+*.gz
 
 # Environment variables
 .env
+.env.local
 .env.*.local
 
-# Local project settings
-/.idea
-/.vscode
-*.swp
-
-# Mac system files
+# Cache files
+.vscode/
+*.cache/
+*.tmp/
+.cache-loader/
+public/
 .DS_Store
 
-# Windows system files
-Thumbs.db
+# Test output
+coverage/
+jest-cache/
+jest-output/
 
-# Parcel-bundler cache (if using Parcel)
-/.cache
+# Editor files
+.idea/
+*.iml
 
-# Optional npm cache directory
-.npm
+# Dependency directories
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# eslint cache
-.eslintcache
+# Next.js and Nuxt.js specific
+.next/
+.nuxt/
+out/
+
+# Parcel-bundler cache
+.cache/
+
+# Storybook
+storybook-static/
+
+# MacOS system files
+.DS_Store
+
+# VSCode settings
+.vscode/
 
 # Temporary files
-*.tmp
-*.temp
-
-# Output of npm pack
-*.tgz
-
-# React Native specific
-.expo
-.expo-shared
-
-# Editor folders and files
+*.swp
+*.swo

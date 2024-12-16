@@ -1,4 +1,4 @@
-:root {
+.light-theme {
     --main-bg: #09090B;
     --secondary-bg: #0f0f12;
     --accent-color: #4F46E5;
@@ -10,7 +10,7 @@
     --common-white: #ffff;
   }
   
-  .light-theme {
+  :root {
     --main-bg: #EEF3FE;
     --secondary-bg: #FEFEFE;
     --accent-color: #4F46E5;
