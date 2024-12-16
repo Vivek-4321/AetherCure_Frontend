@@ -58,6 +58,7 @@ import {Icon} from "@iconify/vue"
     padding: 1rem;
     display: flex;
     flex-direction: column;
+    margin-top: 1rem;
     justify-content: space-between;
     
 }
