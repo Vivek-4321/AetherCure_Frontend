@@ -6,7 +6,7 @@
     --text-secondary: whitesmoke;
     --hover-accent: #85b1e6;
     --border-color: rgba(255, 255, 255, 0.1);
-    --font-size-base: 16px;
+    --font-size-base: 14px;
     --common-white: #ffff;
   }
   
@@ -18,7 +18,7 @@
     --text-secondary: #67707B;
     --hover-accent: #0056b3;
     --border-color: rgba(0, 0, 0, 0.1);
-    --font-size-base: 16px;
+    --font-size-base: 14px;
     --common-white: #ffff;
   }
 

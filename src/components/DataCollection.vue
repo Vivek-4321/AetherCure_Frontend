@@ -80,18 +80,17 @@ const saveInformation = () => {
     color:var(--text-primary) ;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     h1{
+        font-size: 24px;
         font-family: 'Poppins', sans-serif;
-        margin-top: 0.5rem;
-        margin-left: -62rem;
-        margin-bottom: 1rem;
         font-size: var(font-size-base);
+        margin-bottom: 0.5rem;
     }
    
 }
 .data-sec-div{
-    width: 97%;
+    width: 99%;
     height: 88%;
     background-color: var(--secondary-bg);
     border-radius: 0.5rem;
@@ -145,6 +144,7 @@ const saveInformation = () => {
         padding-left: 0.5rem;
         border-radius: 0.2rem;
         background-color: var(--secondary-bg);
+        color: var(--text-primary);
     }
 }
 .third-inner-second{
@@ -171,6 +171,7 @@ const saveInformation = () => {
         height: 1.3rem;
         padding-left: 0.5rem;
         border-radius: 0.2rem;
+        color: var(--text-primary);
     }
 }
 .third-inner-right-first{
@@ -197,6 +198,7 @@ const saveInformation = () => {
         height: 1.3rem;
         padding-left: 0.5rem;
         border-radius: 0.2rem;
+        color: var(--text-primary);
     }
 }
 .third-inner-right-second{
@@ -223,7 +225,7 @@ const saveInformation = () => {
         height: 1.3rem;
         padding-left: 0.5rem;
         border-radius: 0.2rem;
-
+        color: var(--text-primary);
     }
 }
 .four-first{
@@ -250,6 +252,7 @@ const saveInformation = () => {
         border: none;
         border-bottom: 1px solid var(--border-color);
         border-radius: 0.5rem;
+        color: var(--text-primary);
     }
 }
 .four-Second{
@@ -276,6 +279,7 @@ const saveInformation = () => {
         border: none;
         border-bottom: 1px solid var(--border-color);
         border-radius: 0.5rem;
+        color: var(--text-primary);
     }
 }
 .four-third{
@@ -358,12 +362,13 @@ const saveInformation = () => {
     background-color: var(--secondary-bg);
     color:var(--text-primary) ;
     button{
-        width: 95%;
+        width: 97%;
         height: 2.5rem;
         margin: 1rem;
         border-radius: 0.5rem;
         background-color: var(--accent-color);
         color:white;
+        border: 1px solid transparent;
     }
 }
 @media screen and (max-width: 1024px) {
@@ -380,14 +385,16 @@ const saveInformation = () => {
 @media screen and (max-width: 768px) {
     .data-first-div {
         h1{
-            margin-top: 0.5rem;
-            margin-left: -11rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
         height: auto;
-        padding: 1rem 0;
+        padding-left: 0.2rem;
     }
     
+    .data-sec-div{
+        width: 99%;
+    }
+
     .data-third-div {
         flex-direction: column;
         height: auto;

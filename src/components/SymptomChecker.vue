@@ -56,22 +56,24 @@
     flex-direction: column;
     border-radius: 1rem;
     margin-bottom: 1rem;
+    align-items: flex-start; 
+    padding-left: 1rem;
     h1{
+       font-size: 24px;
        font-family: 'Poppins', sans-serif;
        color: var(--text-primary);
-       margin-left: -58rem;
     }
 }
 .first-inner-upper{
     width: 100%;
     height: 40%;
     display: flex;
-   align-items: center;
+    align-items: flex-start; 
+
    p{
     font-size: var(--font-size-base);
     font-family: 'Poppins', sans-serif;
     margin-top:1rem;
-    margin-left: -66rem;
     margin-bottom: 1rem;
     color: var(--text-secondary);
     }
@@ -90,6 +92,9 @@
         height: 2rem;
         border-radius: 0.3rem;
         margin-left: 0rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-primary);
+        padding-left: 1rem;
         border: 1px solid var(--border-color);
         background-color: var(--secondary-bg);
     }
@@ -106,6 +111,7 @@
         background-color: var(--accent-color);
         border-radius: 0.5rem;
         color: var(--common-white);
+        border: 1px solid transparent;
     }
 }
 .first-inner-second{
@@ -151,17 +157,17 @@
 }
 .note-div{
     width: 98%;
-    height: 4rem;
+    height: 3rem;
     background-color: antiquewhite;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
+    text-align: center;
     margin-top: 1rem;
+    padding-bottom: 1.2rem;
     p{
-        font-size: var(--font-size-base);
+        font-size: 13.2px;
         font-family: 'Poppins', sans-serif;
-        margin-bottom: 1rem;
         color: rgb(189, 60, 60);
     }
     border-radius: 0.7rem;
@@ -177,14 +183,20 @@
 }
 
 @media screen and (max-width: 768px) {
+
+    .frist-div{
+        padding-left: 0.7rem;
+    }
+    
     .first-inner-first {
         height: auto;
         padding: 1.5rem 1rem;
+        margin-top: 0.5rem;
         
         h1 {
-            margin-left: -9rem;
+            margin-left: 0rem;
             text-align: center;
-            font-size: 1.8rem;
+            font-size: 24px;
         }
     }
     

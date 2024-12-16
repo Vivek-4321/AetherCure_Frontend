@@ -90,24 +90,23 @@ import {Icon} from '@iconify/vue'
     background-color: var(--main-bg);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     h1{
+        font-size: 24px;
         font-family: 'Poppins', sans-serif;
-        margin-top: 1rem;
         margin-bottom: 0.5rem;
-        margin-left: -62rem;
     }
 }
 .second-div{
-    width: 96%;
-    height:35%;
+    width: 99%;
+    height:39%;
     background-color: var(--secondary-bg);
     display: flex;
     align-items: c;
     justify-content: center;
     border-radius: 0.5rem;
     padding-top: 1.2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 .second-first{
     width: 95%;
@@ -168,11 +167,12 @@ import {Icon} from '@iconify/vue'
     }
 }
 .third-div{
-    width: 96%;
+    width: 99%;
     height: 52%;
     background-color: var(--secondary-bg);
     border-radius: 0.5rem;
     h2{
+        font-size: 24px;
         font-family: 'Poppins', sans-serif;
         margin: 1rem;
     }
@@ -369,14 +369,14 @@ import {Icon} from '@iconify/vue'
 }
 @media screen and (max-width: 768px) {
     .main-div {
-        height: 100vh;
+        height: 150vh;
         padding: 0 1rem;
     }
 
     .main-div h1 {
-        margin-left: -14.5rem;
+        
         text-align: center;
-        font-size: 1.5rem;
+        font-size: 24px;
     }
 
     .second-div {
@@ -395,12 +395,12 @@ import {Icon} from '@iconify/vue'
     }
 
     .sec-first-first {
-        height: 60%;
+        height: 40%;
         align-items: center;
     }
 
     .sec-first-first .icon-first {
-        font-size: 4.3rem !important;
+        font-size: 3.0rem !important;
     }
 
     .sec-first-sec p, 
@@ -417,15 +417,15 @@ import {Icon} from '@iconify/vue'
         font-size: 1.2rem;
         margin: 0.5rem;
         text-align: center;
-        margin-left: -14rem;
+        margin-left: -20rem;
     }
 
     .third-first, 
     .third-sec, 
     .third-third {
-        width: 100%;
-        margin-left: 0;
-        flex-direction: column;
+        width:96%;
+        margin-left: 0.8rem;
+        flex-direction: row;
         height: auto;
         padding: 0.5rem;
         margin-bottom: 0.5rem;
@@ -436,6 +436,7 @@ import {Icon} from '@iconify/vue'
     .third-third-left {
         width: 100%;
         padding: 0.5rem;
+        height: 4rem;
     }
 
     .third-first-right, 
