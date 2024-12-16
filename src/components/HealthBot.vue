@@ -114,6 +114,7 @@ import {Icon} from "@iconify/vue"
     font-family: 'Poppins', sans-serif;
     text-align: center;
     padding-top: 3px;
+    color: var(--text-primary);
 }  
 .top-third-text{
     width: 100%;
@@ -152,6 +153,7 @@ import {Icon} from "@iconify/vue"
     height: 3rem;
     border-radius: 0.5rem;
     border: none;
+    background-color: var(--main-bg);
    }
   
 }

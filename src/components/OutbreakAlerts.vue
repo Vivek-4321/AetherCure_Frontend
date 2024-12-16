@@ -117,7 +117,7 @@
                                 <Icon icon="fluent-emoji-high-contrast:chart-increasing" />
                             </div>
                             <div>
-                                <span>Trend:Stable</span>
+                                <span >Trend:Stable</span>
                             </div>
                             
     
@@ -320,6 +320,7 @@ import {Icon} from "@iconify/vue"
     font-family: 'Poppins', sans-serif;
     text-align: center;
     margin-right: 20px;
+    
 
 }
 
