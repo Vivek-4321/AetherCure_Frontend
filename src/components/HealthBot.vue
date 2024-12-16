@@ -40,12 +40,20 @@
             <Icon icon="hugeicons:mic-01" class="icon" :style="{ fontSize: '30px' }" />
         </div>
         <div class="input-bar-msge">
-            <input/>
+            <input type="text" placeholder="Type Anything..."/>
 
         </div>
-        <div class="input-bar-sent">
-            <Icon icon="lsicon:send-outline" class="icon" :style="{ fontSize: '40px', paddingTop:'10px',marginLeft:'5px' }" />
+        <div class="input-bar-sent">  
+               
+                <button>
+                    <Icon icon="lsicon:send-outline" class="icon" :style="{ fontSize: '30px' ,paddingLeft:'4px'}" />
+                </button>
+            
+           
+            
+                
         </div>
+
 
     </div>
 
@@ -68,8 +76,8 @@ import {Icon} from "@iconify/vue"
 }
 .bot-main-sub{
     background-color: var(--secondary-bg);
-    width: 100%;
-    height: 90%;
+    width: 99%;
+    height: 85%;
     margin-top: 1rem;
     border-radius: 1rem;
     padding: 1rem;
@@ -143,38 +151,74 @@ import {Icon} from "@iconify/vue"
     width:100%;
     height:5rem;
     display: flex;
-    margin-top: 9rem;
+    margin-top: 8rem;
     justify-content: space-between;
     
 }
 .input-bar-msge{
+    padding-right: 10px;
    input{
-    width: 65rem;
-    height: 3rem;
+    width: 62rem;
+    height: 2.5rem;
     border-radius: 0.5rem;
-    border: none;
+    border: 1px solid var( --border-color);
     background-color: var(--main-bg);
+    font-family: 'Poppins', sans-serif;
+    font-size:15px ;
+   padding-left: 5px;
+    color: var(--text-primary);
+    
+    
    }
   
 }
 .input-first-icon{
     background-color: var(--main-bg);
-    width: 4rem;
-    height: 3rem;
+    width: 3rem;
+    height: 2.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 0.5rem;
+    margin-right: 10px;
 
 }
 .input-bar-sent{
-    width:3rem;
-    height: 3rem;
-    background-color: var(--accent-color);
-    margin-left: 3px;
-    border-radius: 0.5rem;
-    align-items: center;
-    justify-content: center;
+    
+    
+   display: flex;
+    .icon{
+        
+        display: flex;
+        
+
+    }
+    button {
+        background-color: var(--accent-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 3rem;
+        height: 2.5rem;
+        border-radius: 0.5rem;
+        color:var(--text-primary);
+        border: none;
+        cursor: pointer;
+      }
+      
+      .input-bar-sent button:hover {
+        background-color: var(--hover-color);
+      }
+      
+      .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+       
+       
+    
+    
     
 }
 
