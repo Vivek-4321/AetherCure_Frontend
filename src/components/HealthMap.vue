@@ -128,4 +128,9 @@ button{
 .input-content{
     width: 100%;
 }
+@media screen and(max-width:768px){
+    .health-map-container{
+        flex-direction: column;
+    }
+}
 </style>

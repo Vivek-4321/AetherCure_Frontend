@@ -101,4 +101,13 @@ function changeTab(tab) {
   padding: 1rem;
   margin-left: 17.5rem;
 }
+
+@media (max-width:768px) {
+ 
+  .main-content{
+    display: block;
+    margin-left: 0.1rem;
+  }
+  
+}
 </style>
