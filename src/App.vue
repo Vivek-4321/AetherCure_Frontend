@@ -16,10 +16,14 @@
       />
       
       <main class="main-content">
+        
         <keep-alive>
-          <component :is="currentComponent" :key="activeTab"></component>
+          <component :is="currentComponent" :key="activeTab">
+        
+          </component>
         </keep-alive>
       </main>
+    
     </div>
   </div>
 </template>

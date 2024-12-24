@@ -39,7 +39,7 @@
         </div>
         
         <button @click="$emit('toggle-theme')" class="theme-toggle">
-          <Icon :icon="theme === 'dark' ? 'mdi:sun' : 'mdi:moon'" />
+          <Icon :icon="theme === 'dark' ? 'hugeicons:moon-02': 'hugeicons:sun-02'" :style="{ fontSize: '25px', color: 'var(--text-secondary)' }" />
         </button>
         
         <button 
@@ -180,13 +180,36 @@ function toggleNotifications() {
 .mobile-menu-toggle {
   background: none;
   border: none;
-  cursor: pointer;        
+  cursor: pointer;  
+  display: none;
 }
 
 .mobile-menu-toggle svg {
-  font-size: 2rem;
+  font-size: 1rem;
 } 
 
+.theme-toggle{
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    svg{
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-toggle{
+    display: block;
+    color: var(--text-primary);
+    margin-left: 0.6rem;
+
+    svg {
+      font-size: 2rem;
+    }
+  }
+}
 
 /* Add more styling as needed */
 </style>
