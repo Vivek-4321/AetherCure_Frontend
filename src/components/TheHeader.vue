@@ -39,7 +39,11 @@
         </div>
         
         <button @click="$emit('toggle-theme')" class="theme-toggle">
+<<<<<<< HEAD
           <Icon :icon="theme === 'dark' ? 'hugeicons:moon-02': 'hugeicons:sun-02'" :style="{ fontSize: '25px', color: 'var(--text-secondary)' }" />
+=======
+          <Icon :icon="theme === 'dark' ? 'mdi:sun' : 'mdi:moon'" />
+>>>>>>> origin/f9dde7d9-1d82-4849-a00d-a3bb9cf11f57
         </button>
         
         <button 
@@ -180,6 +184,7 @@ function toggleNotifications() {
 .mobile-menu-toggle {
   background: none;
   border: none;
+<<<<<<< HEAD
   cursor: pointer;  
   display: none;
 }
@@ -211,5 +216,15 @@ function toggleNotifications() {
   }
 }
 
+=======
+  cursor: pointer;        
+}
+
+.mobile-menu-toggle svg {
+  font-size: 2rem;
+} 
+
+
+>>>>>>> origin/f9dde7d9-1d82-4849-a00d-a3bb9cf11f57
 /* Add more styling as needed */
 </style>

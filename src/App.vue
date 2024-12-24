@@ -102,9 +102,18 @@ function changeTab(tab) {
 }
 
 @media (max-width:768px) {
+<<<<<<< HEAD
   .main-content {
     width: 100%;
     margin-left: 0rem;
   }
+=======
+ 
+  .main-content{
+    display: block;
+    margin-left: 0.1rem;
+  }
+  
+>>>>>>> origin/f9dde7d9-1d82-4849-a00d-a3bb9cf11f57
 }
 </style>

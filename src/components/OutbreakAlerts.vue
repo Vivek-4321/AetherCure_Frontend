@@ -157,7 +157,7 @@ import {Icon} from "@iconify/vue"
 .diseases-header{
     width: 100%;
     height: 100%;
-    
+        
     background-color: var(--main-bg);
     color: var(--text-primary);
     padding: 1rem;
@@ -188,10 +188,6 @@ import {Icon} from "@iconify/vue"
 .first-bar-first-line{
     display: flex;
     justify-content: space-between;
-    
-    
-    
-
 .moderate{
     width: 5rem;
     height: 2rem;
@@ -322,6 +318,11 @@ import {Icon} from "@iconify/vue"
     margin-right: 20px;
     
 
+}
+@media screen and(max-width:768px){
+    .diseases-types{
+        flex-direction: column;
+    }
 }
 
 
