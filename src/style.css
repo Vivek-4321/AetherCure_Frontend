@@ -8,6 +8,18 @@
     --border-color: rgba(255, 255, 255, 0.1);
     --font-size-base: 14px;
     --common-white: #ffff;
+
+    --air-quality-bg: #0d47a1;
+    --air-quality-text: #e3f2fd;
+    --air-quality-border: #1565c0;
+    
+    --temperature-bg: #bf360c;
+    --temperature-text: #fff3e0;
+    --temperature-border: #e65100;
+    
+    --activity-bg: #1b5e20;
+    --activity-text: #e8f5e9;
+    --activity-border: #2e7d32;
   }
   
   :root {
@@ -20,6 +32,18 @@
     --border-color: rgba(0, 0, 0, 0.1);
     --font-size-base: 14px;
     --common-white: #ffff;
+
+    --air-quality-bg: #e3f2fd;
+    --air-quality-text: #1565c0;
+    --air-quality-border: #bbdefb;
+    
+    --temperature-bg: #fff3e0;
+    --temperature-text: #e65100;
+    --temperature-border: #ffe0b2;
+    
+    --activity-bg: #e8f5e9;
+    --activity-text: #2e7d32;
+    --activity-border: #c8e6c9;
   }
 
 

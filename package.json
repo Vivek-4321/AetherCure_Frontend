@@ -9,8 +9,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@apillon/sdk": "^3.7.0",
     "@iconify/vue": "^4.2.0",
-    "vue": "^3.5.13"
+    "axios": "^1.7.9",
+    "leaflet": "^1.9.4",
+    "leaflet-routing-machine": "^3.2.12",
+    "markdown-it": "^14.1.0",
+    "pinata-web3": "^0.5.3",
+    "socket.io-client": "^4.8.1",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",

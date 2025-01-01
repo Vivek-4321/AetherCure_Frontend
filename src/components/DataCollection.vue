@@ -86,17 +86,19 @@ const saveInformation = () => {
         font-family: 'Poppins', sans-serif;
         font-size: var(font-size-base);
         margin-bottom: 0.5rem;
+        margin-left: 0.9rem;
     }
    
 }
 .data-sec-div{
-    width: 99%;
-    height: 88%;
+    width: 97%;
+    height: 92%;
     background-color: var(--secondary-bg);
     border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    margin-left: 0.9rem;
 }
 .data-third-div{
     width: 100%;
@@ -386,6 +388,8 @@ const saveInformation = () => {
     .data-first-div {
         h1{
             margin-bottom: 0.5rem;
+            margin-left: 1rem;
+            font-size: 24px;
         }
         height: auto;
         padding-left: 0.2rem;
@@ -393,6 +397,8 @@ const saveInformation = () => {
     
     .data-sec-div{
         width: 99%;
+        margin-left: 0;
+        
     }
 
     .data-third-div {
@@ -427,6 +433,11 @@ const saveInformation = () => {
             width: 100%;
             min-height: 6rem;
         }
+    }
+
+    .four-four{
+        margin-right: 1rem;
+        margin-bottom: 2rem;
     }
 }
 

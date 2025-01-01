@@ -7,43 +7,15 @@
       </div>
       
       <div class="header-actions">
-        <div class="notifications">
-          <button @click="toggleNotifications" class="notification-btn">
-            <Icon icon="hugeicons:notification-01" />
-            <span v-if="notifications.length" class="notification-badge">
-              {{ notifications.length }}
-            </span>
-          </button>
-          
-          <div v-if="showNotifications" class="notifications-dropdown">
-            <h3>Notifications</h3>
-            <div class="notification-list">
-              <div 
-                v-for="notification in notifications" 
-                :key="notification.id" 
-                class="notification-item"
-              >
-                <Icon 
-                  :icon="notification.type === 'alert' 
-                    ? 'mdi:alert-triangle' 
-                    : 'mdi:information'"
-                />
-                <div>
-                  <p>{{ notification.title }}</p>
-                  <p>{{ notification.message }}</p>
-                  <p>{{ notification.time }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         
-        <button @click="$emit('toggle-theme')" class="theme-toggle">
-<<<<<<< HEAD
-          <Icon :icon="theme === 'dark' ? 'hugeicons:moon-02': 'hugeicons:sun-02'" :style="{ fontSize: '25px', color: 'var(--text-secondary)' }" />
-=======
-          <Icon :icon="theme === 'dark' ? 'mdi:sun' : 'mdi:moon'" />
->>>>>>> origin/f9dde7d9-1d82-4849-a00d-a3bb9cf11f57
+        
+        <TranslateWidget />
+        
+        <button @click="toggleTheme" class="theme-toggle">
+          <Icon 
+            :icon="theme === 'dark' ? 'hugeicons:moon-02': 'hugeicons:sun-02'" 
+            :style="{ fontSize: '25px', color: 'var(--text-secondary)' }" 
+          />
         </button>
         
         <button 
@@ -60,6 +32,10 @@
 <script setup>
 import { ref } from 'vue'
 import { Icon } from '@iconify/vue'
+import { useTheme } from './useTheme.js'
+import TranslateWidget from './TranslateWidget.vue'
+
+const { theme, toggleTheme } = useTheme()
 
 defineProps({
   theme: { type: String, default: 'dark' },
@@ -86,9 +62,16 @@ const notifications = [
   }
 ]
 
+/*************  ✨ Codeium Command ⭐  *************/
+/**
+
+/******  a0c4e3ae-c940-4054-832d-9602c72d466c  *******/
 function toggleNotifications() {
   showNotifications.value = !showNotifications.value
 }
+
+
+
 </script>
 
 <style scoped>
@@ -98,6 +81,7 @@ function toggleNotifications() {
   width: 100%;
   top: 0;
   z-index: 50;
+  height: 4.1rem;
 }
 
 .header-content {
@@ -184,7 +168,6 @@ function toggleNotifications() {
 .mobile-menu-toggle {
   background: none;
   border: none;
-<<<<<<< HEAD
   cursor: pointer;  
   display: none;
 }
@@ -194,6 +177,7 @@ function toggleNotifications() {
 } 
 
 .theme-toggle{
+    margin-left: 0.6rem;
     background: none;
     border: none;
     color: var(--text-primary);
@@ -205,6 +189,15 @@ function toggleNotifications() {
 }
 
 @media (max-width: 768px) {
+
+  .logo-section{
+    margin-left: 0.6rem;
+    font-size: 10px;
+    h1{
+      display: none;
+    }
+  }
+
   .mobile-menu-toggle{
     display: block;
     color: var(--text-primary);
@@ -216,15 +209,5 @@ function toggleNotifications() {
   }
 }
 
-=======
-  cursor: pointer;        
-}
 
-.mobile-menu-toggle svg {
-  font-size: 2rem;
-} 
-
-
->>>>>>> origin/f9dde7d9-1d82-4849-a00d-a3bb9cf11f57
-/* Add more styling as needed */
 </style>

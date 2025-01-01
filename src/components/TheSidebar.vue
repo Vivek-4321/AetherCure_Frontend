@@ -32,7 +32,7 @@
 @media (max-width: 768px) {
   .app-sidebar {
     transform: translateX(-100%);
-    z-index: 40;
+    z-index: 4000;
   }
 
   .app-sidebar.mobile-open {
@@ -103,8 +103,9 @@
     { id: 'environmental', label: 'Environmental Health', icon: 'hugeicons:fast-wind' },
     { id: 'news', label: 'Health News', icon: 'hugeicons:news' },
     { id: 'bot', label: 'Health Bot', icon: 'hugeicons:bubble-chat' },
-    { id: 'challenges', label: 'Challenges', icon: 'hugeicons:workout-run' },
+    // { id: 'challenges', label: 'Challenges', icon: 'hugeicons:workout-run' },
     { id: 'map', label: 'Health Map', icon: 'hugeicons:maps-location-02' },
-    { id: 'outbreaks', label: 'Outbreak Alerts', icon: 'hugeicons:triangle' }
+    { id: 'outbreaks', label: 'Outbreak Alerts', icon: 'hugeicons:triangle' },
+    { id: 'video', label: 'Video Call', icon: 'hugeicons:video-01' }
   ]
   </script>
