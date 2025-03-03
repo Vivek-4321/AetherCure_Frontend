@@ -52,10 +52,10 @@
               View Document
             </button>
             
-            <button @click="downloadFile" class="secondary-button">
+            <!-- <button @click="downloadFile" class="secondary-button">
               <Icon icon="hugeicons:download-01" class="button-icon" />
               Download
-            </button>
+            </button> -->
           </div>
           
           <div class="disclaimer">

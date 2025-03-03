@@ -11,10 +11,10 @@
           <Icon icon="hugeicons:arrow-left" />
           Back
         </button>
-        <button @click="downloadFile" class="control-btn download-btn">
+        <!-- <button @click="downloadFile" class="control-btn download-btn">
           <Icon icon="hugeicons:download-01" />
           Download
-        </button>
+        </button> -->
       </div>
     </div>
 
@@ -61,13 +61,13 @@
         <!-- Image controls -->
         <div class="image-controls" v-if="!isLoading">
           <button @click="zoomIn" class="zoom-btn">
-            <Icon icon="hugeicons:zoom-in" />
+            <Icon icon="hugeicons:zoom-in-area" />
           </button>
           <button @click="zoomOut" class="zoom-btn">
-            <Icon icon="hugeicons:zoom-out" />
+            <Icon icon="hugeicons:zoom-out-area" />
           </button>
           <button @click="resetZoom" class="zoom-btn">
-            <Icon icon="hugeicons:refresh-02" />
+            <Icon icon="hugeicons:arrow-turn-backward" />
           </button>
         </div>
       </div>
@@ -104,7 +104,7 @@
 
       <!-- Unsupported file type -->
       <div v-else class="unsupported-container">
-        <Icon icon="hugeicons:file-question" class="file-icon" />
+        <Icon icon="hugeicons:file-01" class="file-icon" />
         <h2>Unsupported File Type</h2>
         <p>This file type ({{ fileType || 'unknown' }}) cannot be previewed in the browser.</p>
         <button @click="downloadFile" class="download-btn">
@@ -569,6 +569,8 @@ onMounted(() => {
   text-align: center;
   max-width: 400px;
   padding: 2rem;
+  background-color: var(--secondary-bg);
+  color: var(--text-primary);
 }
 
 .loading-spinner {
