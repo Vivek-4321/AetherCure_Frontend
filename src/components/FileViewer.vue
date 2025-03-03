@@ -8,7 +8,7 @@
       </div>
       <div class="viewer-controls">
         <button @click="goBack" class="control-btn back-btn">
-          <Icon icon="hugeicons:arrow-left" />
+          <Icon icon="nrk:back" />
           Back
         </button>
         <!-- <button @click="downloadFile" class="control-btn download-btn">
@@ -32,7 +32,7 @@
 
       <!-- Error state -->
       <div v-else-if="hasError" class="error-container">
-        <Icon icon="hugeicons:alert-circle" class="error-icon" />
+        <Icon icon="fluent-color:warning-16" class="error-icon" />
         <h2>{{ errorMessage }}</h2>
         <p>There was a problem loading this file.</p>
         <div class="error-actions">
@@ -591,7 +591,7 @@ onMounted(() => {
   margin-top: 1rem;
   color: var(--text-secondary);
   font-size: 0.9rem;
-  background-color: rgba(var(--secondary-bg-rgb, 255, 255, 255), 0.7);
+  background-color: var(--secondary-bg);
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
 }
