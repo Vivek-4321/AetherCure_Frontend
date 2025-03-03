@@ -8,7 +8,7 @@
       </div>
       <div class="system-stats">
         <div class="stat-item">
-          <Icon icon="hugeicons:file-text-01" />
+          <Icon icon="mdi-light:file" />
           <span>{{ fileStats.total }} Files</span>
         </div>
         <div class="stat-item">
@@ -33,7 +33,7 @@
       <div class="metrics-grid">
         <div class="metric-card">
           <div class="metric-icon">
-            <Icon icon="hugeicons:folder-alt" />
+            <Icon icon="mdi-light:file" />
           </div>
           <div class="metric-content">
             <h3>Files Stored</h3>
@@ -55,7 +55,7 @@
         
         <div class="metric-card">
           <div class="metric-icon">
-            <Icon icon="hugeicons:cloud-upload-02" />
+            <Icon icon="tdesign:object-storage" />
           </div>
           <div class="metric-content">
             <h3>Storage Usage</h3>
@@ -78,44 +78,6 @@
 
       <!-- Main Dashboard Content Grid -->
       <div class="dashboard-grid">
-        <!-- File Activity Chart -->
-        <div class="dashboard-card file-activity">
-          <div class="card-header">
-            <h2>File Activity</h2>
-            <div class="card-actions">
-              <router-link to="/storage" class="accent-button">
-                <span>Manage Files</span>
-                <Icon icon="hugeicons:arrow-right" />
-              </router-link>
-            </div>
-          </div>
-          <div class="card-content">
-            <div v-if="fileActivity.length === 0" class="no-data">
-              <p>No file activity to display</p>
-            </div>
-            <div v-else ref="fileActivityChart" class="chart-container"></div>
-          </div>
-        </div>
-
-        <!-- Symptom Tracking Chart -->
-        <div class="dashboard-card symptom-tracking">
-          <div class="card-header">
-            <h2>Symptom Frequency</h2>
-            <div class="card-actions">
-              <router-link to="/data-collection" class="accent-button">
-                <span>Log Symptoms</span>
-                <Icon icon="hugeicons:arrow-right" />
-              </router-link>
-            </div>
-          </div>
-          <div class="card-content">
-            <div v-if="!symptoms.length" class="no-data">
-              <p>No symptom data to display</p>
-            </div>
-            <div v-else ref="symptomChart" class="chart-container"></div>
-          </div>
-        </div>
-
         <!-- Recent Files -->
         <div class="dashboard-card recent-files">
           <div class="card-header">
@@ -250,7 +212,6 @@
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { Icon } from '@iconify/vue';
-import * as echarts from 'echarts';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 // Import the fileAPI from your actual file structure
@@ -260,24 +221,14 @@ import { authAPI } from './api.js'; // Import authAPI for user data
 // Router for navigation
 const router = useRouter();
 
-// Refs for chart containers
-const fileActivityChart = ref(null);
-const symptomChart = ref(null);
-
 // State data
 const isLoading = ref(true);
 const userData = ref(null);
-const fileActivity = ref([]);
-const symptoms = ref([]);
 const fileStats = ref({ total: 0, shared: 0, recent: 0 });
 const recentFiles = ref([]);
 const storageSummary = ref({ used: 0, total: 5 * 1024 * 1024 * 1024 }); // 5GB default
 const fileTypeBreakdown = ref([]);
 const sharedLinks = ref([]);
-
-// Charts instances
-let fileActivityChartInstance = null;
-let symptomChartInstance = null;
 
 // Store IPFS gateway URL
 const PINATA_GATEWAY_URL = import.meta.env.VITE_PINATA_GATEWAY_URL || "https://gateway.pinata.cloud";
@@ -382,135 +333,6 @@ const getFileTypeIcon = (type) => {
   }
 };
 
-// Initialize file activity chart
-const initFileActivityChart = () => {
-  if (!fileActivity.value.length || !fileActivityChart.value) return;
-  
-  fileActivityChartInstance = echarts.init(fileActivityChart.value);
-  
-  const option = {
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow'
-      }
-    },
-    legend: {
-      data: ['Uploads', 'Downloads', 'Shares']
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true
-    },
-    xAxis: [
-      {
-        type: 'category',
-        data: fileActivity.value.map(item => item.date)
-      }
-    ],
-    yAxis: [
-      {
-        type: 'value'
-      }
-    ],
-    series: [
-      {
-        name: 'Uploads',
-        type: 'bar',
-        stack: 'total',
-        emphasis: {
-          focus: 'series'
-        },
-        data: fileActivity.value.map(item => item.uploads),
-        color: '#8884d8'
-      },
-      {
-        name: 'Downloads',
-        type: 'bar',
-        stack: 'total',
-        emphasis: {
-          focus: 'series'
-        },
-        data: fileActivity.value.map(item => item.downloads),
-        color: '#82ca9d'
-      },
-      {
-        name: 'Shares',
-        type: 'bar',
-        stack: 'total',
-        emphasis: {
-          focus: 'series'
-        },
-        data: fileActivity.value.map(item => item.shares),
-        color: '#ffc658'
-      }
-    ]
-  };
-  
-  fileActivityChartInstance.setOption(option);
-};
-
-// Initialize symptom chart
-const initSymptomChart = () => {
-  if (!symptoms.value.length || !symptomChart.value) return;
-  
-  symptomChartInstance = echarts.init(symptomChart.value);
-  
-  // Colors for the pie chart
-  const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
-  
-  const option = {
-    tooltip: {
-      trigger: 'item',
-      formatter: '{a} <br/>{b}: {c} ({d}%)'
-    },
-    legend: {
-      orient: 'vertical',
-      right: 10,
-      top: 'center',
-      data: symptoms.value.map(item => item.name)
-    },
-    series: [
-      {
-        name: 'Symptom Frequency',
-        type: 'pie',
-        radius: ['50%', '70%'],
-        avoidLabelOverlap: false,
-        itemStyle: {
-          borderRadius: 10,
-          borderColor: '#fff',
-          borderWidth: 2
-        },
-        label: {
-          show: false,
-          position: 'center'
-        },
-        emphasis: {
-          label: {
-            show: true,
-            fontSize: '18',
-            fontWeight: 'bold'
-          }
-        },
-        labelLine: {
-          show: false
-        },
-        data: symptoms.value.map((item, index) => ({
-          value: item.value,
-          name: item.name,
-          itemStyle: {
-            color: colors[index % colors.length]
-          }
-        }))
-      }
-    ]
-  };
-  
-  symptomChartInstance.setOption(option);
-};
-
 // Fetch user data
 const fetchUserData = async () => {
   try {
@@ -613,9 +435,6 @@ const fetchUserFiles = async () => {
       
       // Calculate storage usage and breakdown
       calculateStorageStats(normalizedFiles);
-      
-      // Generate monthly file activity from the files
-      generateFileActivity(normalizedFiles);
     } else {
       console.error('Unexpected response format for files:', files);
       recentFiles.value = [];
@@ -685,56 +504,6 @@ const calculateStorageStats = (files) => {
     .sort((a, b) => b.size - a.size);
 };
 
-// Generate monthly file activity from the files
-const generateFileActivity = (files) => {
-  if (!files || !files.length) return;
-  
-  // Get last 6 months
-  const months = [];
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  
-  const today = new Date();
-  for (let i = 5; i >= 0; i--) {
-    const d = new Date(today);
-    d.setMonth(today.getMonth() - i);
-    months.push({
-      date: monthNames[d.getMonth()],
-      year: d.getFullYear(),
-      month: d.getMonth(),
-      uploads: 0,
-      downloads: 0,
-      shares: 0
-    });
-  }
-  
-  // Count uploads by month
-  files.forEach(file => {
-    const fileDate = new Date(file.createdAt);
-    const monthIndex = months.findIndex(m => m.month === fileDate.getMonth() && m.year === fileDate.getFullYear());
-    if (monthIndex !== -1) {
-      months[monthIndex].uploads += 1;
-    }
-  });
-  
-  // Count shares by month (assuming we have shared links with timestamps)
-  sharedLinks.value.forEach(link => {
-    if (link.createdAt) {
-      const linkDate = new Date(link.createdAt);
-      const monthIndex = months.findIndex(m => m.month === linkDate.getMonth() && m.year === linkDate.getFullYear());
-      if (monthIndex !== -1) {
-        months[monthIndex].shares += 1;
-      }
-    }
-  });
-  
-  // Set downloads to a fraction of uploads for visualization purposes
-  months.forEach(month => {
-    month.downloads = Math.round(month.uploads * 0.7); // Just an estimate
-  });
-  
-  fileActivity.value = months;
-};
-
 // Get standardized file type category from MIME type
 const getFileTypeCategory = (mimeType) => {
   if (!mimeType) return { id: 'other', name: 'Other' };
@@ -756,29 +525,6 @@ const getFileTypeCategory = (mimeType) => {
   if (type.includes('audio')) return { id: 'audio', name: 'Audio' };
   
   return { id: 'other', name: 'Other Files' };
-};
-
-// Fetch symptoms data
-const fetchSymptomData = async () => {
-  try {
-    // Get user token for authentication
-    const token = localStorage.getItem('authToken');
-    if (!token) return;
-    
-    // Since symptoms endpoint might not exist yet, we'll use sample data
-    // In the future, you can implement a proper API endpoint for symptoms
-    console.log("Using sample symptom data since API endpoint is not implemented");
-    symptoms.value = [
-      { name: 'Headache', value: 8 },
-      { name: 'Fatigue', value: 12 },
-      { name: 'Cough', value: 6 },
-      { name: 'Fever', value: 4 },
-      { name: 'Joint Pain', value: 7 }
-    ];
-  } catch (error) {
-    console.error('Error in symptom data handling:', error);
-    symptoms.value = [];
-  }
 };
 
 // View file
@@ -849,16 +595,6 @@ const downloadFile = async (file) => {
   }
 };
 
-// Handle window resize for responsive charts
-const handleResize = () => {
-  if (fileActivityChartInstance) {
-    fileActivityChartInstance.resize();
-  }
-  if (symptomChartInstance) {
-    symptomChartInstance.resize();
-  }
-};
-
 // Load all data for dashboard
 const loadDashboardData = async () => {
   isLoading.value = true;
@@ -867,16 +603,10 @@ const loadDashboardData = async () => {
     await Promise.all([
       fetchUserData(),
       fetchUserFiles(),
-      fetchSharedLinks(),
-      fetchSymptomData()
+      fetchSharedLinks()
     ]);
     
-    // Short delay to ensure DOM is ready for charts
-    setTimeout(() => {
-      initFileActivityChart();
-      initSymptomChart();
-      isLoading.value = false;
-    }, 200);
+    isLoading.value = false;
   } catch (error) {
     console.error('Error loading dashboard data:', error);
     isLoading.value = false;
@@ -892,19 +622,7 @@ const loadDashboardData = async () => {
 // Lifecycle hooks
 onMounted(() => {
   loadDashboardData();
-  window.addEventListener('resize', handleResize);
 });
-
-// Cleanup
-// const onUnmounted = () => {
-//   window.removeEventListener('resize', handleResize);
-//   if (fileActivityChartInstance) {
-//     fileActivityChartInstance.dispose();
-//   }
-//   if (symptomChartInstance) {
-//     symptomChartInstance.dispose();
-//   }
-// };
 </script>
 
 <style scoped>
@@ -1042,22 +760,8 @@ onMounted(() => {
   flex-direction: column;
 }
 
-.dashboard-card.file-activity,
-.dashboard-card.symptom-tracking {
-  grid-column: span 2;
-}
-
-.dashboard-card.environment,
-.dashboard-card.quick-actions,
 .dashboard-card.recent-files {
   grid-column: span 1;
-}
-
-@media (max-width: 1200px) {
-  .dashboard-card.file-activity,
-  .dashboard-card.symptom-tracking {
-    grid-column: span 1;
-  }
 }
 
 .card-header {
@@ -1081,12 +785,6 @@ onMounted(() => {
 .card-content {
   padding: 1.25rem;
   flex: 1;
-}
-
-/* Chart Containers */
-.chart-container {
-  width: 100%;
-  height: 300px;
 }
 
 /* Storage Stats Section */
@@ -1481,21 +1179,8 @@ onMounted(() => {
     grid-template-columns: 1fr;
   }
   
-  .dashboard-card.file-activity,
-  .dashboard-card.symptom-tracking,
-  .dashboard-card.environment,
-  .dashboard-card.quick-actions,
   .dashboard-card.recent-files {
     grid-column: span 1;
-  }
-  
-  .environment-stats {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .env-stat {
-    margin: 0;
   }
   
   .actions-grid {
@@ -1506,10 +1191,6 @@ onMounted(() => {
 @media (max-width: 480px) {
   .metrics-grid {
     grid-template-columns: 1fr;
-  }
-  
-  .chart-container {
-    height: 250px;
   }
   
   .actions-grid {
