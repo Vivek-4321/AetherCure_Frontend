@@ -132,7 +132,7 @@
               title="Delete file"
             >
               <Icon
-                icon="hugeicons:trash-01"
+                icon="hugeicons:delete-02"
                 class="icon-sec"
                 :style="{ fontSize: '1.5rem', color: '#ff5252' }"
               />
@@ -195,7 +195,7 @@
               title="Expire link now"
             >
               <Icon
-                icon="hugeicons:cross-circle"
+                icon="hugeicons:delete-02"
                 class="icon-sec"
                 :style="{ fontSize: '1.5rem', color: '#ff5252' }"
               />

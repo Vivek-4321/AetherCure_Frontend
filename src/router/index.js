@@ -68,12 +68,14 @@ const routes = [
     path: '/shared/:shareId',
     name: 'SharedFileView',
     component: SharedFileView,
+    meta: { publicRoute: true }
   },
   {
     path: '/view/:ipfsHash/:fileType?/:fileName?',
     name: 'FileViewer',
     component: FileViewer,
-    props: true
+    props: true,
+    meta: { publicRoute: true }
   }
 ]
 
@@ -85,6 +87,12 @@ const router = createRouter({
 // Global navigation guard
 router.beforeEach((to, from, next) => {
   const authenticated = isAuthenticated()
+
+  // Allow public routes to pass through without authentication
+  if (to.matched.some(record => record.meta.publicRoute)) {
+    next()
+    return
+  }
 
   // Redirect authenticated users away from login/signup pages
   if (to.matched.some(record => record.meta.guest) && authenticated) {
