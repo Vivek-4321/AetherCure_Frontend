@@ -2,9 +2,11 @@
 <script setup>
 import { ref, reactive, computed } from "vue";
 import { useRouter } from 'vue-router';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 const router = useRouter();
-const fullName = ref("");
+const username = ref(""); // Changed from fullName to username to match API
 const email = ref("");
 const password = ref("");
 const isLoading = ref(false);
@@ -33,10 +35,86 @@ const passwordStrength = computed(() => {
   }
 });
 
+const handleSignup = async () => {
+  if (!email.value || !username.value || !password.value) {
+    toast.error('All fields are required', {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000,
+      theme: 'colored'
+    });
+    return;
+  }
+
+  if (passwordStrength.value === "Weak") {
+    toast.warning('Please choose a stronger password', {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000,
+      theme: 'colored'
+    });
+    return;
+  }
+
+  isLoading.value = true;
+
+  try {
+    const response = await fetch('http://localhost:8000/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email.value,
+        username: username.value,
+        password: password.value
+      }),
+      credentials: 'include'
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(errorData);
+    }
+
+    const result = await response.json();
+    
+    toast.success('OTP sent to your email', {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000,
+      theme: 'colored'
+    });
+
+    // Store email in localStorage for verification page
+    localStorage.setItem('signupEmail', email.value);
+    
+    // Wait for toast to be visible before redirecting
+    setTimeout(() => {
+      router.push(`otp/${result.id}`);
+    }, 1000);
+
+  } catch (error) {
+    let errorMessage = 'An error occurred during signup';
+    
+    if (error.message.includes('userAlreadyExists')) {
+      errorMessage = 'Email is already registered';
+    } else if (error.message.includes('username already exists')) {
+      errorMessage = 'Username is already taken';
+    } else if (error.message.includes('ValidationError')) {
+      errorMessage = 'Please fill all required fields';
+    }
+
+    toast.error(errorMessage, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000,
+      theme: 'colored'
+    });
+  } finally {
+    isLoading.value = false;
+  }
+};
+
 const goToLogin = () => {
   router.push('/login');
 };
-
 </script>
 
 <template>
@@ -51,16 +129,16 @@ const goToLogin = () => {
       </div>
     </div>
     <div class="right-panel">
-      <form @submit.prevent :style="formStyle">
+      <form @submit.prevent="handleSignup" :style="formStyle">
         <h2>Join the future of health</h2>
         <p>Create your account now</p>
         <div class="input-group">
-          <label for="fullName">Full name</label>
+          <label for="username">Username</label>
           <input
-            id="fullName"
-            v-model="fullName"
+            id="username"
+            v-model="username"
             type="text"
-            placeholder="Dr. John Smith"
+            placeholder="johnsmith"
             required
             :disabled="isLoading"
           />
@@ -95,7 +173,8 @@ const goToLogin = () => {
           </span>
         </div>
         <button type="submit" :disabled="isLoading" class="submit-btn">
-          {{ isLoading ? "Processing..." : "Sign Up" }}
+          <span v-if="!isLoading">Sign Up</span>
+          <span v-else class="spinner"></span>
         </button>
         <button type="button" class="google-btn" :disabled="isLoading">
           <span class="google-icon"></span>

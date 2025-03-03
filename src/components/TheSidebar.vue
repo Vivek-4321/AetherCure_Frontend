@@ -58,6 +58,7 @@
   background-color: var(--secondary-bg);
   color: var(--text-secondary);
   font-size: var(--font-size-base);
+  text-align: left;
   border: 1px solid transparent;
   border-radius: 0.5rem;
   width: 100%;
@@ -106,6 +107,6 @@
     // { id: 'challenges', label: 'Challenges', icon: 'hugeicons:workout-run' },
     { id: 'map', label: 'Health Map', icon: 'hugeicons:maps-location-02' },
     { id: 'outbreaks', label: 'Outbreak Alerts', icon: 'hugeicons:triangle' },
-    { id: 'video', label: 'Video Call', icon: 'hugeicons:video-01' }
+    // { id: 'video', label: 'Video Call', icon: 'hugeicons:video-01' }
   ]
   </script>

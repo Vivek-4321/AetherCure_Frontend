@@ -1,25 +1,23 @@
+<!-- TheHeader.vue -->
 <template>
   <header class="app-header">
     <div class="header-content">
       <div class="logo-section">
-        <Icon icon="hugeicons:ai-brain-04" class="logo-icon" />
-        <h1>Aether Cure</h1>
+        <img src="/logo.png" alt="Aether Cure Logo" class="logo-image" />
       </div>
       
-      <div class="header-actions">
-        
-        
+      <div class="header-actions">                     
         <TranslateWidget />
         
         <button @click="toggleTheme" class="theme-toggle">
-          <Icon 
-            :icon="theme === 'dark' ? 'hugeicons:moon-02': 'hugeicons:sun-02'" 
-            :style="{ fontSize: '25px', color: 'var(--text-secondary)' }" 
+          <Icon
+            :icon="theme === 'dark' ? 'hugeicons:moon-02': 'hugeicons:sun-02'"
+            :style="{ fontSize: '25px', color: 'var(--text-secondary)' }"
           />
         </button>
         
-        <button 
-          @click="$emit('toggle-mobile-menu')" 
+        <button
+          @click="$emit('toggle-mobile-menu')"
           class="mobile-menu-toggle"
         >
           <Icon :icon="mobileMenuOpen ? 'mdi:close' : 'mdi:menu'" />
@@ -62,15 +60,9 @@ const notifications = [
   }
 ]
 
-/*************  ✨ Codeium Command ⭐  *************/
-/**
-
-/******  a0c4e3ae-c940-4054-832d-9602c72d466c  *******/
 function toggleNotifications() {
   showNotifications.value = !showNotifications.value
 }
-
-
 
 </script>
 
@@ -98,10 +90,13 @@ function toggleNotifications() {
   margin-left: 1.2rem;
 }
 
-.logo-icon {
-  font-size: 1.8rem;
+.logo-image {
+  height: 2rem;
+  width: 5rem;
   margin-right: 0.5rem;
-  color: var(--accent-color);
+  object-fit: cover; /* Changed from 'cover' to 'contain' */
+  image-rendering: -webkit-optimize-contrast; /* Improves image rendering in Chrome */
+  image-rendering: crisp-edges; /* Improves image rendering in Firefox */
 }
 
 .header-actions {
@@ -112,7 +107,7 @@ function toggleNotifications() {
 .notifications {
   position: relative;
   margin-right: 1rem;
-
+  
   svg {
     color: var(--text-secondary);
   }
@@ -168,46 +163,50 @@ function toggleNotifications() {
 .mobile-menu-toggle {
   background: none;
   border: none;
-  cursor: pointer;  
+  cursor: pointer;
   display: none;
 }
 
 .mobile-menu-toggle svg {
   font-size: 1rem;
-} 
-
+}
+ 
 .theme-toggle{
-    margin-left: 0.6rem;
-    background: none;
-    border: none;
-    color: var(--text-primary);
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
-    svg{
+  margin-left: 0.6rem;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  
+  svg{
     font-size: 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
-
   .logo-section{
     margin-left: 0.6rem;
     font-size: 10px;
+    
     h1{
       display: none;
     }
   }
-
+  
+  .logo-image {
+    height: 1.8rem;
+  }
+  
   .mobile-menu-toggle{
     display: block;
     color: var(--text-primary);
     margin-left: 0.6rem;
-
+    
     svg {
       font-size: 2rem;
     }
   }
 }
-
-
+ 
 </style>

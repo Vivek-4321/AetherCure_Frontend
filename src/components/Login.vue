@@ -1,7 +1,9 @@
 <!-- Login.vue -->
 <script setup>
 import { ref, reactive } from "vue";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 
 const router = useRouter();
 const email = ref("");
@@ -15,9 +17,87 @@ const formStyle = reactive({
 });
 
 const goToSignup = () => {
-  router.push('/signup');
+  router.push("/signup");
 };
 
+const setCookie = (name, value, days) => {
+  const expires = new Date();
+  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+};
+
+// Update the handleLogin function in Login.vue
+const handleLogin = async () => {
+  if (!email.value || !password.value) {
+    toast.error("Both email and password are required", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000,
+      theme: "colored",
+    });
+    return;
+  }
+
+  isLoading.value = true;
+
+  try {
+    const response = await fetch("http://localhost:8000/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email.value,
+        password: password.value,
+      }),
+      credentials: "include", // Keep this to allow CORS with credentials
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(errorData);
+    }
+
+    const result = await response.json();
+
+    if (result.message === "LoginSuccess") {
+      // Store token in localStorage for frontend auth
+      if (result.token) {
+        localStorage.setItem("authToken", result.token);
+      }
+      
+      // Store userId in localStorage
+      if (result.userId) {
+        localStorage.setItem("userId", result.userId);
+      }
+
+      toast.success("Login successful!", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+        theme: "colored",
+      });
+
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+    }
+  } catch (error) {
+    let errorMessage = "An error occurred during login";
+
+    if (error.message.includes("User does not exist")) {
+      errorMessage = "User does not exist";
+    } else if (error.message.includes("Invalid password")) {
+      errorMessage = "Invalid password";
+    }
+
+    toast.error(errorMessage, {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 3000,
+      theme: "colored",
+    });
+  } finally {
+    isLoading.value = false;
+  }
+};
 </script>
 
 <template>
@@ -25,14 +105,19 @@ const goToSignup = () => {
     <div class="left-panel" :class="{ login: true }">
       <div class="logo"></div>
       <h1>Aether Cure</h1>
-      <p>Access personalized health predictions powered by AI and blockchain.</p>
+      <p>
+        Access personalized health predictions powered by AI and blockchain.
+      </p>
       <div class="fact-box" :class="{ login: true }">
         <h3>Did You Know?</h3>
-        <p>AI can predict cardiovascular issues with 80% accuracy using retinal scans.</p>
+        <p>
+          AI can predict cardiovascular issues with 80% accuracy using retinal
+          scans.
+        </p>
       </div>
     </div>
     <div class="right-panel">
-      <form @submit.prevent :style="formStyle">
+      <form @submit.prevent="handleLogin" :style="formStyle">
         <h2>Welcome back</h2>
         <p>Log in to your account</p>
         <div class="input-group">
@@ -58,7 +143,8 @@ const goToSignup = () => {
           />
         </div>
         <button type="submit" :disabled="isLoading" class="submit-btn">
-          {{ isLoading ? "Processing..." : "Log In" }}
+          <span v-if="!isLoading">Log In</span>
+          <span v-else class="spinner"></span>
         </button>
         <button type="button" class="google-btn" :disabled="isLoading">
           <span class="google-icon"></span>
@@ -74,8 +160,8 @@ const goToSignup = () => {
 </template>
 
 <style>
-body{
-    background-color: var(--main-bg);
+body {
+  background-color: var(--main-bg);
 }
 
 .auth-container {
@@ -111,7 +197,6 @@ body{
   border-radius: 0.5rem;
   width: 45%;
   height: 95%;
-
 }
 
 .left-panel.login {
@@ -442,4 +527,27 @@ input:focus {
   transition: opacity 0.3s ease-in;
 }
 
+.spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Update submit button styles to center the spinner */
+.submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px; /* Ensure consistent height */
+}
 </style>

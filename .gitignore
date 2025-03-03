@@ -21,7 +21,6 @@ build/
 *.cache/
 *.tmp/
 .cache-loader/
-public/
 .DS_Store
 
 # Test output

@@ -430,6 +430,120 @@ onMounted(async () => {
 </script>
 
 <style>
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Add animations to elements */
+.Env-main-container {
+  width: 100%;
+  height: 100%;
+  background-color: var(--main-bg);
+  color: var(--text-primary);
+  padding: 1rem;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.Env-header {
+  font-size: 24px;
+  animation: slideInFromTop 0.8s ease-out;
+}
+
+.error-message {
+  animation: slideInFromTop 0.6s ease-out;
+}
+
+/* First bar animations */
+.env-first-bar {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  gap: 1rem;
+  animation: slideInFromBottom 0.8s ease-out;
+}
+
+.first-bar-box1 {
+  animation: slideInFromBottom 0.6s ease-out 0.2s both;
+}
+
+.first-bar-box2 {
+  animation: slideInFromBottom 0.6s ease-out 0.4s both;
+}
+
+.first-bar-box3 {
+  animation: slideInFromBottom 0.6s ease-out 0.6s both;
+}
+
+.first-bar-box4 {
+  animation: slideInFromBottom 0.6s ease-out 0.8s both;
+}
+
+/* Second bar animations */
+.env-second-bar {
+  animation: slideInFromBottom 0.8s ease-out 1s both;
+}
+
+.second-bar-Air {
+  animation: slideInFromBottom 0.6s ease-out 1.2s both;
+}
+
+.second-bar-Temperature {
+  animation: slideInFromBottom 0.6s ease-out 1.4s both;
+}
+
+.second-bar-Activity {
+  animation: slideInFromBottom 0.6s ease-out 1.6s both;
+}
+
+/* Status tag animation */
+.status-tag {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Rest of your existing styles... */
+.first-bar-box1,
+.first-bar-box2,
+.first-bar-box3,
+.first-bar-box4 {
+  width: 23%;
+  min-width: 12rem;
+  height: 10rem;
+  display: flex;
+  border-radius: 0.5rem;
+  background-color: var(--secondary-bg);
+  box-sizing: border-box;
+  flex-direction: column;
+  padding: 0 0.5rem;
+} 
+
 .Env-main-container {
   width: 100%;
   height: 100%;
@@ -686,6 +800,20 @@ onMounted(async () => {
   .status-tag {
     font-size: 0.8rem;
     padding: 0.15rem 0.8rem;
+  }
+
+  .first-bar-box1,
+  .first-bar-box2,
+  .first-bar-box3,
+  .first-bar-box4 {
+    animation-delay: 0.2s; /* Reduce animation delay on mobile */
+  }
+  
+  .env-second-bar,
+  .second-bar-Air,
+  .second-bar-Temperature,
+  .second-bar-Activity {
+    animation-delay: 0.4s; /* Reduce animation delay on mobile */
   }
 }
 

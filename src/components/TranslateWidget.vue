@@ -102,24 +102,35 @@
     }
   }
   </style> -->
-
   <template>
     <div class="translate-widget">
-      <!-- Custom dropdown -->
-      <select 
-        class="language-select" 
-        v-model="selectedLanguage" 
-        @change="changeLanguage"
-      >
-        <option value="" disabled>Select Language</option>
-        <option 
-          v-for="lang in languages" 
-          :key="lang.code" 
-          :value="lang.code"
+      <!-- Language selector with button to revert to English -->
+      <div class="language-container">
+        <select 
+          class="language-select" 
+          v-model="selectedLanguage" 
+          @change="changeLanguage"
         >
-          {{ lang.name }}
-        </option>
-      </select>
+          <option value="" disabled>Select Language</option>
+          <option 
+            v-for="lang in languages" 
+            :key="lang.code" 
+            :value="lang.code"
+          >
+            {{ lang.name }}
+          </option>
+        </select>
+        
+        <!-- English reset button - always visible and labeled in English -->
+        <button 
+          v-if="selectedLanguage && selectedLanguage !== 'en'" 
+          class="reset-language-btn" 
+          @click="resetToEnglish"
+          title="Reset to English"
+        >
+          EN
+        </button>
+      </div>
   
       <!-- Hidden Google Translate Element (required for initialization) -->
       <div id="google_translate_element" style="display:none"></div>
@@ -155,20 +166,45 @@
   
   function changeLanguage(event) {
     const lang = event.target.value
+    setLanguageCookies(lang)
+    location.reload()
+  }
+  
+  function resetToEnglish() {
+    setLanguageCookies('en')
+    selectedLanguage.value = 'en'
+    location.reload()
+  }
+  
+  function setLanguageCookies(lang) {
     const domain = document.domain
     
+    // Set cookies with and without subdomain
     document.cookie = `googtrans=/en/${lang}; domain=${domain}; path=/`
     document.cookie = `googtrans=/en/${lang}; domain=.${domain}; path=/`
-  
-    location.reload()
+    
+    // Set a session cookie to remember the language selection
+    localStorage.setItem('preferredLanguage', lang)
   }
   
   onMounted(() => {
     initGoogleTranslate()
     
+    // Check for existing language cookie
     const match = document.cookie.match(/googtrans=\/en\/([^;]+)/)
     if (match) {
       selectedLanguage.value = match[1]
+    } else {
+      // Check localStorage for previously selected language
+      const savedLang = localStorage.getItem('preferredLanguage')
+      if (savedLang) {
+        selectedLanguage.value = savedLang
+        // Apply the saved language
+        setLanguageCookies(savedLang)
+      } else {
+        // Default to English
+        selectedLanguage.value = 'en'
+      }
     }
   })
   </script>
@@ -218,6 +254,11 @@
     position: relative;
   }
   
+  .language-container {
+    display: flex;
+    align-items: center;
+  }
+  
   .language-select {
     appearance: none;
     background-color: var(--text-primary);
@@ -231,7 +272,6 @@
     background-position: right 0.7rem top 50%;
     background-size: 0.65rem auto;
     min-width: 140px;
-    
   }
   
   .language-select:hover {
@@ -242,47 +282,60 @@
     outline: none;
     border-color: var(--accent-color);
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-    
   }
-
+  
+  /* Reset to English button */
+  .reset-language-btn {
+    margin-left: 8px;
+    padding: 0.3rem 0.5rem;
+    background-color: #2c67c9; /* Blue color that stands out */
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    /* Make sure the text stays in English */
+    font-family: Arial, sans-serif !important;
+  }
+  
+  .reset-language-btn:hover {
+    background-color: #1a4fa0;
+  }
+  
   /* Custom scrollbar styles */
-.language-select::-webkit-scrollbar {
-  width: 6px; /* Reduced scrollbar width */
-}
-
-.language-select::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.language-select::-webkit-scrollbar-thumb {
-  background: var(--accent-color);
-  border-radius: 4px;
-}
-
-.language-select::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-color-hover, var(--accent-color));
-}
-
-/* Style the dropdown options */
-.language-select option {
-  background-color: var(--secondary-bg);
-  color: var(--text-primary);
-  padding: 8px;
-}
-
-.language-select option {
-  background-color: var(--secondary-bg);
-  color: var(--text-primary);
-  padding: 8px;
-}
-
-/* Style the option hover state */
-.language-select option:hover,
-.language-select option:focus,
-.language-select option:checked {
-  background-color: var(--accent-color) !important;
-  color: white !important;
-}
+  .language-select::-webkit-scrollbar {
+    width: 6px; /* Reduced scrollbar width */
+  }
+  
+  .language-select::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .language-select::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 4px;
+  }
+  
+  .language-select::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color-hover, var(--accent-color));
+  }
+  
+  /* Style the dropdown options */
+  .language-select option {
+    background-color: var(--secondary-bg);
+    color: var(--text-primary);
+    padding: 8px;
+  }
+  
+  /* Style the option hover state */
+  .language-select option:hover,
+  .language-select option:focus,
+  .language-select option:checked {
+    background-color: var(--accent-color) !important;
+    color: white !important;
+  }
   
   /* Dark mode support */
   @media (prefers-color-scheme: dark) {
@@ -302,7 +355,12 @@
     .language-select {
       font-size: 0.75rem;
       padding: 0.4rem 1.5rem 0.4rem 0.75rem;
-      min-width: 140px;
+      min-width: 120px;
+    }
+    
+    .reset-language-btn {
+      padding: 0.2rem 0.4rem;
+      font-size: 0.7rem;
     }
   }
   </style>

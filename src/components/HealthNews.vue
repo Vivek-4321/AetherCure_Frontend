@@ -1,52 +1,56 @@
 <template>
-    <div class="first-div">
-      <h1>Health News in India</h1>
+  <div class="first-div">
+    <h1>News</h1>
+    
+    <!-- Single Loading State with Slower Animation -->
+    <div v-if="loading" class="loading-container">
+      <div class="loading-spinner">
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+        <div class="spinner-ring"></div>
+      </div>
+      <span class="loading-text">Loading latest health news...</span>
+    </div>
+
+    <!-- Error State -->
+    <div v-else-if="error" class="error-state">
+      <p>{{ error }}</p>
+      <button @click="fetchNews" class="retry-button">Retry</button>
+    </div>
+
+    <!-- News Content -->
+    <div v-else class="first-inner-div">
+      <div v-for="(article, index) in newsArticles" 
+           :key="index" 
+           class="news-card">
+        <div class="card-upper">
+          <img 
+            :src="article.image || getFallbackImage(index)"
+            :alt="article.title"
+            @error="(e) => handleImageError(e, index)"
+            class="news-image"
+          >
+        </div>
+        <div class="card-lower">
+          <div class="card-content">
+            <h4>{{ truncateTitle(article.title) }}</h4>
+            <p>{{ truncateDescription(article.description) }}</p>
+          </div>
+          <div class="card-footer">
+            <p class="source">{{ article.source.name }}</p>
+            <p class="date">{{ formatDate(article.publishedAt) }}</p>
+          </div>
+        </div>
+      </div>
       
-      <!-- Loading State -->
-      <div v-if="loading" class="loading-state">
-        <div class="loading-spinner"></div>
-        <p>Loading latest health news...</p>
-      </div>
-  
-      <!-- Error State -->
-      <div v-else-if="error" class="error-state">
-        <p>{{ error }}</p>
-        <button @click="fetchNews" class="retry-button">Retry</button>
-      </div>
-  
-      <!-- News Content -->
-      <div v-else class="first-inner-div">
-        <div v-for="(article, index) in newsArticles" 
-             :key="index" 
-             class="news-card">
-          <div class="card-upper">
-            <img 
-              :src="article.image || getFallbackImage(index)"
-              :alt="article.title"
-              @error="(e) => handleImageError(e, index)"
-              class="news-image"
-            >
-          </div>
-          <div class="card-lower">
-            <div class="card-content">
-              <h4>{{ truncateTitle(article.title) }}</h4>
-              <p>{{ truncateDescription(article.description) }}</p>
-            </div>
-            <div class="card-footer">
-              <p class="source">{{ article.source.name }}</p>
-              <p class="date">{{ formatDate(article.publishedAt) }}</p>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Load More Button -->
-        <div class="load-more" v-if="hasMoreNews">
-          <button @click="loadMore" :disabled="loadingMore">
-            {{ loadingMore ? 'Loading...' : 'Load More News' }}
-          </button>
-        </div>
+      <!-- Load More Button -->
+      <div class="load-more" v-if="hasMoreNews">
+        <button @click="loadMore" :disabled="loadingMore">
+          {{ loadingMore ? 'Loading...' : 'Load More News' }}
+        </button>
       </div>
     </div>
+  </div>
 </template>
   
 <script setup>
@@ -166,6 +170,60 @@ const formatDate = (dateString) => {
   padding: 1rem;
 }
 
+/* Loading Animation */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem;
+  min-height: 200px;
+  justify-content: center;
+}
+
+.loading-spinner {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.spinner-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 3px solid transparent;
+  border-top-color: var(--accent-color);
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite; /* Increased from 1s to 1.5s for slower rotation */
+}
+
+.spinner-ring:nth-child(2) {
+  width: 80%;
+  height: 80%;
+  top: 10%;
+  left: 10%;
+  animation-delay: -0.45s; /* Adjusted for new timing */
+}
+
+.spinner-ring:nth-child(3) {
+  width: 60%;
+  height: 60%;
+  top: 20%;
+  left: 20%;
+  animation-delay: -0.9s; /* Adjusted for new timing */
+}
+
+.loading-text {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Rest of the styles */
 .first-inner-div {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -269,6 +327,12 @@ const formatDate = (dateString) => {
   cursor: not-allowed;
 }
 
+/* Error State */
+.error-state {
+  text-align: center;
+  padding: 3rem;
+}
+
 /* Responsive Design */
 @media screen and (max-width: 768px) {
   .first-inner-div {
@@ -279,26 +343,5 @@ const formatDate = (dateString) => {
   .card-content h4 {
     font-size: 1.1rem;
   }
-}
-
-/* Loading and Error States */
-.loading-state,
-.error-state {
-  text-align: center;
-  padding: 3rem;
-}
-
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--secondary-bg);
-  border-top-color: var(--text-primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 1rem;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
 }
 </style>

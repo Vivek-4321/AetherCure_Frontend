@@ -1,82 +1,80 @@
 <template>
-    <div class="frist-div">
-      <div class="first-inner-first">
-        <h1>Symptom Checker</h1>
-        <div class="first-inner-upper">
-          <p>Select your symptoms</p>
-          <div class="first-inner-input">
-            <input
-              v-model="symptoms"
-              type="text"
-              class="input-bar"
-              placeholder="Enter symptoms (e.g., fever and cough)"
-              :disabled="loading"
-            />
-          </div>
-        </div>
-        <div class="first-inner-btn">
-          <button
-            @click="checkSymptoms"
-            :disabled="loading || !symptoms"
-            :class="{ loading: loading }"
-          >
-            <span v-if="!loading">Check Symptoms</span>
-            <span v-else class="loader"></span>
-          </button>
-        </div>
-      </div>
-  
-      <!-- Initial state or loading message -->
-      <div v-if="!showResults" class="initial-state">
-        <div class="initial-content">
-          <Icon 
-            icon="hugeicons:align-box-bottom-left" 
-            class="health-icon"
-            :style="{ fontSize: '4rem', color: 'var(--text-secondary)' }"
+  <div class="first-div slide-in-from-top">
+    <div class="first-inner-first slide-in-from-left">
+      <h1>Symptom Checker</h1>
+      <div class="first-inner-upper">
+        <p>Select your symptoms</p>
+        <div class="first-inner-input">
+          <input
+            v-model="symptoms"
+            type="text"
+            class="input-bar"
+            placeholder="Enter symptoms (e.g., fever and cough)"
+            :disabled="loading"
           />
-          <p v-if="!loading">Enter your symptoms above to get an AI-powered health assessment</p>
-          <p v-else>Analyzing your symptoms...</p>
         </div>
       </div>
-  
-      <!-- Results section with fade and slide animation -->
-      <transition name="fade-slide" @enter="startProgress">
-        <div v-if="showResults" class="first-inner-second">
-          <!-- Rest of your results content remains the same -->
-          <h3>Predicted Condition</h3>
-          <h2>{{ prediction.predicted_disease }}</h2>
-          <p>Confidence level</p>
-          <div class="percent-first">
-            <div
-              ref="progressBar"
-              class="percent-sec"
-              :style="{ width: progressWidth + '%' }"
-            ></div>
-          </div>
-          <p>{{ Math.round(prediction.confidence * 100) }}%</p>
-          <p>Recommendations</p>
-          <ul>
-            <li
-              v-for="(recommendation, index) in recommendations"
-              :key="index"
-              :style="{ animationDelay: `${index * 0.2}s` }"
-              class="recommendation-item"
-            >
-              {{ recommendation }}
-            </li>
-          </ul>
-          <div class="note-div">
-            <p>
-              Note: This is an AI-powered prediction and should not replace
-              professional medical advice. Please consult a medical healthcare
-              provider for accurate diagnosis and treatment.
-            </p>
-          </div>
-        </div>
-      </transition>
+      <div class="first-inner-btn">
+        <button
+          @click="checkSymptoms"
+          :disabled="loading || !symptoms"
+          :class="{ loading: loading }"
+        >
+          <span v-if="!loading">Check Symptoms</span>
+          <span v-else class="loader"></span>
+        </button>
+      </div>
     </div>
-  </template>
-  
+
+    <!-- Initial state with fade in -->
+    <div v-if="!showResults" class="initial-state slide-in-from-right">
+      <div class="initial-content fade-in">
+        <Icon 
+          icon="hugeicons:align-box-bottom-left" 
+          class="health-icon"
+          :style="{ fontSize: '4rem', color: 'var(--text-secondary)' }"
+        />
+        <p v-if="!loading">Enter your symptoms above to get an AI-powered health assessment</p>
+        <p v-else>Analyzing your symptoms...</p>
+      </div>
+    </div>
+
+    <!-- Enhanced Results section with staggered animations -->
+    <transition name="fade-slide" @enter="startProgress">
+      <div v-if="showResults" class="first-inner-second">
+        <h3 class="slide-in-element">Predicted Condition</h3>
+        <h2 class="slide-in-element">{{ prediction.predicted_disease }}</h2>
+        <p class="slide-in-element">Confidence level</p>
+        <div class="percent-first slide-in-element">
+          <div
+            ref="progressBar"
+            class="percent-sec"
+            :style="{ width: progressWidth + '%' }"
+          ></div>
+        </div>
+        <p class="slide-in-element">{{ Math.round(prediction.confidence * 100) }}%</p>
+        <p class="slide-in-element">Recommendations</p>
+        <ul>
+          <li
+            v-for="(recommendation, index) in recommendations"
+            :key="index"
+            :style="{ animationDelay: `${0.8 + index * 0.2}s` }"
+            class="recommendation-item slide-in-element"
+          >
+            {{ recommendation }}
+          </li>
+        </ul>
+        <div class="note-div slide-in-element">
+          <p>
+            Note: This is an AI-powered prediction and should not replace
+            professional medical advice. Please consult a medical healthcare
+            provider for accurate diagnosis and treatment.
+          </p>
+        </div>
+      </div>
+    </transition>
+  </div>
+</template>
 
 <script setup>
 import { ref, onMounted } from "vue";
@@ -229,6 +227,86 @@ const checkSymptoms = async () => {
 </script>
 
 <style>
+.slide-in-from-top {
+  animation: slideFromTop 0.6s ease-out forwards;
+}
+
+.slide-in-from-left {
+  animation: slideFromLeft 0.6s ease-out forwards;
+}
+
+.slide-in-from-right {
+  animation: slideFromRight 0.6s ease-out forwards;
+}
+
+.slide-in-element {
+  opacity: 0;
+  animation: slideUp 0.5s ease forwards;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.8s ease forwards;
+}
+
+@keyframes slideFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add animation delays for staggered entrance */
+.first-inner-second > * {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.first-inner-second > *:nth-child(1) { animation-delay: 0.2s; }
+.first-inner-second > *:nth-child(2) { animation-delay: 0.3s; }
+.first-inner-second > *:nth-child(3) { animation-delay: 0.4s; }
+.first-inner-second > *:nth-child(4) { animation-delay: 0.5s; }
+.first-inner-second > *:nth-child(5) { animation-delay: 0.6s; }
+.first-inner-second > *:nth-child(6) { animation-delay: 0.7s; }
+
+/* Keep all your existing styles below */
 .initial-state {
   width: 96%;
   height: 26rem;
@@ -390,12 +468,13 @@ button.loading {
   }
 }
 .first-inner-second {
-  width: 98%;
+  width: 97%;
   height: 26rem;
   background-color: var(--secondary-bg);
   padding: 1rem;
   border-radius: 1rem;
   margin-bottom: 1rem;
+  margin-left: 1rem;
   h2 {
     font-family: "Poppins", sans-serif;
     color: var(--accent-color);
