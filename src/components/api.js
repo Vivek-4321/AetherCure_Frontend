@@ -1,6 +1,6 @@
 // api.js - Fixed version that doesn't try to read the response stream twice
 
-const API_URL = 'http://localhost:8000'; // Change this to your production backend URL
+const API_URL = 'https://high-goose-81-cqfnq4drn6zh.deno.dev'; // Change this to your production backend URL
 
 // Helper for making authenticated requests
 export const apiRequest = async (endpoint, options = {}) => {
