@@ -179,7 +179,7 @@ export const fileAPI = {
   getSharedFile: async (shareId) => {
     // This would be a public endpoint, so we use a modified version of apiRequest
     // that doesn't add auth headers
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    const API_URL = 'https://high-goose-81-0qpzy7b8csjh.deno.dev';
     
     try {
       const response = await fetch(`${API_URL}/files/shared/${shareId}`);
