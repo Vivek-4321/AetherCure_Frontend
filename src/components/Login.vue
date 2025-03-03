@@ -40,7 +40,7 @@ const handleLogin = async () => {
   isLoading.value = true;
 
   try {
-    const response = await fetch("https://high-goose-81-cqfnq4drn6zh.deno.dev/login", {
+    const response = await fetch("https://high-goose-81-z0cxz9n5hmhn.deno.dev/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
