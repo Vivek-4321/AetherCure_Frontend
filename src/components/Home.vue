@@ -96,7 +96,7 @@ function changeTab(tab) {
 .main-content {
  
   margin-left: 10rem; /* Match sidebar width */
-  width: 90vw !important;
+  width: 83vw !important;
 }
 
 @media (max-width: 768px) {
