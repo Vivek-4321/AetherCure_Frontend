@@ -95,6 +95,7 @@ function changeTab(tab) {
 
 .main-content {
   flex-grow: 1;
+  margin-top: 20rem;
   margin-left: 270px; /* Match sidebar width */
   width: calc(100% - 270px);
 }
