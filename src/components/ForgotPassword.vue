@@ -81,7 +81,7 @@ const handleSubmit = async () => {
   isSubmitting.value = true;
 
   try {
-    const response = await fetch('https://high-goose-81-j3gy941h2ts4.deno.dev/forgotPass', {
+    const response = await fetch('https://high-goose-81-cq6sshk8s5dq.deno.dev/forgotPass', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

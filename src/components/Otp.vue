@@ -96,7 +96,7 @@ const verifyOTP = async () => {
   isVerifying.value = true;
 
   try {
-    const response = await fetch("https://high-goose-81-j3gy941h2ts4.deno.dev/verify", {
+    const response = await fetch("https://high-goose-81-cq6sshk8s5dq.deno.dev/verify", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
