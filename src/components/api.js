@@ -1,6 +1,6 @@
 // api.js - Fixed version that doesn't try to read the response stream twice
 
-const API_URL = 'https://high-goose-81-0qpzy7b8csjh.deno.dev'; // Change this to your production backend URL
+const API_URL = 'https://high-goose-81-j3gy941h2ts4.deno.dev'; // Change this to your production backend URL
 
 // Helper for making authenticated requests
 export const apiRequest = async (endpoint, options = {}) => {
@@ -179,7 +179,7 @@ export const fileAPI = {
   getSharedFile: async (shareId) => {
     // This would be a public endpoint, so we use a modified version of apiRequest
     // that doesn't add auth headers
-    const API_URL = 'https://high-goose-81-0qpzy7b8csjh.deno.dev';
+    const API_URL = 'https://high-goose-81-j3gy941h2ts4.deno.dev';
     
     try {
       const response = await fetch(`${API_URL}/files/shared/${shareId}`);
