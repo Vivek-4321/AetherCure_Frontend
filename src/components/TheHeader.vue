@@ -5,18 +5,21 @@
       <div class="logo-section">
         <img src="/icon.png" alt="Aether Cure Logo" class="logo-image" />
       </div>
-
-      <div class="header-actions">
+      
+      <div class="header-actions">                     
         <TranslateWidget />
-
+        
         <button @click="toggleTheme" class="theme-toggle">
           <Icon
-            :icon="theme === 'dark' ? 'hugeicons:moon-02' : 'hugeicons:sun-02'"
+            :icon="theme === 'dark' ? 'hugeicons:moon-02': 'hugeicons:sun-02'"
             :style="{ fontSize: '25px', color: 'var(--text-secondary)' }"
           />
         </button>
-
-        <button @click="$emit('toggle-mobile-menu')" class="mobile-menu-toggle">
+        
+        <button
+          @click="$emit('toggle-mobile-menu')"
+          class="mobile-menu-toggle"
+        >
           <Icon :icon="mobileMenuOpen ? 'mdi:close' : 'mdi:menu'" />
         </button>
       </div>
@@ -25,41 +28,42 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { Icon } from "@iconify/vue";
-import { useTheme } from "./useTheme.js";
-import TranslateWidget from "./TranslateWidget.vue";
+import { ref } from 'vue'
+import { Icon } from '@iconify/vue'
+import { useTheme } from './useTheme.js'
+import TranslateWidget from './TranslateWidget.vue'
 
-const { theme, toggleTheme } = useTheme();
+const { theme, toggleTheme } = useTheme()
 
 defineProps({
-  theme: { type: String, default: "dark" },
-  mobileMenuOpen: { type: Boolean, default: false },
-});
+  theme: { type: String, default: 'dark' },
+  mobileMenuOpen: { type: Boolean, default: false }
+})
 
-defineEmits(["toggle-theme", "toggle-mobile-menu"]);
+defineEmits(['toggle-theme', 'toggle-mobile-menu'])
 
-const showNotifications = ref(false);
+const showNotifications = ref(false)
 const notifications = [
   {
     id: 1,
-    title: "New Disease Outbreak Alert",
-    message: "Influenza A outbreak detected in Metropolitan Area",
-    type: "alert",
-    time: "2 hours ago",
+    title: 'New Disease Outbreak Alert',
+    message: 'Influenza A outbreak detected in Metropolitan Area',
+    type: 'alert',
+    time: '2 hours ago'
   },
   {
     id: 2,
-    title: "Health Tip",
-    message: "High pollen count today. Take necessary precautions if allergic.",
-    type: "info",
-    time: "5 hours ago",
-  },
-];
+    title: 'Health Tip',
+    message: 'High pollen count today. Take necessary precautions if allergic.',
+    type: 'info',
+    time: '5 hours ago'
+  }
+]
 
 function toggleNotifications() {
-  showNotifications.value = !showNotifications.value;
+  showNotifications.value = !showNotifications.value
 }
+
 </script>
 
 <style scoped>
@@ -86,38 +90,13 @@ function toggleNotifications() {
   margin-left: 1.2rem;
 }
 
-.logo-section {
-  display: flex;
-  align-items: center;
-  font-size: 0.75rem;
-  margin-left: 1.2rem;
-}
-
 .logo-image {
-  height: 2.5rem; /* Slightly increased height */
-  width: auto; /* Let width scale automatically based on height */
-  max-width: 10rem; /* Set a maximum width to prevent logo from being too large */
+  height: 2rem;
+  width: 5rem;
   margin-right: 0.5rem;
-  object-fit: contain; /* Ensures the entire logo is visible */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-}
-
-/* Make sure the mobile view adjustments are appropriate too */
-@media (max-width: 768px) {
-  .logo-section {
-    margin-left: 0.6rem;
-    font-size: 10px;
-
-    h1 {
-      display: none;
-    }
-  }
-
-  .logo-image {
-    height: 2rem; /* Slightly smaller for mobile */
-    max-width: 7rem;
-  }
+  object-fit: cover; /* Changed from 'cover' to 'contain' */
+  image-rendering: -webkit-optimize-contrast; /* Improves image rendering in Chrome */
+  image-rendering: crisp-edges; /* Improves image rendering in Firefox */
 }
 
 .header-actions {
@@ -128,7 +107,7 @@ function toggleNotifications() {
 .notifications {
   position: relative;
   margin-right: 1rem;
-
+  
   svg {
     color: var(--text-secondary);
   }
@@ -138,8 +117,8 @@ function toggleNotifications() {
   background: none;
   border: none;
   cursor: pointer;
-
-  svg {
+  
+  svg{
     font-size: 24px;
   }
 }
@@ -191,42 +170,43 @@ function toggleNotifications() {
 .mobile-menu-toggle svg {
   font-size: 1rem;
 }
-
-.theme-toggle {
+ 
+.theme-toggle{
   margin-left: 0.6rem;
   background: none;
   border: none;
   color: var(--text-primary);
   transition: all 0.3s ease-in-out;
   cursor: pointer;
-
-  svg {
+  
+  svg{
     font-size: 1.5rem;
   }
 }
 
 @media (max-width: 768px) {
-  .logo-section {
+  .logo-section{
     margin-left: 0.6rem;
     font-size: 10px;
-
-    h1 {
+    
+    h1{
       display: none;
     }
   }
-
+  
   .logo-image {
     height: 1.8rem;
   }
-
-  .mobile-menu-toggle {
+  
+  .mobile-menu-toggle{
     display: block;
     color: var(--text-primary);
     margin-left: 0.6rem;
-
+    
     svg {
       font-size: 2rem;
     }
   }
 }
+ 
 </style>
