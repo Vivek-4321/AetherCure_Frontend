@@ -86,40 +86,14 @@ function toggleNotifications() {
   margin-left: 1.2rem;
 }
 
-.logo-section {
-  display: flex;
-  align-items: center;
-  font-size: 0.75rem;
-  margin-left: 1.2rem;
-}
-
 .logo-image {
   height: 2.5rem; /* Slightly increased height */
   width: auto; /* Let width scale automatically based on height */
-  max-width: 10rem; /* Set a maximum width to prevent logo from being too large */
-  margin-right: 0.5rem;
+  
   object-fit: contain; /* Ensures the entire logo is visible */
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
 }
 
 /* Make sure the mobile view adjustments are appropriate too */
-@media (max-width: 768px) {
-  .logo-section {
-    margin-left: 0.6rem;
-    font-size: 10px;
-
-    h1 {
-      display: none;
-    }
-  }
-
-  .logo-image {
-    height: 2rem; /* Slightly smaller for mobile */
-    max-width: 7rem;
-  }
-}
-
 .header-actions {
   display: flex;
   align-items: center;
