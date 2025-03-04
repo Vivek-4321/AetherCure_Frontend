@@ -146,10 +146,6 @@ const handleLogin = async () => {
           <span v-if="!isLoading">Log In</span>
           <span v-else class="spinner"></span>
         </button>
-        <!-- <button type="button" class="google-btn" :disabled="isLoading">
-          <span class="google-icon"></span>
-          Log in with Google
-        </button> -->
         <p class="toggle-form">
           Don't have an account?
           <a href="#" @click.prevent="goToSignup">Sign Up</a>
@@ -162,6 +158,12 @@ const handleLogin = async () => {
 <style>
 body {
   background-color: var(--main-bg);
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .auth-container {
@@ -169,13 +171,15 @@ body {
   background-color: var(--secondary-bg);
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  width: 900px;
-  height: 600px;
+  width: 90%;
+  max-width: 900px;
+  height: auto;
+  min-height: 600px;
   overflow: hidden;
   transition: all 0.3s ease;
   align-items: center;
   justify-content: center;
-  margin: 6% auto;
+  margin: 20px auto;
 }
 
 .auth-container:hover {
@@ -195,7 +199,6 @@ body {
   animation: fadeIn 0.5s ease-out;
   margin: 0.8rem;
   border-radius: 0.5rem;
-  width: 45%;
   height: 95%;
 }
 
@@ -298,6 +301,7 @@ form {
   gap: 20px;
   transition: all 0.5s ease;
   text-align: left;
+  width: 100%;
 }
 
 h2 {
@@ -389,42 +393,6 @@ input:focus {
   cursor: not-allowed;
 }
 
-.google-btn {
-  background-color: var(--secondary-bg);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  padding: 12px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.google-btn:hover {
-  background-color: var(--main-bg);
-  transform: translateY(-2px);
-}
-
-.google-btn:active {
-  transform: translateY(0);
-}
-.google-icon {
-  width: 18px;
-  height: 18px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23FFC107' d='M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z'/%3E%3Cpath fill='%23FF3D00' d='M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z'/%3E%3Cpath fill='%234CAF50' d='M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z'/%3E%3Cpath fill='%231976D2' d='M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z'/%3E%3C/svg%3E");
-  background-size: cover;
-  display: inline-block;
-}
-
-.google-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
 .toggle-form {
   text-align: center;
   font-size: 14px;
@@ -488,15 +456,6 @@ input:focus {
   animation-delay: 0.6s;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -549,5 +508,54 @@ input:focus {
   align-items: center;
   justify-content: center;
   min-height: 44px; /* Ensure consistent height */
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .auth-container {
+    flex-direction: column;
+    height: auto;
+    max-height: none;
+    width: 95%;
+    margin: 15px auto;
+    min-height: auto;
+  }
+  
+  .left-panel {
+    display: none; /* Hide the left panel on mobile */
+  }
+  
+  .right-panel {
+    width: 100%;
+    padding: 25px;
+  }
+  
+  form {
+    padding: 15px 0;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  form > p {
+    text-align: center;
+  }
+}
+
+/* Small tablet and large phones */
+@media (min-width: 769px) and (max-width: 991px) {
+  .auth-container {
+    width: 90%;
+    max-width: 700px;
+  }
+  
+  .left-panel {
+    padding: 30px;
+  }
+  
+  .right-panel {
+    padding: 30px;
+  }
 }
 </style>
