@@ -733,7 +733,7 @@ onMounted(() => {
 .dashboard-container {
   padding: 1.5rem;
   margin-left: 0; /* Remove this margin - already handled by parent */
-  margin-top: 0; /* Remove this margin - already handled by parent */
+  margin-top: 30rem; /* Remove this margin - already handled by parent */
   width: 100%; /* Full width */
   max-width: 100%;
   overflow-x: hidden;
