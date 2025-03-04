@@ -732,9 +732,9 @@ onMounted(() => {
 
 .dashboard-container {
   padding: 1.5rem;
-  margin-left: 270px; /* Match sidebar width */
-  margin-top: 73px; /* Match header height */
-  width: calc(100% - 270px); /* Full width minus sidebar */
+  margin-left: 0; /* Remove this margin - already handled by parent */
+  margin-top: 0; /* Remove this margin - already handled by parent */
+  width: 100%; /* Full width */
   max-width: 100%;
   overflow-x: hidden;
 }
@@ -744,7 +744,11 @@ onMounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(to right, var(--accent-color), var(--accent-color-secondary, #9c88ff));
+  background: linear-gradient(
+    to right,
+    var(--accent-color),
+    var(--accent-color-secondary, #9c88ff)
+  );
   border-radius: 1rem;
   padding: 1.5rem 2rem;
   margin-bottom: 1.5rem;
