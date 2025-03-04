@@ -171,13 +171,47 @@
   }
   
   function resetToEnglish() {
-    setLanguageCookies('en')
+    // Clear all Google Translate cookies
+    clearTranslateCookies()
+    
+    // Set to English
     selectedLanguage.value = 'en'
-    location.reload()
+    localStorage.setItem('preferredLanguage', 'en')
+    
+    // Force reload to apply changes
+    window.location.href = window.location.pathname
+  }
+  
+  function clearTranslateCookies() {
+    const domain = document.domain
+    const cookieName = 'googtrans'
+    const pathSuffixes = ['/', '/en', '/en/en', '/en/auto']
+    const domains = [domain, `.${domain}`, '', '.']
+    
+    // Clear cookies with all possible combinations
+    domains.forEach(d => {
+      pathSuffixes.forEach(path => {
+        document.cookie = `${cookieName}=; domain=${d}; path=${path}; expires=Thu, 01 Jan 1970 00:00:00 UTC;`
+      })
+    })
+    
+    // Additional cleanup for Google's other cookies
+    document.cookie = `GOOGTRANS=; domain=${domain}; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;`
+    document.cookie = `GOOGTRANS=; domain=.${domain}; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;`
+    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC;`
+    
+    // Also remove localStorage item to be thorough
+    localStorage.removeItem('googtrans')
   }
   
   function setLanguageCookies(lang) {
     const domain = document.domain
+    
+    // First clear any existing translate cookies
+    if (lang === 'en') {
+      clearTranslateCookies()
+      return
+    }
     
     // Set cookies with and without subdomain
     document.cookie = `googtrans=/en/${lang}; domain=${domain}; path=/`
@@ -192,18 +226,20 @@
     
     // Check for existing language cookie
     const match = document.cookie.match(/googtrans=\/en\/([^;]+)/)
-    if (match) {
+    if (match && match[1] !== 'en') {
       selectedLanguage.value = match[1]
     } else {
       // Check localStorage for previously selected language
       const savedLang = localStorage.getItem('preferredLanguage')
-      if (savedLang) {
+      if (savedLang && savedLang !== 'en') {
         selectedLanguage.value = savedLang
         // Apply the saved language
         setLanguageCookies(savedLang)
       } else {
         // Default to English
         selectedLanguage.value = 'en'
+        // Make sure we start with clean cookies for English
+        clearTranslateCookies()
       }
     }
   })
