@@ -100,7 +100,7 @@
   
   .main-content {
     flex-grow: 1;
-    margin-left: 17.5rem;
+    margin-left: 10.5rem;
   }
 
   .app-layout {
