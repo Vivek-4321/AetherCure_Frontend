@@ -34,15 +34,17 @@
   width: 270px;
   height: calc(100vh - 73px);
   position: fixed;
-  top: 73px;
+  top: 73px; /* Match the header height + any border */
+  left: 0; /* Ensure sidebar is completely left-aligned */
   border-right: 1px solid var(--border-color);
   transition: transform 0.3s ease;
+  z-index: 40; /* Lower than header but higher than content */
 }
 
 @media (max-width: 768px) {
   .app-sidebar {
     transform: translateX(-100%);
-    z-index: 4000;
+    z-index: 40;
   }
   
   .app-sidebar.mobile-open {
@@ -57,6 +59,7 @@
   height: 100%;
   width: 100%;
   padding: 1rem;
+  overflow-y: auto; /* Allow scrolling if menu items overflow */
 }
 
 .nav-sections {

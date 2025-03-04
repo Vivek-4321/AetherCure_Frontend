@@ -3,8 +3,8 @@
     <!-- Welcome Banner -->
     <div class="welcome-banner">
       <div class="user-welcome">
-        <h1>Welcome back, {{ userData?.userName || 'User' }}</h1>
-        <p>Last login: {{ formatDate(userData?.lastLoginDate) || 'Today' }}</p>
+        <h1>Welcome back, {{ userData?.userName || "User" }}</h1>
+        <p>Last login: {{ formatDate(userData?.lastLoginDate) || "Today" }}</p>
       </div>
       <div class="system-stats">
         <div class="stat-item">
@@ -41,7 +41,7 @@
             <p>{{ fileStats.recent }} added recently</p>
           </div>
         </div>
-        
+
         <div class="metric-card">
           <div class="metric-icon">
             <Icon icon="hugeicons:share-03" />
@@ -52,26 +52,30 @@
             <p>Available to others</p>
           </div>
         </div>
-        
+
         <div class="metric-card">
           <div class="metric-icon">
             <Icon icon="tdesign:object-storage" />
           </div>
           <div class="metric-content">
             <h3>Storage Usage</h3>
-            <div class="metric-value">{{ formatFileSize(storageSummary.used) }}</div>
+            <div class="metric-value">
+              {{ formatFileSize(storageSummary.used) }}
+            </div>
             <p>of {{ formatFileSize(storageSummary.total) }}</p>
           </div>
         </div>
-        
+
         <div class="metric-card">
           <div class="metric-icon">
             <Icon icon="stash:last-updates" />
           </div>
           <div class="metric-content">
             <h3>Last Upload</h3>
-            <div class="metric-value last-upload">{{ getLastUploadTime() }}</div>
-            <p>{{ recentFiles[0]?.fileName || 'No files yet' }}</p>
+            <div class="metric-value last-upload">
+              {{ getLastUploadTime() }}
+            </div>
+            <p>{{ recentFiles[0]?.fileName || "No files yet" }}</p>
           </div>
         </div>
       </div>
@@ -99,19 +103,45 @@
               </router-link>
             </div>
             <div v-else class="files-list">
-              <div v-for="(file, index) in recentFiles" :key="index" class="file-item">
+              <div
+                v-for="(file, index) in recentFiles"
+                :key="index"
+                class="file-item"
+              >
                 <div class="file-icon">
                   <Icon :icon="getFileIcon(file.fileType)" />
                 </div>
                 <div class="file-details">
-                  <h4>{{ file.fileName || file.filename || file.name || 'Unnamed File' }}</h4>
-                  <p>Uploaded {{ formatDate(file.createdAt || file.createdat || file.timestamp) }}</p>
+                  <h4>
+                    {{
+                      file.fileName ||
+                      file.filename ||
+                      file.name ||
+                      "Unnamed File"
+                    }}
+                  </h4>
+                  <p>
+                    Uploaded
+                    {{
+                      formatDate(
+                        file.createdAt || file.createdat || file.timestamp
+                      )
+                    }}
+                  </p>
                 </div>
                 <div class="file-actions">
-                  <button @click="viewFile(file)" class="icon-button" title="View">
+                  <button
+                    @click="viewFile(file)"
+                    class="icon-button"
+                    title="View"
+                  >
                     <Icon icon="carbon:view" />
                   </button>
-                  <button @click="downloadFile(file)" class="icon-button" title="Download">
+                  <button
+                    @click="downloadFile(file)"
+                    class="icon-button"
+                    title="Download"
+                  >
                     <Icon icon="hugeicons:download-02" />
                   </button>
                 </div>
@@ -138,29 +168,55 @@
             <div v-else>
               <div class="storage-progress">
                 <div class="progress-info">
-                  <span>{{ formatFileSize(storageSummary.used) }} used of {{ formatFileSize(storageSummary.total) }}</span>
-                  <span>{{ Math.round((storageSummary.used / storageSummary.total) * 100) }}%</span>
+                  <span
+                    >{{ formatFileSize(storageSummary.used) }} used of
+                    {{ formatFileSize(storageSummary.total) }}</span
+                  >
+                  <span
+                    >{{
+                      Math.round(
+                        (storageSummary.used / storageSummary.total) * 100
+                      )
+                    }}%</span
+                  >
                 </div>
                 <div class="progress-bar">
-                  <div class="progress-fill" :style="{ width: `${(storageSummary.used / storageSummary.total) * 100}%` }"></div>
+                  <div
+                    class="progress-fill"
+                    :style="{
+                      width: `${
+                        (storageSummary.used / storageSummary.total) * 100
+                      }%`,
+                    }"
+                  ></div>
                 </div>
               </div>
-              
+
               <h4 class="section-title">File Type Breakdown</h4>
               <div class="file-type-breakdown">
-                <div v-for="(type, index) in fileTypeBreakdown" :key="index" class="file-type-item">
+                <div
+                  v-for="(type, index) in fileTypeBreakdown"
+                  :key="index"
+                  class="file-type-item"
+                >
                   <div class="type-icon" :class="type.id">
                     <Icon :icon="getFileTypeIcon(type.id)" />
                   </div>
                   <div class="type-bar">
                     <div class="type-info">
                       <span class="type-name">{{ type.name }}</span>
-                      <span class="type-size">{{ formatFileSize(type.size) }}</span>
+                      <span class="type-size">{{
+                        formatFileSize(type.size)
+                      }}</span>
                     </div>
                     <div class="type-progress-bar">
-                      <div class="type-progress-fill" 
-                           :class="type.id"
-                           :style="{ width: `${(type.size / storageSummary.used) * 100}%` }"></div>
+                      <div
+                        class="type-progress-fill"
+                        :class="type.id"
+                        :style="{
+                          width: `${(type.size / storageSummary.used) * 100}%`,
+                        }"
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -197,14 +253,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch, onUnmounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { Icon } from '@iconify/vue';
-import { toast } from 'vue3-toastify';
-import 'vue3-toastify/dist/index.css';
+import { ref, onMounted, computed, watch, onUnmounted } from "vue";
+import { useRouter } from "vue-router";
+import { Icon } from "@iconify/vue";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
 // Import the fileAPI from your actual file structure
-import { fileAPI } from './fileApi.js';
-import { authAPI } from './api.js'; // Import authAPI for user data
+import { fileAPI } from "./fileApi.js";
+import { authAPI } from "./api.js"; // Import authAPI for user data
 
 // Router for navigation
 const router = useRouter();
@@ -219,105 +275,133 @@ const fileTypeBreakdown = ref([]);
 const sharedLinks = ref([]);
 
 // Store IPFS gateway URL
-const PINATA_GATEWAY_URL = import.meta.env.VITE_PINATA_GATEWAY_URL || "https://gateway.pinata.cloud";
+const PINATA_GATEWAY_URL =
+  import.meta.env.VITE_PINATA_GATEWAY_URL || "https://gateway.pinata.cloud";
 
 // Format numbers with commas
 const formatNumber = (num) => {
-  if (!num) return '0';
+  if (!num) return "0";
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 // Format date to readable string
 const formatDate = (dateString) => {
-  if (!dateString) return 'Today';
+  if (!dateString) return "Today";
   const date = new Date(dateString);
-  
+
   // Check if it's today
   const today = new Date();
   if (date.toDateString() === today.toDateString()) {
-    return `Today, ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    return `Today, ${date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}`;
   }
-  
+
   // Check if it's yesterday
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   if (date.toDateString() === yesterday.toDateString()) {
-    return `Yesterday, ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    return `Yesterday, ${date.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}`;
   }
-  
+
   // Otherwise return formatted date
-  return date.toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'short', 
-    day: 'numeric'
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   });
 };
 
 // Get file icon based on file type
 const getFileIcon = (fileType) => {
-  if (!fileType) return 'hugeicons:document-1';
-  
+  if (!fileType) return "hugeicons:document-1";
+
   const type = fileType.toLowerCase();
-  if (type.includes('pdf')) return 'hugeicons:file-pdf-01';
-  if (type.includes('image') || type.includes('jpg') || type.includes('png')) return 'hugeicons:image-01';
-  if (type.includes('doc') || type.includes('word')) return 'hugeicons:file-text-02';
-  if (type.includes('xls') || type.includes('sheet')) return 'hugeicons:file-spreadsheet-01';
-  if (type.includes('ppt') || type.includes('presentation')) return 'hugeicons:file-presentation-01';
-  
-  return 'hugeicons:document-1';
+  if (type.includes("pdf")) return "hugeicons:file-pdf-01";
+  if (type.includes("image") || type.includes("jpg") || type.includes("png"))
+    return "hugeicons:image-01";
+  if (type.includes("doc") || type.includes("word"))
+    return "hugeicons:file-text-02";
+  if (type.includes("xls") || type.includes("sheet"))
+    return "hugeicons:file-spreadsheet-01";
+  if (type.includes("ppt") || type.includes("presentation"))
+    return "hugeicons:file-presentation-01";
+
+  return "hugeicons:document-1";
 };
 
 // Format file size to human readable format
 const formatFileSize = (bytes) => {
-  if (!bytes || bytes === 0) return '0 B';
-  
-  const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+  if (!bytes || bytes === 0) return "0 B";
+
+  const sizes = ["B", "KB", "MB", "GB", "TB"];
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
   return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(2))} ${sizes[i]}`;
 };
 
 // Get last upload time in a readable format
 const getLastUploadTime = () => {
-  if (!recentFiles.value.length) return 'N/A';
-  
+  if (!recentFiles.value.length) return "N/A";
+
   const lastFile = recentFiles.value[0];
-  const uploadDate = new Date(lastFile.createdAt || lastFile.createdat || lastFile.timestamp);
+  const uploadDate = new Date(
+    lastFile.createdAt || lastFile.createdat || lastFile.timestamp
+  );
   const now = new Date();
-  
+
   // If today
   if (uploadDate.toDateString() === now.toDateString()) {
-    return `Today, ${uploadDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    return `Today, ${uploadDate.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    })}`;
   }
-  
+
   // If yesterday
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   if (uploadDate.toDateString() === yesterday.toDateString()) {
-    return 'Yesterday';
+    return "Yesterday";
   }
-  
+
   // If within last 7 days
   const sevenDaysAgo = new Date();
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
   if (uploadDate > sevenDaysAgo) {
-    return uploadDate.toLocaleDateString('en-US', { weekday: 'long' });
+    return uploadDate.toLocaleDateString("en-US", { weekday: "long" });
   }
-  
-  return uploadDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+  return uploadDate.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
 };
 
 // Get icon for file type
 const getFileTypeIcon = (type) => {
   switch (type) {
-    case 'pdf': return 'hugeicons:file-pdf-01';
-    case 'image': return 'hugeicons:image-01';
-    case 'doc': return 'hugeicons:file-text-02';
-    case 'spreadsheet': return 'hugeicons:file-spreadsheet-01';
-    case 'presentation': return 'hugeicons:file-presentation-01';
-    case 'archive': return 'hugeicons:file-zip-01';
-    case 'video': return 'hugeicons:video-01';
-    case 'audio': return 'hugeicons:music-note-01';
-    default: return 'hugeicons:document-1';
+    case "pdf":
+      return "hugeicons:file-pdf-01";
+    case "image":
+      return "hugeicons:image-01";
+    case "doc":
+      return "hugeicons:file-text-02";
+    case "spreadsheet":
+      return "hugeicons:file-spreadsheet-01";
+    case "presentation":
+      return "hugeicons:file-presentation-01";
+    case "archive":
+      return "hugeicons:file-zip-01";
+    case "video":
+      return "hugeicons:video-01";
+    case "audio":
+      return "hugeicons:music-note-01";
+    default:
+      return "hugeicons:document-1";
   }
 };
 
@@ -325,28 +409,28 @@ const getFileTypeIcon = (type) => {
 const fetchUserData = async () => {
   try {
     // Check if user is authenticated
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem("authToken");
     if (!token) {
       toast.error("Please log in to view your dashboard", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 3000,
         theme: "colored",
       });
-      router.push('/login');
+      router.push("/login");
       return;
     }
 
     try {
       // Use authAPI to get user data
       const data = await authAPI.getUserData();
-      
+
       if (data) {
         // Handle case sensitivity in property names
         userData.value = {
           userId: data.userId || data.userid || data.userID,
-          userName: data.userName || data.username || data.name || 'User',
+          userName: data.userName || data.username || data.name || "User",
           email: data.email || data.Email,
-          lastLoginDate: new Date() // Since lastLoginDate is not stored in your backend
+          lastLoginDate: new Date(), // Since lastLoginDate is not stored in your backend
         };
         console.log("User data loaded:", userData.value);
         return;
@@ -354,31 +438,31 @@ const fetchUserData = async () => {
     } catch (apiError) {
       console.warn("Could not fetch user data:", apiError.message);
     }
-      
+
     // Fallback to localStorage if API call fails
-    const userName = localStorage.getItem('userName');
-    
+    const userName = localStorage.getItem("userName");
+
     if (userName) {
       userData.value = {
         userName: userName,
-        email: localStorage.getItem('userEmail') || '',
-        lastLoginDate: new Date()
+        email: localStorage.getItem("userEmail") || "",
+        lastLoginDate: new Date(),
       };
       return;
     }
-    
+
     // Final fallback
     userData.value = {
-      userName: 'AetherCure User',
-      lastLoginDate: new Date()
+      userName: "AetherCure User",
+      lastLoginDate: new Date(),
     };
   } catch (error) {
-    console.error('Error in user data handling:', error);
-    
+    console.error("Error in user data handling:", error);
+
     // Final fallback if everything fails
     userData.value = {
-      userName: 'User',
-      lastLoginDate: new Date()
+      userName: "User",
+      lastLoginDate: new Date(),
     };
   }
 };
@@ -388,47 +472,50 @@ const fetchUserFiles = async () => {
   try {
     // Use the fileAPI service to get user files
     const files = await fileAPI.getUserFiles();
-    
+
     if (Array.isArray(files)) {
       // Normalize file objects for consistent property names
-      const normalizedFiles = files.map(file => ({
+      const normalizedFiles = files.map((file) => ({
         ...file,
         fileId: file.fileId || file.fileid || file.id,
-        fileName: file.fileName || file.filename || file.name || 'Unnamed File',
-        fileType: file.fileType || file.filetype || 'application/octet-stream',
+        fileName: file.fileName || file.filename || file.name || "Unnamed File",
+        fileType: file.fileType || file.filetype || "application/octet-stream",
         fileSize: file.fileSize || file.filesize || 0,
-        createdAt: file.createdAt || file.createdat || file.timestamp || new Date(),
-        url: file.url || '',
-        ipfsHash: file.ipfsHash || file.ipfshash || file.ipfs_pin_hash || ''
+        createdAt:
+          file.createdAt || file.createdat || file.timestamp || new Date(),
+        url: file.url || "",
+        ipfsHash: file.ipfsHash || file.ipfshash || file.ipfs_pin_hash || "",
       }));
-      
+
       // Sort by created date (newest first)
       const sortedFiles = [...normalizedFiles].sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });
-      
+
       // Take first 3 for recent files
       recentFiles.value = sortedFiles.slice(0, 3);
-      
+
       // Calculate file statistics
       const now = new Date();
       const weekAgo = new Date();
       weekAgo.setDate(weekAgo.getDate() - 7);
-      
+
       fileStats.value = {
         total: normalizedFiles.length,
-        recent: normalizedFiles.filter(file => new Date(file.createdAt) > weekAgo).length,
-        shared: 0 // Will update this with shared links count
+        recent: normalizedFiles.filter(
+          (file) => new Date(file.createdAt) > weekAgo
+        ).length,
+        shared: 0, // Will update this with shared links count
       };
-      
+
       // Calculate storage usage and breakdown
       calculateStorageStats(normalizedFiles);
     } else {
-      console.error('Unexpected response format for files:', files);
+      console.error("Unexpected response format for files:", files);
       recentFiles.value = [];
     }
   } catch (error) {
-    console.error('Error fetching user files:', error);
+    console.error("Error fetching user files:", error);
     toast.error(`Failed to load your files: ${error.message}`, {
       position: toast.POSITION.TOP_RIGHT,
       autoClose: 3000,
@@ -443,21 +530,21 @@ const fetchSharedLinks = async () => {
   try {
     // Use the fileAPI service to get shared links
     const links = await fileAPI.getSharedLinks();
-    
+
     if (Array.isArray(links)) {
       sharedLinks.value = links;
-      
+
       // Update shared files count with the actual number of shared links
       fileStats.value.shared = links.length;
-      
+
       console.log(`Updated shared files count: ${links.length}`);
     } else {
-      console.error('Unexpected response format for shared links:', links);
+      console.error("Unexpected response format for shared links:", links);
       sharedLinks.value = [];
       fileStats.value.shared = 0;
     }
   } catch (error) {
-    console.error('Error fetching shared links:', error);
+    console.error("Error fetching shared links:", error);
     sharedLinks.value = [];
     fileStats.value.shared = 0;
   }
@@ -466,57 +553,84 @@ const fetchSharedLinks = async () => {
 // Calculate storage usage and file type breakdown
 const calculateStorageStats = (files) => {
   if (!files || !files.length) return;
-  
+
   // Calculate total used storage
-  const totalSize = files.reduce((total, file) => total + (file.fileSize || 0), 0);
+  const totalSize = files.reduce(
+    (total, file) => total + (file.fileSize || 0),
+    0
+  );
   storageSummary.value.used = totalSize;
-  
+
   // Calculate breakdowns by file type
   const typeMap = new Map();
-  
-  files.forEach(file => {
+
+  files.forEach((file) => {
     const type = getFileTypeCategory(file.fileType);
-    
+
     if (!typeMap.has(type.id)) {
       typeMap.set(type.id, {
         id: type.id,
         name: type.name,
         size: 0,
-        count: 0
+        count: 0,
       });
     }
-    
+
     const typeData = typeMap.get(type.id);
-    typeData.size += (file.fileSize || 0);
+    typeData.size += file.fileSize || 0;
     typeData.count += 1;
   });
-  
+
   // Convert map to array and sort by size (largest first)
-  fileTypeBreakdown.value = Array.from(typeMap.values())
-    .sort((a, b) => b.size - a.size);
+  fileTypeBreakdown.value = Array.from(typeMap.values()).sort(
+    (a, b) => b.size - a.size
+  );
 };
 
 // Get standardized file type category from MIME type
 const getFileTypeCategory = (mimeType) => {
-  if (!mimeType) return { id: 'other', name: 'Other' };
-  
+  if (!mimeType) return { id: "other", name: "Other" };
+
   const type = mimeType.toLowerCase();
-  
-  if (type.includes('pdf')) return { id: 'pdf', name: 'PDF Documents' };
-  if (type.includes('image') || type.includes('jpg') || type.includes('png') || type.includes('gif')) 
-    return { id: 'image', name: 'Images' };
-  if (type.includes('word') || type.includes('doc') || type.includes('text/plain') || type.includes('rtf')) 
-    return { id: 'doc', name: 'Documents' };
-  if (type.includes('excel') || type.includes('spreadsheet') || type.includes('csv')) 
-    return { id: 'spreadsheet', name: 'Spreadsheets' };
-  if (type.includes('presentation') || type.includes('powerpoint') || type.includes('ppt')) 
-    return { id: 'presentation', name: 'Presentations' };
-  if (type.includes('zip') || type.includes('rar') || type.includes('tar') || type.includes('gzip')) 
-    return { id: 'archive', name: 'Archives' };
-  if (type.includes('video')) return { id: 'video', name: 'Videos' };
-  if (type.includes('audio')) return { id: 'audio', name: 'Audio' };
-  
-  return { id: 'other', name: 'Other Files' };
+
+  if (type.includes("pdf")) return { id: "pdf", name: "PDF Documents" };
+  if (
+    type.includes("image") ||
+    type.includes("jpg") ||
+    type.includes("png") ||
+    type.includes("gif")
+  )
+    return { id: "image", name: "Images" };
+  if (
+    type.includes("word") ||
+    type.includes("doc") ||
+    type.includes("text/plain") ||
+    type.includes("rtf")
+  )
+    return { id: "doc", name: "Documents" };
+  if (
+    type.includes("excel") ||
+    type.includes("spreadsheet") ||
+    type.includes("csv")
+  )
+    return { id: "spreadsheet", name: "Spreadsheets" };
+  if (
+    type.includes("presentation") ||
+    type.includes("powerpoint") ||
+    type.includes("ppt")
+  )
+    return { id: "presentation", name: "Presentations" };
+  if (
+    type.includes("zip") ||
+    type.includes("rar") ||
+    type.includes("tar") ||
+    type.includes("gzip")
+  )
+    return { id: "archive", name: "Archives" };
+  if (type.includes("video")) return { id: "video", name: "Videos" };
+  if (type.includes("audio")) return { id: "audio", name: "Audio" };
+
+  return { id: "other", name: "Other Files" };
 };
 
 // View file
@@ -531,7 +645,7 @@ const viewFile = (file) => {
 
     // Redirect to file viewer
     router.push({
-      name: 'FileViewer',
+      name: "FileViewer",
       params: {
         ipfsHash: ipfsHash,
         fileType: file.fileType || file.filetype || "",
@@ -590,20 +704,16 @@ const downloadFile = async (file) => {
 // Load all data for dashboard
 const loadDashboardData = async () => {
   isLoading.value = true;
-  
+
   try {
-    await Promise.all([
-      fetchUserData(),
-      fetchUserFiles(),
-      fetchSharedLinks()
-    ]);
-    
+    await Promise.all([fetchUserData(), fetchUserFiles(), fetchSharedLinks()]);
+
     isLoading.value = false;
   } catch (error) {
-    console.error('Error loading dashboard data:', error);
+    console.error("Error loading dashboard data:", error);
     isLoading.value = false;
-    
-    toast.error('Failed to load dashboard data. Please refresh the page.', {
+
+    toast.error("Failed to load dashboard data. Please refresh the page.", {
       position: toast.POSITION.TOP_RIGHT,
       autoClose: 5000,
       theme: "colored",
@@ -619,8 +729,12 @@ onMounted(() => {
 
 <style scoped>
 /* Dashboard Layout */
+
 .dashboard-container {
   padding: 1.5rem;
+  margin-left: 270px; /* Match sidebar width */
+  margin-top: 73px; /* Match header height */
+  width: calc(100% - 270px); /* Full width minus sidebar */
   max-width: 100%;
   overflow-x: hidden;
 }
@@ -636,6 +750,7 @@ onMounted(() => {
   margin-bottom: 1.5rem;
   color: white;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Ensure full width of container */
 }
 
 .user-welcome h1 {
@@ -816,6 +931,13 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    margin-left: 0;
+    width: 100%;
+  }
 }
 
 .file-type-item {
@@ -1151,8 +1273,12 @@ onMounted(() => {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive Design */
@@ -1162,19 +1288,19 @@ onMounted(() => {
     align-items: flex-start;
     gap: 1.5rem;
   }
-  
+
   .metrics-grid {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .dashboard-card.recent-files {
     grid-column: span 1;
   }
-  
+
   .actions-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1184,7 +1310,7 @@ onMounted(() => {
   .metrics-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .actions-grid {
     grid-template-columns: 1fr;
   }

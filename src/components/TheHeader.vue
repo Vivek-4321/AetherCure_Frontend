@@ -5,17 +5,17 @@
       <div class="logo-section">
         <img src="/icon.png" alt="Aether Cure Logo" class="logo-image" />
       </div>
-
+      
       <div class="header-actions">
         <TranslateWidget />
-
+        
         <button @click="toggleTheme" class="theme-toggle">
           <Icon
             :icon="theme === 'dark' ? 'hugeicons:moon-02' : 'hugeicons:sun-02'"
             :style="{ fontSize: '25px', color: 'var(--text-secondary)' }"
           />
         </button>
-
+        
         <button @click="$emit('toggle-mobile-menu')" class="mobile-menu-toggle">
           <Icon :icon="mobileMenuOpen ? 'mdi:close' : 'mdi:menu'" />
         </button>
@@ -66,10 +66,12 @@ function toggleNotifications() {
 .app-header {
   background-color: var(--secondary-bg);
   position: fixed;
-  width: 100%;
+  width: 100%; /* Changed from 10vw to 100% */
   top: 0;
+  left: 0; /* Added to ensure header starts from the left edge */
   z-index: 50;
   height: 4.1rem;
+  border-bottom: 1px solid var(--border-color); /* Added for visual separation */
 }
 
 .header-content {
@@ -77,6 +79,8 @@ function toggleNotifications() {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  max-width: 100%; /* Ensure content doesn't overflow */
+  margin: 0 auto; /* Center the content horizontally */
 }
 
 .logo-section {
@@ -87,13 +91,11 @@ function toggleNotifications() {
 }
 
 .logo-image {
-  height: 2.5rem; /* Slightly increased height */
-  width: auto; /* Let width scale automatically based on height */
-  
-  object-fit: contain; /* Ensures the entire logo is visible */
+  height: 2.5rem;
+  width: auto;
+  object-fit: contain;
 }
 
-/* Make sure the mobile view adjustments are appropriate too */
 .header-actions {
   display: flex;
   align-items: center;
@@ -102,7 +104,7 @@ function toggleNotifications() {
 .notifications {
   position: relative;
   margin-right: 1rem;
-
+  
   svg {
     color: var(--text-secondary);
   }
@@ -112,7 +114,7 @@ function toggleNotifications() {
   background: none;
   border: none;
   cursor: pointer;
-
+  
   svg {
     font-size: 24px;
   }
@@ -173,7 +175,7 @@ function toggleNotifications() {
   color: var(--text-primary);
   transition: all 0.3s ease-in-out;
   cursor: pointer;
-
+  
   svg {
     font-size: 1.5rem;
   }
@@ -183,21 +185,21 @@ function toggleNotifications() {
   .logo-section {
     margin-left: 0.6rem;
     font-size: 10px;
-
+    
     h1 {
       display: none;
     }
   }
-
+  
   .logo-image {
     height: 1.8rem;
   }
-
+  
   .mobile-menu-toggle {
     display: block;
     color: var(--text-primary);
     margin-left: 0.6rem;
-
+    
     svg {
       font-size: 2rem;
     }

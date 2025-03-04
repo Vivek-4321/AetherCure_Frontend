@@ -102,6 +102,26 @@
     flex-grow: 1;
     margin-left: 17.5rem;
   }
+
+  .app-layout {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+}
+
+.app-content {
+  flex: 1;
+  min-height: 100vh;
+  padding-top: 73px; /* Match header height */
+}
+
+.auth-layout {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
   
   @media (max-width:768px) {
   
