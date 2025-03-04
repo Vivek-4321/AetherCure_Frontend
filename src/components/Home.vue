@@ -94,9 +94,8 @@ function changeTab(tab) {
 }
 
 .main-content {
-  flex-grow: 1;
  
-  margin-left: 0px; /* Match sidebar width */
+  margin-left: -10rem; /* Match sidebar width */
   width: calc(100% - 270px);
 }
 
