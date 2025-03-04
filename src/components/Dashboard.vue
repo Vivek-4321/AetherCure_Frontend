@@ -66,7 +66,7 @@
         
         <div class="metric-card">
           <div class="metric-icon">
-            <Icon icon="hugeicons:clock-refresh" />
+            <Icon icon="stash:last-updates" />
           </div>
           <div class="metric-content">
             <h3>Last Upload</h3>
@@ -109,7 +109,7 @@
                 </div>
                 <div class="file-actions">
                   <button @click="viewFile(file)" class="icon-button" title="View">
-                    <Icon icon="hugeicons:eye-01" />
+                    <Icon icon="carbon:view" />
                   </button>
                   <button @click="downloadFile(file)" class="icon-button" title="Download">
                     <Icon icon="hugeicons:download-02" />
@@ -181,11 +181,11 @@
                 <span>Upload File</span>
               </router-link>
               <router-link to="/storage" class="action-button">
-                <Icon icon="hugeicons:share-06" />
+                <Icon icon="mynaui:share" />
                 <span>Share Records</span>
               </router-link>
               <router-link to="/chat" class="action-button">
-                <Icon icon="hugeicons:chat-bubble-check" />
+                <Icon icon="fluent:chat-24-regular" />
                 <span>Chat with AI</span>
               </router-link>
             </div>
@@ -447,15 +447,19 @@ const fetchSharedLinks = async () => {
     if (Array.isArray(links)) {
       sharedLinks.value = links;
       
-      // Update shared files count
+      // Update shared files count with the actual number of shared links
       fileStats.value.shared = links.length;
+      
+      console.log(`Updated shared files count: ${links.length}`);
     } else {
       console.error('Unexpected response format for shared links:', links);
       sharedLinks.value = [];
+      fileStats.value.shared = 0;
     }
   } catch (error) {
     console.error('Error fetching shared links:', error);
     sharedLinks.value = [];
+    fileStats.value.shared = 0;
   }
 };
 

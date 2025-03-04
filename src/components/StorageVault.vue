@@ -99,7 +99,7 @@
             <!-- Action buttons remain the same -->
             <button @click="viewFile(file)" class="icon-btn" title="View file">
               <Icon
-                icon="hugeicons:eye-01"
+                icon="carbon:view"
                 class="icon-sec"
                 :style="{ fontSize: '1.5rem', color: 'var(--accent-color)' }"
               />
@@ -1193,6 +1193,7 @@ onMounted(() => {
   font-size: var(--font-size-base);
   font-family: "Poppins", sans-serif;
   color: var(--text-secondary);
+  margin-right: 1rem;
 }
 
 .third-ptag-first p {
