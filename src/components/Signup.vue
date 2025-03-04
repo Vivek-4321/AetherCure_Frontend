@@ -176,10 +176,10 @@ const goToLogin = () => {
           <span v-if="!isLoading">Sign Up</span>
           <span v-else class="spinner"></span>
         </button>
-        <button type="button" class="google-btn" :disabled="isLoading">
+        <!-- <button type="button" class="google-btn" :disabled="isLoading">
           <span class="google-icon"></span>
           Sign up with Google
-        </button>
+        </button> -->
         <p class="toggle-form">
           Already have an account?
           <a href="#" @click.prevent="goToLogin">Log In</a>

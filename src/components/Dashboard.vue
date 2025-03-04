@@ -180,25 +180,13 @@
                 <Icon icon="hugeicons:upload-03" />
                 <span>Upload File</span>
               </router-link>
-              <router-link to="/data-collection" class="action-button">
-                <Icon icon="hugeicons:clipboard-text" />
-                <span>Log Symptoms</span>
-              </router-link>
               <router-link to="/storage" class="action-button">
                 <Icon icon="hugeicons:share-06" />
                 <span>Share Records</span>
               </router-link>
-              <router-link to="/find-doctor" class="action-button">
-                <Icon icon="hugeicons:map-pin-user" />
-                <span>Find Doctor</span>
-              </router-link>
               <router-link to="/chat" class="action-button">
                 <Icon icon="hugeicons:chat-bubble-check" />
                 <span>Chat with AI</span>
-              </router-link>
-              <router-link to="/appointments" class="action-button">
-                <Icon icon="hugeicons:calendar-plus-01" />
-                <span>Schedule</span>
               </router-link>
             </div>
           </div>

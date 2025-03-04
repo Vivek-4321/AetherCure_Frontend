@@ -146,10 +146,10 @@ const handleLogin = async () => {
           <span v-if="!isLoading">Log In</span>
           <span v-else class="spinner"></span>
         </button>
-        <button type="button" class="google-btn" :disabled="isLoading">
+        <!-- <button type="button" class="google-btn" :disabled="isLoading">
           <span class="google-icon"></span>
           Log in with Google
-        </button>
+        </button> -->
         <p class="toggle-form">
           Don't have an account?
           <a href="#" @click.prevent="goToSignup">Sign Up</a>
