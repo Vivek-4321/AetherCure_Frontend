@@ -127,7 +127,7 @@ onMounted(async () => {
     
     // In a real app, these would be accessed from the environment
     mainApiBaseUrl.value ='https://high-goose-81-cq6sshk8s5dq.deno.dev';
-    blockchainApiBaseUrl.value = import.meta.env.VITE_BLOCKCHAIN_API_URL || 'http://localhost:3000'
+    blockchainApiBaseUrl.value =  '/api/proxy';
     
     // Fetch user data
     await fetchUserData()
