@@ -1,58 +1,26 @@
 <template>
   <div class="first-div slide-in-from-top">
     <div class="first-inner-first slide-in-from-left">
-      <h1>Disease Prediction Tool</h1>
+      <h1>Symptom Checker</h1>
       <div class="first-inner-upper">
         <p>Select your symptoms</p>
         <div class="first-inner-input">
-          <!-- Symptom input with dropdown -->
-          <div class="input-dropdown-container">
-            <input
-              v-model="symptomInput"
-              type="text"
-              class="input-bar"
-              placeholder="Type or select symptoms"
-              @focus="showDropdown = true"
-              @blur="handleBlur"
-              @input="filterSymptoms"
-              :disabled="loading"
-            />
-            <div v-if="showDropdown" class="dropdown-menu">
-              <div 
-                v-for="symptom in filteredSymptoms" 
-                :key="symptom.id" 
-                class="dropdown-item"
-                @mousedown="addSymptomFromDropdown(symptom)"
-              >
-                {{ symptom.name }}
-              </div>
-              <div v-if="filteredSymptoms.length === 0" class="dropdown-item disabled">
-                No symptoms found
-              </div>
-            </div>
-          </div>
+          <input
+            v-model="symptoms"
+            type="text"
+            class="input-bar"
+            placeholder="Enter symptoms (e.g., fever and cough)"
+            :disabled="loading"
+          />
         </div>
-        
-        <!-- Selected symptoms chips/tags -->
-        <div class="selected-symptoms-container" v-if="selectedSymptoms.length > 0">
-          <span 
-            v-for="(symptom, index) in selectedSymptoms" 
-            :key="index" 
-            class="symptom-tag"
-            @click="removeSymptom(index)"
-          >
-            {{ symptom.name }} ×
-          </span>
-        </div>
-        <p v-else class="no-symptoms">No symptoms selected yet</p>
       </div>
       <div class="first-inner-btn">
         <button
           @click="checkSymptoms"
-          :disabled="loading || selectedSymptoms.length === 0"
+          :disabled="loading || !symptoms"
           :class="{ loading: loading }"
         >
-          <span v-if="!loading">Predict Disease</span>
+          <span v-if="!loading">Check Symptoms</span>
           <span v-else class="loader"></span>
         </button>
       </div>
@@ -66,7 +34,7 @@
           class="health-icon"
           :style="{ fontSize: '4rem', color: 'var(--text-secondary)' }"
         />
-        <p v-if="!loading">Type or select symptoms to get an AI-powered health assessment</p>
+        <p v-if="!loading">Enter your symptoms above to get an AI-powered health assessment</p>
         <p v-else>Analyzing your symptoms...</p>
       </div>
     </div>
@@ -74,7 +42,7 @@
     <!-- Enhanced Results section with staggered animations -->
     <transition name="fade-slide" @enter="startProgress">
       <div v-if="showResults" class="first-inner-second">
-        <h3 class="slide-in-element">Predicted Disease</h3>
+        <h3 class="slide-in-element">Predicted Condition</h3>
         <h2 class="slide-in-element">{{ prediction.predicted_disease }}</h2>
         <p class="slide-in-element">Confidence level</p>
         <div class="percent-first slide-in-element">
@@ -85,24 +53,17 @@
           ></div>
         </div>
         <p class="slide-in-element">{{ Math.round(prediction.confidence * 100) }}%</p>
-        
-        <div v-if="prediction.top_diseases" class="top-diseases slide-in-element">
-          <h4>Top Predictions:</h4>
-          <div class="disease-list">
-            <div v-for="(disease, index) in prediction.top_diseases" :key="index" class="disease-item">
-              {{ disease.disease }}: {{ (disease.probability * 100).toFixed(2) }}%
-              <div class="confidence-bar" :style="{ width: Math.round(disease.probability * 200) + 'px' }"></div>
-            </div>
-          </div>
-        </div>
-        
-        <h4 class="slide-in-element">Symptoms Analyzed:</h4>
-        <ul class="symptoms-list slide-in-element">
-          <li v-for="(symptom, index) in selectedSymptoms" :key="index">
-            {{ symptom.name }}
+        <p class="slide-in-element">Recommendations</p>
+        <ul>
+          <li
+            v-for="(recommendation, index) in recommendations"
+            :key="index"
+            :style="{ animationDelay: `${0.8 + index * 0.2}s` }"
+            class="recommendation-item slide-in-element"
+          >
+            {{ recommendation }}
           </li>
         </ul>
-        
         <div class="note-div slide-in-element">
           <p>
             Note: This is an AI-powered prediction and should not replace
@@ -119,103 +80,12 @@
 import { ref, onMounted } from "vue";
 import { Icon } from "@iconify/vue";
 
-// API URL - change this to your server address
-const API_URL = 'https://ai-model-jiy2.onrender.com';
-
-const symptomInput = ref("");
-const allSymptoms = ref([]);
-const filteredSymptoms = ref([]);
-const selectedSymptoms = ref([]);
+const symptoms = ref("");
 const loading = ref(false);
 const prediction = ref(null);
+const recommendations = ref([]);
 const progressWidth = ref(0);
 const showResults = ref(false);
-const showDropdown = ref(false);
-
-onMounted(async () => {
-  try {
-    await loadSymptoms();
-  } catch (error) {
-    console.error('Failed to initialize the application:', error);
-    alert('Failed to load symptoms. Please check if the API server is running.');
-  }
-});
-
-const loadSymptoms = async () => {
-  try {
-    const response = await fetch(`${API_URL}/symptoms`);
-    if (!response.ok) {
-      throw new Error(`Server responded with ${response.status}`);
-    }
-    
-    allSymptoms.value = await response.json();
-    filteredSymptoms.value = [...allSymptoms.value];
-  } catch (error) {
-    console.error('Error loading symptoms:', error);
-    throw error;
-  }
-};
-
-const filterSymptoms = () => {
-  if (!symptomInput.value.trim()) {
-    filteredSymptoms.value = [...allSymptoms.value];
-    return;
-  }
-  
-  const input = symptomInput.value.toLowerCase();
-  filteredSymptoms.value = allSymptoms.value.filter(symptom => 
-    symptom.name.toLowerCase().includes(input)
-  );
-};
-
-const handleBlur = () => {
-  // Delay hiding dropdown to allow click events to register
-  setTimeout(() => {
-    showDropdown.value = false;
-  }, 200);
-};
-
-const addSymptomFromDropdown = (symptom) => {
-  // Check if already selected
-  if (selectedSymptoms.value.some(s => s.id === symptom.id)) {
-    alert('This symptom is already selected');
-    return;
-  }
-  
-  // Add to selected symptoms
-  selectedSymptoms.value.push(symptom);
-  
-  // Reset input and dropdown
-  symptomInput.value = "";
-  showDropdown.value = false;
-  filteredSymptoms.value = [...allSymptoms.value];
-};
-
-const addManualSymptom = () => {
-  if (!symptomInput.value.trim()) return;
-  
-  // Check if symptom exists in our list
-  const existingSymptom = allSymptoms.value.find(
-    s => s.name.toLowerCase() === symptomInput.value.trim().toLowerCase()
-  );
-  
-  if (existingSymptom) {
-    addSymptomFromDropdown(existingSymptom);
-  } else {
-    // Add as custom symptom
-    const newSymptom = {
-      id: `custom-${Date.now()}`,
-      name: symptomInput.value.trim()
-    };
-    
-    selectedSymptoms.value.push(newSymptom);
-    symptomInput.value = "";
-  }
-};
-
-const removeSymptom = (index) => {
-  selectedSymptoms.value.splice(index, 1);
-};
 
 const startProgress = () => {
   progressWidth.value = 0;
@@ -224,57 +94,129 @@ const startProgress = () => {
   }, 100);
 };
 
+const parseRecommendations = (text) => {
+  // First, join any broken lines that were cut off
+  let cleanedText = text.toString()
+    .replace(/;\s*\n/g, '; ') // Join lines broken by semicolons
+    .replace(/\n(?=[a-z])/g, ' '); // Join lines that break mid-sentence
+    
+  // Split by bullet points or numbers
+  const lines = cleanedText.split(/[•\*\-\d+\.]\s+/)
+    .map(line => line.trim())
+    .filter(line => line.length > 0);
+    
+  // Clean up and format recommendations
+  const cleanedRecs = lines.map(line => {
+    // Remove trailing semicolons
+    line = line.replace(/;$/, '');
+    
+    // Ensure sentence ends with proper punctuation
+    if (!line.endsWith('.') && !line.endsWith('!') && !line.endsWith('?')) {
+      line += '.';
+    }
+    
+    // Capitalize first letter
+    line = line.charAt(0).toUpperCase() + line.slice(1);
+    
+    return line;
+  });
+
+  // Take first 3 valid recommendations
+  return cleanedRecs
+    .filter(rec => rec.length >= 10) // Ensure minimum length for complete sentences
+    .slice(0, 3);
+};
+
+const getDefaultRecommendations = (disease) => {
+  const defaultRecs = {
+    "Common Cold": [
+      "Rest and stay hydrated",
+      "Use over-the-counter cold medications",
+      "Monitor symptoms for 3-4 days",
+    ],
+    "Bronchial Asthma": [
+      "Use prescribed inhalers as directed",
+      "Avoid known triggers",
+      "Keep rescue inhaler nearby",
+    ],
+    // Add more default recommendations for other conditions
+  };
+
+  return (
+    defaultRecs[disease] || [
+      "Rest and stay hydrated",
+      "Monitor your symptoms",
+      "Consult a healthcare provider if symptoms worsen",
+    ]
+  );
+};
+
 const checkSymptoms = async () => {
-  // If there's text in the input, try to add it first
-  if (symptomInput.value.trim()) {
-    addManualSymptom();
-  }
-  
-  if (selectedSymptoms.value.length === 0) {
-    alert('Please select at least one symptom');
-    return;
-  }
-  
+  if (!symptoms.value) return;
+
   loading.value = true;
   prediction.value = null;
+  recommendations.value = [];
   showResults.value = false;
 
   try {
-    // Get symptom names
-    const symptomNames = selectedSymptoms.value.map(s => s.name);
-    
-    // Call API
-    const response = await fetch(`${API_URL}/predict`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        symptoms: symptomNames
-      })
-    });
-    
-    if (!response.ok) {
-      throw new Error(`Server responded with ${response.status}`);
+    // API call for prediction
+    const response = await fetch(
+      "https://sample-server-ktep.onrender.com/predict",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ symptom: symptoms.value }),
+      }
+    );
+
+    const data = await response.json();
+    if (data.status === "success") {
+      prediction.value = data.result;
+
+      try {
+        // Get recommendations using Puter.js
+        const prompt = `List exactly 3 brief medical recommendations for ${data.result.predicted_disease}. Use bullet points and do not highlight text in the response.`;
+        const puter_response = await puter.ai.chat(prompt);
+
+        if (puter_response) {
+          recommendations.value = parseRecommendations(puter_response);
+
+          // If parsing failed or didn't return enough recommendations, use defaults
+          if (recommendations.value.length < 3) {
+            recommendations.value = getDefaultRecommendations(
+              data.result.predicted_disease
+            );
+          }
+        } else {
+          recommendations.value = getDefaultRecommendations(
+            data.result.predicted_disease
+          );
+        }
+      } catch (puterError) {
+        console.error("Puter.js error:", puterError);
+        recommendations.value = getDefaultRecommendations(
+          data.result.predicted_disease
+        );
+      }
+
+      // Show results only after all data is ready
+      setTimeout(() => {
+        showResults.value = true;
+      }, 300);
     }
-    
-    const result = await response.json();
-    prediction.value = result;
-    
-    // Show results after data is ready
-    setTimeout(() => {
-      showResults.value = true;
-    }, 300);
   } catch (error) {
-    console.error('Prediction error:', error);
+    console.error("API error:", error);
+    // Show error state or default recommendations
     prediction.value = {
       predicted_disease: "Unable to process",
       confidence: 0.5,
-      top_diseases: [
-        { disease: "Error", probability: 1.0 }
-      ],
-      symptoms_provided: selectedSymptoms.value.map(s => s.name)
     };
+    recommendations.value = [
+      "Please try again later",
+      "Check your internet connection",
+      "Contact support if the issue persists",
+    ];
     setTimeout(() => {
       showResults.value = true;
     }, 300);
@@ -364,97 +306,6 @@ const checkSymptoms = async () => {
 .first-inner-second > *:nth-child(5) { animation-delay: 0.6s; }
 .first-inner-second > *:nth-child(6) { animation-delay: 0.7s; }
 
-/* Dropdown and input styling */
-.input-dropdown-container {
-  position: relative;
-  width: 100%;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  max-height: 200px;
-  overflow-y: auto;
-  background-color: white;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  z-index: 10;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.dropdown-item {
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-.dropdown-item:hover {
-  background-color: #f5f5f5;
-}
-
-.dropdown-item.disabled {
-  color: #ccc;
-  cursor: default;
-}
-
-/* Symptom tag styles */
-.selected-symptoms-container {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 10px 0;
-}
-
-.symptom-tag {
-  display: inline-block;
-  background-color: var(--accent-color);
-  color: white;
-  padding: 5px 10px;
-  margin: 5px;
-  border-radius: 15px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.symptom-tag:hover {
-  background-color: #e74c3c;
-}
-
-.no-symptoms {
-  margin-top: 10px;
-  color: var(--text-secondary);
-  font-style: italic;
-}
-
-/* Top diseases list */
-.disease-list {
-  margin: 10px 0;
-}
-
-.disease-item {
-  padding: 8px;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.disease-item:last-child {
-  border-bottom: none;
-}
-
-.confidence-bar {
-  height: 12px;
-  background-color: var(--accent-color);
-  display: inline-block;
-  border-radius: 2px;
-  vertical-align: middle;
-}
-
-.symptoms-list li {
-  margin-bottom: 5px;
-}
-
 /* Keep all your existing styles below */
 .initial-state {
   width: 96%;
@@ -492,6 +343,22 @@ const checkSymptoms = async () => {
 .percent-sec {
   transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
   width: 0;
+}
+
+.recommendation-item {
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .loader {
@@ -570,7 +437,7 @@ button.loading {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  input, select {
+  input {
     width: 100%;
     height: 2rem;
     border-radius: 0.3rem;
@@ -704,7 +571,7 @@ button.loading {
   .first-inner-input {
     width: 100%;
 
-    input, select {
+    input {
       width: 100%;
       margin: 0;
       margin-bottom: 1rem;
