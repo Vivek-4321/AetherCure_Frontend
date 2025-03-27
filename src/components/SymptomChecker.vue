@@ -490,6 +490,7 @@ const checkSymptoms = async () => {
 .input-dropdown-container {
   position: relative;
   width: 100%;
+  margin-bottom: 16px; /* Added spacing */
 }
 
 .dropdown-menu {
@@ -533,14 +534,15 @@ const checkSymptoms = async () => {
   border-radius: 0.3rem;
   background-color: var(--secondary-bg);
   border: 1px solid var(--border-color);
-  padding: 5px;
+  padding: 8px; /* Increased padding */
 }
 
 .chips-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 6px; /* Increased gap */
   max-width: 100%;
+  margin-bottom: 4px; /* Added space below chips */
 }
 
 .symptom-chip {
@@ -548,7 +550,7 @@ const checkSymptoms = async () => {
   align-items: center;
   background-color: var(--accent-color);
   color: white;
-  padding: 2px 8px;
+  padding: 3px 10px; /* Increased padding */
   border-radius: 12px;
   margin: 2px;
   font-size: 12px;
@@ -562,14 +564,14 @@ const checkSymptoms = async () => {
 }
 
 .chip-delete {
-  margin-left: 4px;
+  margin-left: 6px; /* Increased margin */
   font-weight: bold;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
 }
 
@@ -579,7 +581,7 @@ const checkSymptoms = async () => {
 
 .input-bar {
   flex: 1;
-  height: 1.8rem;
+  height: 2rem; /* Increased height */
   border: none !important;
   outline: none;
   padding-left: 0.5rem;
@@ -589,22 +591,24 @@ const checkSymptoms = async () => {
 }
 
 .no-symptoms {
-  margin-top: 10px;
+  margin-top: 16px; /* Increased margin */
+  margin-bottom: 16px; /* Added margin below */
   color: var(--text-secondary);
   font-style: italic;
 }
 
 /* Top diseases list */
 .disease-list {
-  margin: 10px 0;
+  margin: 16px 0; /* Increased margin */
 }
 
 .disease-item {
-  padding: 8px;
+  padding: 12px; /* Increased padding */
   border-bottom: 1px solid #eee;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px; /* Increased gap */
+  margin-bottom: 6px; /* Added margin between items */
 }
 
 .disease-item:last-child {
@@ -612,18 +616,59 @@ const checkSymptoms = async () => {
 }
 
 .confidence-bar {
-  height: 12px;
+  height: 14px; /* Increased height */
   background-color: var(--accent-color);
   display: inline-block;
-  border-radius: 2px;
+  border-radius: 3px; /* Increased radius */
   vertical-align: middle;
 }
 
-.symptoms-list li {
-  margin-bottom: 5px;
+.top-diseases {
+  margin: 24px 0; /* Added spacing */
 }
 
-/* Keep all your existing styles below */
+.symptoms-list {
+  margin-top: 8px;
+  margin-bottom: 24px; /* Added bottom margin */
+}
+
+.symptoms-list li {
+  margin-bottom: 8px; /* Increased spacing between items */
+  line-height: 1.5; /* Improved line height */
+}
+
+/* Recommendations styling */
+.recommendations-title {
+  font-weight: 600;
+  margin-top: 24px !important; /* Added extra top margin */
+  margin-bottom: 6px !important; /* Reduced bottom margin */
+}
+
+.recommendations-list {
+  margin-bottom: 24px; /* Added space after list */
+}
+
+.recommendation-item {
+  margin-bottom: 14px !important; /* Increased space between items */
+  line-height: 1.5; /* Improved line height */
+  padding-right: 12px; /* Added padding */
+}
+
+/* Results elements spacing */
+.first-inner-second h3 {
+  margin-bottom: 10px; /* Added spacing */
+  font-family: "Poppins", sans-serif;
+  color: var(--text-secondary);
+}
+
+.first-inner-second h4 {
+  margin-top: 24px; /* Added top margin */
+  margin-bottom: 12px; /* Added bottom margin */
+  font-family: "Poppins", sans-serif;
+  color: var(--text-secondary);
+}
+
+/* Initial state */
 .initial-state {
   width: 96%;
   height: 26rem;
@@ -640,10 +685,11 @@ const checkSymptoms = async () => {
   text-align: center;
   color: var(--text-secondary);
   opacity: 0.7;
+  padding: 24px; /* Added padding */
 }
 
 .health-icon {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem; /* Increased margin */
 }
 
 .fade-slide-enter-active,
@@ -657,9 +703,21 @@ const checkSymptoms = async () => {
   transform: translateY(20px);
 }
 
+.percent-first {
+  width: 98%;
+  height: 0.7rem; /* Increased height */
+  background-color: rgb(231, 229, 229);
+  border-radius: 0.3rem;
+  margin-top: 0.8rem; /* Increased margin */
+  margin-bottom: 0.8rem; /* Increased margin */
+}
+
 .percent-sec {
   transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
   width: 0;
+  height: 0.7rem; /* Increased height */
+  border-radius: 0.3rem;
+  background-color: var(--accent-color);
 }
 
 .loader {
@@ -701,249 +759,273 @@ button.loading {
   opacity: 0.8;
   cursor: not-allowed;
 }
+
 .first-div {
   width: 100%;
   height: 100%;
   background-color: var(--main-bg);
   display: flex;
   flex-direction: column;
+  padding: 0 12px; /* Added horizontal padding */
 }
+
 .first-inner-first {
   width: 97%;
-  height: 13rem;
+  height: auto; /* Changed to auto height */
+  min-height: 14rem; /* Set minimum height */
   background-color: var(--secondary-bg);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   flex-direction: column;
   border-radius: 1rem;
-  margin-bottom: 1rem;
-  align-items: flex-start;
-  padding-left: 1rem;
+  margin-bottom: 1.5rem; /* Increased margin */
+  padding: 24px; /* Increased padding */
   margin-left: 1.2rem;
-  margin-top: 1rem;
-  h1 {
-    font-size: 24px;
-    font-family: "Poppins", sans-serif;
-    color: var(--text-primary);
-  }
+  margin-top: 1.5rem; /* Increased margin */
 }
+
+.first-inner-first h1 {
+  font-size: 24px;
+  font-family: "Poppins", sans-serif;
+  color: var(--text-primary);
+  margin-bottom: 16px; /* Added margin */
+}
+
 .first-inner-upper {
   width: 100%;
-  height: 40%;
+  height: auto; /* Changed to auto */
   display: flex;
   align-items: flex-start;
-
-  p {
-    font-size: var(--font-size-base);
-    font-family: "Poppins", sans-serif;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    color: var(--text-secondary);
-  }
   flex-direction: column;
+  margin-bottom: 20px; /* Added margin */
 }
+
+.first-inner-upper p {
+  font-size: var(--font-size-base);
+  font-family: "Poppins", sans-serif;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+}
+
 .first-inner-input {
   width: 98%;
   background-color: var(--secondary-bg);
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  margin-bottom: 0.5rem;
-  
-  select {
-    width: 100%;
-    height: 2rem;
-    border-radius: 0.3rem;
-    margin-left: 0rem;
-    margin-bottom: 0.5rem;
-    color: var(--text-primary);
-    padding-left: 1rem;
-    border: 1px solid var(--border-color);
-    background-color: var(--secondary-bg);
-  }
+  margin-bottom: 1rem; /* Increased margin */
 }
+
+.first-inner-input select {
+  width: 100%;
+  height: 2.4rem; /* Increased height */
+  border-radius: 0.3rem;
+  margin-left: 0rem;
+  margin-bottom: 0.8rem; /* Increased margin */
+  color: var(--text-primary);
+  padding-left: 1rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--secondary-bg);
+}
+
 .first-inner-btn {
   width: 98%;
-  height: 25%;
+  height: auto; /* Changed to auto */
   background-color: var(--secondary-bg);
   display: flex;
   align-items: center;
-  button {
-    width: 100%;
-    height: 80%;
-    background-color: var(--accent-color);
-    border-radius: 0.5rem;
-    color: var(--common-white);
-    border: 1px solid transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  margin-top: 12px; /* Added space between input and button */
 }
+
+.first-inner-btn button {
+  width: 100%;
+  height: 3rem; /* Increased height */
+  background-color: var(--accent-color);
+  border-radius: 0.5rem;
+  color: var(--common-white);
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem; /* Increased font size */
+  font-weight: 500; /* Added font weight */
+}
+
 .first-inner-second {
   width: 97%;
-  height: 26rem;
+  height: auto; /* Changed to auto */
+  min-height: 26rem; /* Set minimum height */
   background-color: var(--secondary-bg);
-  padding: 1rem;
+  padding: 24px; /* Increased padding */
   border-radius: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem; /* Increased margin */
   margin-left: 1rem;
   position: relative;
   overflow: hidden;
-  
-  h2 {
-    font-family: "Poppins", sans-serif;
-    color: var(--accent-color);
-    margin-top: 0.3rem;
-    margin-bottom: 0.4rem;
-  }
-  p {
-    font-size: var(--font-size-base);
-    font-family: "Poppins", sans-serif;
-    margin-top: 1.4rem;
-    color: var(--text-secondary);
-  }
-  li {
-    font-size: var(--font-size-base);
-    font-family: "Poppins", sans-serif;
-    margin-top: 1rem;
-    margin-left: 1rem;
-    color: var(--text-secondary);
-  }
+}
+
+.first-inner-second h2 {
+  font-family: "Poppins", sans-serif;
+  color: var(--accent-color);
+  margin-top: 0.5rem; /* Increased margin */
+  margin-bottom: 1rem; /* Increased margin */
+  font-size: 1.8rem; /* Increased font size */
+}
+
+.first-inner-second p {
+  font-size: var(--font-size-base);
+  font-family: "Poppins", sans-serif;
+  margin-top: 1.4rem;
+  margin-bottom: 0.7rem; /* Added bottom margin */
+  color: var(--text-secondary);
+  line-height: 1.5; /* Improved line height */
+}
+
+.first-inner-second li {
+  font-size: var(--font-size-base);
+  font-family: "Poppins", sans-serif;
+  margin-top: 0.7rem; /* Reduced top margin */
+  margin-bottom: 0.7rem; /* Added bottom margin */
+  margin-left: 1.5rem; /* Increased left margin */
+  color: var(--text-secondary);
+  line-height: 1.5; /* Improved line height */
 }
 
 .results-scroll-container {
   height: 100%;
   overflow-y: auto;
-  padding-right: 0.5rem;
+  padding-right: 0.8rem; /* Increased padding */
   scrollbar-width: thin;
   scrollbar-color: var(--accent-color) var(--secondary-bg);
 }
 
 .results-scroll-container::-webkit-scrollbar {
-  width: 6px;
+  width: 8px; /* Increased width */
 }
 
 .results-scroll-container::-webkit-scrollbar-track {
   background: var(--secondary-bg);
+  border-radius: 4px; /* Added radius */
 }
 
 .results-scroll-container::-webkit-scrollbar-thumb {
   background-color: var(--accent-color);
   border-radius: 6px;
 }
-.percent-first {
-  width: 98%;
-  height: 0.5rem;
-  background-color: rgb(231, 229, 229);
-  border-radius: 0.3rem;
-  margin-top: 0.4rem;
-  margin-bottom: 0.4rem;
-}
-.percent-sec {
-  width: 85%;
-  height: 0.5rem;
-  border-radius: 0.3rem;
-  background-color: var(--accent-color);
-}
+
 .note-div {
   width: 98%;
-  height: 3rem;
+  height: auto; /* Changed to auto */
+  min-height: 3rem; /* Set minimum height */
   background-color: antiquewhite;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: 1rem;
-  padding-bottom: 1.2rem;
-  p {
-    font-size: 13.2px;
-    font-family: "Poppins", sans-serif;
-    color: rgb(189, 60, 60);
-  }
+  margin-top: 2rem; /* Increased margin */
+  margin-bottom: 1rem; /* Added bottom margin */
+  padding: 16px; /* Added padding all around */
   border-radius: 0.7rem;
 }
+
+.note-div p {
+  font-size: 13.2px;
+  font-family: "Poppins", sans-serif;
+  color: rgb(189, 60, 60);
+  margin: 0; /* Reset margin to prevent double spacing */
+  line-height: 1.5; /* Improved line height */
+}
+
 @media screen and (max-width: 1024px) {
   .first-inner-first h1 {
-    margin-left: -40rem;
+    margin-left: 0; /* Fixed positioning */
+    text-align: center;
   }
 
   .first-inner-upper p {
-    margin-left: -45rem;
+    margin-left: 0; /* Fixed positioning */
   }
 }
 
 @media screen and (max-width: 768px) {
   .initial-state {
     width: 98%;
-    margin-left: 0rem;
+    margin-left: 0.5rem; /* Added small margin */
   }
   
-  .frist-div {
-    padding-left: 0.7rem;
+  .first-div {
+    padding: 0 10px; /* Added padding */
   }
 
   .first-inner-first {
     height: auto;
-    width: 98%;
-    padding: 1.5rem 1rem;
-    margin-top: 0.5rem;
-    margin-left: 0rem;
-
-    h1 {
-      margin-left: 0rem;
-      text-align: center;
-      font-size: 24px;
-    }
+    width: 94%; /* Adjusted width */
+    padding: 20px; /* Adjusted padding */
+    margin: 12px auto; /* Centered with margin */
   }
 
-  .first-inner-upper {
-    p {
-      margin-left: 0.5rem;
-      text-align: left;
-      width: 100%;
-    }
+  .first-inner-upper p {
+    margin-left: 0;
+    text-align: left;
+    width: 100%;
   }
 
   .first-inner-input {
     width: 100%;
-
-    input, select {
-      width: 100%;
-      margin: 0;
-      margin-bottom: 1rem;
-    }
   }
+
+  .first-inner-input input, .first-inner-input select {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 16px; /* Increased margin */
+  }
+
   .first-inner-btn {
-    height: 3.5rem;
+    width: 100%;
+    height: auto; 
+    padding-bottom: 12px; /* Added padding */
+  }
+
+  .first-inner-btn button {
+    height: 3.5rem; /* Increased height on mobile */
   }
 
   .first-inner-second {
+    width: 94%; /* Adjusted width */
     height: auto;
-    padding: 1.5rem;
+    min-height: 26rem;
+    padding: 20px; /* Adjusted padding */
+    margin: 0 auto 20px auto; /* Centered with margin */
+  }
 
-    h2 {
-      font-size: 1.6rem;
-    }
-    p {
-      margin-left: 0;
-    }
-    li {
-      margin-left: 2rem;
-    }
+  .first-inner-second h2 {
+    font-size: 1.6rem;
+  }
+
+  .first-inner-second p {
+    margin-left: 0;
+    margin-bottom: 12px; /* Added margin */
+  }
+
+  .first-inner-second li {
+    margin-left: 24px; /* Increased margin */
+    margin-bottom: 12px; /* Added margin */
   }
 
   .note-div {
     height: auto;
-    padding: 0.5rem;
-    margin-top: 2rem;
+    padding: 16px; /* Increased padding */
+    margin-top: 24px; /* Increased margin */
+    width: 100%; /* Full width on mobile */
+  }
 
-    p {
-      margin: 0.5rem;
-      font-size: 0.7rem;
-      text-align: center;
-    }
+  .note-div p {
+    margin: 0;
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.5;
   }
 }
 </style>
