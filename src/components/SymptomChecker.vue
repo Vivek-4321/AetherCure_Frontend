@@ -790,6 +790,7 @@ button.loading {
   padding: 0 12px; /* Added horizontal padding */
   overflow-y: auto;
   max-height: 100vh;
+  margin-top: 2rem;
 }
 
 .first-inner-first {
