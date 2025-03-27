@@ -103,7 +103,7 @@ export const fileAPI = {
     console.log("Fetching shared file with ID:", shareId);
     
     // This is a public endpoint, so we don't need auth headers
-    const API_URL = 'https://high-goose-81-j3gy941h2ts4.deno.dev';
+    const API_URL = 'https://high-goose-81-mh33xaffavj3.deno.dev';
     const url = `${API_URL}/files/shared/${shareId}`;
     
     console.log("Making request to:", url);

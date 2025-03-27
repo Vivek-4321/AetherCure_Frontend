@@ -141,7 +141,7 @@ const handleSubmit = async () => {
   isSubmitting.value = true;
 
   try {
-    const response = await fetch('http://localhost:8000/resetPassVerify', {
+    const response = await fetch('https://high-goose-81-mh33xaffavj3.deno.dev/resetPassVerify', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

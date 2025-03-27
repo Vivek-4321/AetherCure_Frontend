@@ -126,7 +126,7 @@ onMounted(async () => {
     isLoading.value = true
     
     // In a real app, these would be accessed from the environment
-    mainApiBaseUrl.value ='https://high-goose-81-7wg96m812d17.deno.dev';
+    mainApiBaseUrl.value ='https://high-goose-81-mh33xaffavj3.deno.dev';
     blockchainApiBaseUrl.value = import.meta.env.VITE_BLOCKCHAIN_API_URL || 'http://localhost:3000'
     
     // Fetch user data
