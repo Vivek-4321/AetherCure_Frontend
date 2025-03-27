@@ -1,14 +1,15 @@
 <template>
   <div class="first-div slide-in-from-top">
-    <div class="first-inner-first slide-in-from-left">
-      <h1>Disease Prediction Tool</h1>
-      <div class="first-inner-upper">
-        <p>Select your symptoms</p>
-        <div class="first-inner-input">
-          <!-- Symptom input with dropdown and chips -->
-          <div class="input-dropdown-container">
-            <div class="input-chips-wrapper">
-              <!-- Chips inside input area -->
+    <div class="tool-container">
+      <div class="first-inner-first slide-in-from-left">
+        <h1>Disease Prediction Tool</h1>
+        <div class="first-inner-upper">
+          <p>Select your symptoms</p>
+          <div class="first-inner-input">
+            <!-- Symptom input with dropdown and chips -->
+            <div class="input-dropdown-container">
+              <div class="input-chips-wrapper">
+                <!-- Chips inside input area -->
               <div class="chips-container" v-if="selectedSymptoms.length > 0">
                 <div 
                   v-for="(symptom, index) in selectedSymptoms" 
@@ -68,29 +69,30 @@
       </div>
     </div>
 
-    <!-- Initial state with fade in -->
-    <div v-if="!showResults" class="initial-state slide-in-from-right">
-      <div class="initial-content fade-in">
-        <Icon 
-          icon="hugeicons:align-box-bottom-left" 
-          class="health-icon"
-          :style="{ fontSize: '4rem', color: 'var(--text-secondary)' }"
-        />
-        <p v-if="loadingSymptoms">
-          <span class="loader-small"></span> Loading symptoms...
-        </p>
-        <p v-else-if="loading">
-          <span class="loader-small"></span> Analyzing your symptoms...
-        </p>
-        <p v-else>Type or select symptoms to get an AI-powered health assessment</p>
+    <div class="results-area">
+      <!-- Initial state with fade in -->
+      <div v-if="!showResults" class="initial-state slide-in-from-right">
+        <div class="initial-content fade-in">
+          <Icon 
+            icon="hugeicons:align-box-bottom-left" 
+            class="health-icon"
+            :style="{ fontSize: '4rem', color: 'var(--text-secondary)' }"
+          />
+          <p v-if="loadingSymptoms">
+            <span class="loader-small"></span> Loading symptoms...
+          </p>
+          <p v-else-if="loading">
+            <span class="loader-small"></span> Analyzing your symptoms...
+          </p>
+          <p v-else>Type or select symptoms to get an AI-powered health assessment</p>
+        </div>
       </div>
-    </div>
 
-    <!-- Enhanced Results section with staggered animations -->
-    <transition name="fade-slide" @enter="startProgress">
-      <div v-if="showResults" class="first-inner-second">
-        <div class="results-scroll-container">
-          <h3 class="slide-in-element">Predicted Disease</h3>
+      <!-- Enhanced Results section with staggered animations -->
+      <transition name="fade-slide" @enter="startProgress">
+        <div v-if="showResults" class="first-inner-second">
+          <div class="results-scroll-container">
+            <h3 class="slide-in-element">Predicted Disease</h3>
           <h2 class="slide-in-element">{{ prediction.predicted_disease }}</h2>
           <p class="slide-in-element">Confidence level</p>
           <div class="percent-first slide-in-element">
@@ -140,8 +142,10 @@
           </div>
         </div>
       </div>
-    </transition>
+      </transition>
+    </div>
   </div>
+</div>
 </template>
 
 <script setup>
@@ -669,6 +673,20 @@ const checkSymptoms = async () => {
 }
 
 /* Initial state */
+.tool-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.results-area {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .initial-state {
   width: 96%;
   height: 26rem;
@@ -678,7 +696,9 @@ const checkSymptoms = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 1.2rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
 }
 
 .initial-content {
@@ -762,11 +782,14 @@ button.loading {
 
 .first-div {
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 100%;
   background-color: var(--main-bg);
   display: flex;
   flex-direction: column;
   padding: 0 12px; /* Added horizontal padding */
+  overflow-y: auto;
+  max-height: 100vh;
 }
 
 .first-inner-first {
@@ -861,9 +884,11 @@ button.loading {
   padding: 24px; /* Increased padding */
   border-radius: 1rem;
   margin-bottom: 1.5rem; /* Increased margin */
-  margin-left: 1rem;
+  margin-left: auto;
+  margin-right: auto;
   position: relative;
   overflow: hidden;
+  max-width: 1200px;
 }
 
 .first-inner-second h2 {
@@ -952,11 +977,24 @@ button.loading {
 @media screen and (max-width: 768px) {
   .initial-state {
     width: 98%;
-    margin-left: 0.5rem; /* Added small margin */
+    margin-left: auto;
+    margin-right: auto;
   }
   
   .first-div {
     padding: 0 10px; /* Added padding */
+    overflow-y: auto;
+    height: auto;
+  }
+
+  .tool-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .results-area {
+    width: 100%;
   }
 
   .first-inner-first {
@@ -964,6 +1002,9 @@ button.loading {
     width: 94%; /* Adjusted width */
     padding: 20px; /* Adjusted padding */
     margin: 12px auto; /* Centered with margin */
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
 
   .first-inner-upper p {
