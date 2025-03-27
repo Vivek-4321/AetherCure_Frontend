@@ -5,18 +5,33 @@
       <div class="first-inner-upper">
         <p>Select your symptoms</p>
         <div class="first-inner-input">
-          <!-- Symptom input with dropdown -->
+          <!-- Symptom input with dropdown and chips -->
           <div class="input-dropdown-container">
-            <input
-              v-model="symptomInput"
-              type="text"
-              class="input-bar"
-              placeholder="Type or select symptoms"
-              @focus="showDropdown = true"
-              @blur="handleBlur"
-              @input="filterSymptoms"
-              :disabled="loading || loadingSymptoms"
-            />
+            <div class="input-chips-wrapper">
+              <!-- Chips inside input area -->
+              <div class="chips-container" v-if="selectedSymptoms.length > 0">
+                <div 
+                  v-for="(symptom, index) in selectedSymptoms" 
+                  :key="index" 
+                  class="symptom-chip"
+                >
+                  <span class="chip-text">{{ symptom.name }}</span>
+                  <span class="chip-delete" @click="removeSymptom(index)">×</span>
+                </div>
+              </div>
+              
+              <input
+                v-model="symptomInput"
+                type="text"
+                class="input-bar"
+                placeholder="Type or select symptoms"
+                @focus="showDropdown = true"
+                @blur="handleBlur"
+                @input="filterSymptoms"
+                :disabled="loading || loadingSymptoms"
+              />
+            </div>
+            
             <div v-if="showDropdown" class="dropdown-menu">
               <div v-if="loadingSymptoms" class="dropdown-item disabled">
                 <span class="loader-small"></span> Loading symptoms...
@@ -38,18 +53,8 @@
           </div>
         </div>
         
-        <!-- Selected symptoms chips/tags -->
-        <div class="selected-symptoms-container" v-if="selectedSymptoms.length > 0">
-          <span 
-            v-for="(symptom, index) in selectedSymptoms" 
-            :key="index" 
-            class="symptom-tag"
-            @click="removeSymptom(index)"
-          >
-            {{ symptom.name }} ×
-          </span>
-        </div>
-        <p v-else class="no-symptoms">No symptoms selected yet</p>
+        <!-- Empty state message -->
+        <p v-if="selectedSymptoms.length === 0" class="no-symptoms">No symptoms selected yet</p>
       </div>
       <div class="first-inner-btn">
         <button
@@ -84,41 +89,43 @@
     <!-- Enhanced Results section with staggered animations -->
     <transition name="fade-slide" @enter="startProgress">
       <div v-if="showResults" class="first-inner-second">
-        <h3 class="slide-in-element">Predicted Disease</h3>
-        <h2 class="slide-in-element">{{ prediction.predicted_disease }}</h2>
-        <p class="slide-in-element">Confidence level</p>
-        <div class="percent-first slide-in-element">
-          <div
-            ref="progressBar"
-            class="percent-sec"
-            :style="{ width: progressWidth + '%' }"
-          ></div>
-        </div>
-        <p class="slide-in-element">{{ Math.round(prediction.confidence * 100) }}%</p>
-        
-        <div v-if="prediction.top_diseases" class="top-diseases slide-in-element">
-          <h4>Top Predictions:</h4>
-          <div class="disease-list">
-            <div v-for="(disease, index) in prediction.top_diseases" :key="index" class="disease-item">
-              {{ disease.disease }}: {{ (disease.probability * 100).toFixed(2) }}%
-              <div class="confidence-bar" :style="{ width: Math.round(disease.probability * 200) + 'px' }"></div>
+        <div class="results-scroll-container">
+          <h3 class="slide-in-element">Predicted Disease</h3>
+          <h2 class="slide-in-element">{{ prediction.predicted_disease }}</h2>
+          <p class="slide-in-element">Confidence level</p>
+          <div class="percent-first slide-in-element">
+            <div
+              ref="progressBar"
+              class="percent-sec"
+              :style="{ width: progressWidth + '%' }"
+            ></div>
+          </div>
+          <p class="slide-in-element">{{ Math.round(prediction.confidence * 100) }}%</p>
+          
+          <div v-if="prediction.top_diseases" class="top-diseases slide-in-element">
+            <h4>Top Predictions:</h4>
+            <div class="disease-list">
+              <div v-for="(disease, index) in prediction.top_diseases" :key="index" class="disease-item">
+                {{ disease.disease }}: {{ (disease.probability * 100).toFixed(2) }}%
+                <div class="confidence-bar" :style="{ width: Math.round(disease.probability * 200) + 'px' }"></div>
+              </div>
             </div>
           </div>
-        </div>
-        
-        <h4 class="slide-in-element">Symptoms Analyzed:</h4>
-        <ul class="symptoms-list slide-in-element">
-          <li v-for="(symptom, index) in selectedSymptoms" :key="index">
-            {{ symptom.name }}
-          </li>
-        </ul>
-        
-        <div class="note-div slide-in-element">
-          <p>
-            Note: This is an AI-powered prediction and should not replace
-            professional medical advice. Please consult a medical healthcare
-            provider for accurate diagnosis and treatment.
-          </p>
+          
+          <h4 class="slide-in-element">Symptoms Analyzed:</h4>
+          <ul class="symptoms-list slide-in-element">
+            <li v-for="(symptom, index) in selectedSymptoms" :key="index">
+              {{ symptom.name }}
+            </li>
+          </ul>
+          
+          <div class="note-div slide-in-element">
+            <p>
+              Note: This is an AI-powered prediction and should not replace
+              professional medical advice. Please consult a medical healthcare
+              provider for accurate diagnosis and treatment.
+            </p>
+          </div>
         </div>
       </div>
     </transition>
@@ -402,6 +409,7 @@ const checkSymptoms = async () => {
   padding: 8px 12px;
   cursor: pointer;
   color: var(--text-primary);
+  background-color: var(--secondary-bg);
 }
 
 .dropdown-item:hover {
@@ -414,26 +422,69 @@ const checkSymptoms = async () => {
   cursor: default;
 }
 
-/* Symptom tag styles */
-.selected-symptoms-container {
+/* Input with chips styling */
+.input-chips-wrapper {
   display: flex;
   flex-wrap: wrap;
-  margin: 10px 0;
+  align-items: center;
+  width: 100%;
+  min-height: 2rem;
+  border-radius: 0.3rem;
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--border-color);
+  padding: 5px;
 }
 
-.symptom-tag {
-  display: inline-block;
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  max-width: 100%;
+}
+
+.symptom-chip {
+  display: inline-flex;
+  align-items: center;
   background-color: var(--accent-color);
   color: white;
-  padding: 5px 10px;
-  margin: 5px;
-  border-radius: 15px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin: 2px;
+  font-size: 12px;
 }
 
-.symptom-tag:hover {
-  background-color: #e74c3c;
+.chip-text {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chip-delete {
+  margin-left: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.chip-delete:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.input-bar {
+  flex: 1;
+  height: 1.8rem;
+  border: none !important;
+  outline: none;
+  padding-left: 0.5rem;
+  margin: 0 !important;
+  background-color: transparent !important;
+  color: var(--text-primary) !important;
 }
 
 .no-symptoms {
@@ -593,12 +644,13 @@ button.loading {
 }
 .first-inner-input {
   width: 98%;
-  height: 35%;
   background-color: var(--secondary-bg);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
-  input, select {
+  margin-bottom: 0.5rem;
+  
+  select {
     width: 100%;
     height: 2rem;
     border-radius: 0.3rem;
@@ -636,6 +688,9 @@ button.loading {
   border-radius: 1rem;
   margin-bottom: 1rem;
   margin-left: 1rem;
+  position: relative;
+  overflow: hidden;
+  
   h2 {
     font-family: "Poppins", sans-serif;
     color: var(--accent-color);
@@ -655,6 +710,27 @@ button.loading {
     margin-left: 1rem;
     color: var(--text-secondary);
   }
+}
+
+.results-scroll-container {
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) var(--secondary-bg);
+}
+
+.results-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.results-scroll-container::-webkit-scrollbar-track {
+  background: var(--secondary-bg);
+}
+
+.results-scroll-container::-webkit-scrollbar-thumb {
+  background-color: var(--accent-color);
+  border-radius: 6px;
 }
 .percent-first {
   width: 98%;
