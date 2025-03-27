@@ -102,6 +102,18 @@
           </div>
           <p class="slide-in-element">{{ Math.round(prediction.confidence * 100) }}%</p>
           
+          <p class="slide-in-element recommendations-title">Recommendations</p>
+          <ul class="recommendations-list">
+            <li
+              v-for="(recommendation, index) in recommendations"
+              :key="index"
+              :style="{ animationDelay: `${0.8 + index * 0.2}s` }"
+              class="recommendation-item slide-in-element"
+            >
+              {{ recommendation }}
+            </li>
+          </ul>
+          
           <div v-if="prediction.top_diseases" class="top-diseases slide-in-element">
             <h4>Top Predictions:</h4>
             <div class="disease-list">
@@ -146,6 +158,7 @@ const selectedSymptoms = ref([]);
 const loading = ref(false);
 const loadingSymptoms = ref(true);
 const prediction = ref(null);
+const recommendations = ref([]);
 const progressWidth = ref(0);
 const showResults = ref(false);
 const showDropdown = ref(false);
@@ -245,6 +258,63 @@ const startProgress = () => {
   }, 100);
 };
 
+const parseRecommendations = (text) => {
+  // First, join any broken lines that were cut off
+  let cleanedText = text.toString()
+    .replace(/;\s*\n/g, '; ') // Join lines broken by semicolons
+    .replace(/\n(?=[a-z])/g, ' '); // Join lines that break mid-sentence
+    
+  // Split by bullet points or numbers
+  const lines = cleanedText.split(/[•\*\-\d+\.]\s+/)
+    .map(line => line.trim())
+    .filter(line => line.length > 0);
+    
+  // Clean up and format recommendations
+  const cleanedRecs = lines.map(line => {
+    // Remove trailing semicolons
+    line = line.replace(/;$/, '');
+    
+    // Ensure sentence ends with proper punctuation
+    if (!line.endsWith('.') && !line.endsWith('!') && !line.endsWith('?')) {
+      line += '.';
+    }
+    
+    // Capitalize first letter
+    line = line.charAt(0).toUpperCase() + line.slice(1);
+    
+    return line;
+  });
+
+  // Take first 3 valid recommendations
+  return cleanedRecs
+    .filter(rec => rec.length >= 10) // Ensure minimum length for complete sentences
+    .slice(0, 3);
+};
+
+const getDefaultRecommendations = (disease) => {
+  const defaultRecs = {
+    "Common Cold": [
+      "Rest and stay hydrated",
+      "Use over-the-counter cold medications",
+      "Monitor symptoms for 3-4 days",
+    ],
+    "Bronchial Asthma": [
+      "Use prescribed inhalers as directed",
+      "Avoid known triggers",
+      "Keep rescue inhaler nearby",
+    ],
+    // Add more default recommendations for other conditions
+  };
+
+  return (
+    defaultRecs[disease] || [
+      "Rest and stay hydrated",
+      "Monitor your symptoms",
+      "Consult a healthcare provider if symptoms worsen",
+    ]
+  );
+};
+
 const checkSymptoms = async () => {
   // If there's text in the input, try to add it first
   if (symptomInput.value.trim()) {
@@ -282,6 +352,32 @@ const checkSymptoms = async () => {
     const result = await response.json();
     prediction.value = result;
     
+    try {
+      // Get recommendations using Puter.js
+      const prompt = `List exactly 3 brief medical recommendations for ${result.predicted_disease}. Use bullet points and do not highlight text in the response.`;
+      const puter_response = await puter.ai.chat(prompt);
+
+      if (puter_response) {
+        recommendations.value = parseRecommendations(puter_response);
+
+        // If parsing failed or didn't return enough recommendations, use defaults
+        if (recommendations.value.length < 3) {
+          recommendations.value = getDefaultRecommendations(
+            result.predicted_disease
+          );
+        }
+      } else {
+        recommendations.value = getDefaultRecommendations(
+          result.predicted_disease
+        );
+      }
+    } catch (puterError) {
+      console.error("Puter.js error:", puterError);
+      recommendations.value = getDefaultRecommendations(
+        result.predicted_disease
+      );
+    }
+    
     // Show results after data is ready
     setTimeout(() => {
       showResults.value = true;
@@ -296,6 +392,11 @@ const checkSymptoms = async () => {
       ],
       symptoms_provided: selectedSymptoms.value.map(s => s.name)
     };
+    recommendations.value = [
+      "Please try again later",
+      "Check your internet connection",
+      "Contact support if the issue persists",
+    ];
     setTimeout(() => {
       showResults.value = true;
     }, 300);
