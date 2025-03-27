@@ -127,7 +127,7 @@ onMounted(async () => {
     
     // In a real app, these would be accessed from the environment
     mainApiBaseUrl.value ='https://high-goose-81-mh33xaffavj3.deno.dev';
-    blockchainApiBaseUrl.value = 'http://174.129.61.3:3000';
+    blockchainApiBaseUrl.value = 'https://aethercure.site';
     
     // Fetch user data
     await fetchUserData()
