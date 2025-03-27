@@ -15,20 +15,25 @@
               @focus="showDropdown = true"
               @blur="handleBlur"
               @input="filterSymptoms"
-              :disabled="loading"
+              :disabled="loading || loadingSymptoms"
             />
             <div v-if="showDropdown" class="dropdown-menu">
-              <div 
-                v-for="symptom in filteredSymptoms" 
-                :key="symptom.id" 
-                class="dropdown-item"
-                @mousedown="addSymptomFromDropdown(symptom)"
-              >
-                {{ symptom.name }}
+              <div v-if="loadingSymptoms" class="dropdown-item disabled">
+                <span class="loader-small"></span> Loading symptoms...
               </div>
-              <div v-if="filteredSymptoms.length === 0" class="dropdown-item disabled">
-                No symptoms found
-              </div>
+              <template v-else>
+                <div 
+                  v-for="symptom in filteredSymptoms" 
+                  :key="symptom.id" 
+                  class="dropdown-item"
+                  @mousedown="addSymptomFromDropdown(symptom)"
+                >
+                  {{ symptom.name }}
+                </div>
+                <div v-if="filteredSymptoms.length === 0" class="dropdown-item disabled">
+                  No symptoms found
+                </div>
+              </template>
             </div>
           </div>
         </div>
@@ -49,7 +54,7 @@
       <div class="first-inner-btn">
         <button
           @click="checkSymptoms"
-          :disabled="loading || selectedSymptoms.length === 0"
+          :disabled="loading || loadingSymptoms || selectedSymptoms.length === 0"
           :class="{ loading: loading }"
         >
           <span v-if="!loading">Predict Disease</span>
@@ -66,8 +71,13 @@
           class="health-icon"
           :style="{ fontSize: '4rem', color: 'var(--text-secondary)' }"
         />
-        <p v-if="!loading">Type or select symptoms to get an AI-powered health assessment</p>
-        <p v-else>Analyzing your symptoms...</p>
+        <p v-if="loadingSymptoms">
+          <span class="loader-small"></span> Loading symptoms...
+        </p>
+        <p v-else-if="loading">
+          <span class="loader-small"></span> Analyzing your symptoms...
+        </p>
+        <p v-else>Type or select symptoms to get an AI-powered health assessment</p>
       </div>
     </div>
 
@@ -127,6 +137,7 @@ const allSymptoms = ref([]);
 const filteredSymptoms = ref([]);
 const selectedSymptoms = ref([]);
 const loading = ref(false);
+const loadingSymptoms = ref(true);
 const prediction = ref(null);
 const progressWidth = ref(0);
 const showResults = ref(false);
@@ -142,6 +153,7 @@ onMounted(async () => {
 });
 
 const loadSymptoms = async () => {
+  loadingSymptoms.value = true;
   try {
     const response = await fetch(`${API_URL}/symptoms`);
     if (!response.ok) {
@@ -153,6 +165,8 @@ const loadSymptoms = async () => {
   } catch (error) {
     console.error('Error loading symptoms:', error);
     throw error;
+  } finally {
+    loadingSymptoms.value = false;
   }
 };
 
@@ -377,24 +391,26 @@ const checkSymptoms = async () => {
   right: 0;
   max-height: 200px;
   overflow-y: auto;
-  background-color: white;
+  background-color: var(--secondary-bg);
   border: 1px solid var(--border-color);
   border-radius: 4px;
   z-index: 10;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
 .dropdown-item {
   padding: 8px 12px;
   cursor: pointer;
+  color: var(--text-primary);
 }
 
 .dropdown-item:hover {
-  background-color: #f5f5f5;
+  background-color: var(--accent-color);
+  color: var(--common-white);
 }
 
 .dropdown-item.disabled {
-  color: #ccc;
+  color: var(--border-color);
   cursor: default;
 }
 
@@ -502,6 +518,18 @@ const checkSymptoms = async () => {
   border-radius: 50%;
   display: inline-block;
   animation: rotation 1s linear infinite;
+}
+
+.loader-small {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--text-secondary);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+  margin-right: 8px;
+  vertical-align: middle;
 }
 
 @keyframes rotation {
