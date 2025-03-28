@@ -711,7 +711,18 @@ onMounted(() => {
             </div>
             
             <div class="nearby-facilities-count" v-if="userLocation">
-                Found {{ visibleFacilities.length }} health facilities within {{ searchRadius }}km
+                <strong>Found {{ visibleFacilities.length }} health facilities within {{ searchRadius }}km</strong>
+                <div class="facility-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #e74c3c;"></div> Hospitals
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #3498db;"></div> Clinics
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #2ecc71;"></div> Pharmacies
+                    </div>
+                </div>
             </div>
             
             <div class="map-hos-bar" v-if="selectedLocation">
@@ -917,7 +928,7 @@ const healthFacilities = [
 
 // Computed property to filter facilities by distance and type
 const visibleFacilities = computed(() => {
-    if (!userLocation.value) return []
+    if (!userLocation.value) return healthFacilities // Show all facilities if no user location
     
     return healthFacilities.filter(facility => {
         // Check if facility type is selected
@@ -926,7 +937,7 @@ const visibleFacilities = computed(() => {
                           (facility.type === 'Pharmacy' && facilityFilters.value.pharmacy)
         
         // Check if within radius
-        const distance = parseFloat(facility.distance?.replace('km', '') || 0)
+        const distance = parseFloat((facility.distance || '').replace('km', '') || 0)
         return typeFilter && distance <= searchRadius.value
     })
 })
@@ -984,27 +995,35 @@ const getFacilityStyle = (facilityType) => {
 
 // Custom icons for different facility types
 const createFacilityIcon = (facilityType) => {
-    let iconUrl, iconColor
+    let iconColor, iconSymbol
     
     switch(facilityType) {
         case 'Hospital':
             iconColor = '#e74c3c'
+            iconSymbol = 'H'
             break
         case 'Clinic':
             iconColor = '#3498db'
+            iconSymbol = 'C'
             break
         case 'Pharmacy':
             iconColor = '#2ecc71'
+            iconSymbol = 'P'
             break
         default:
             iconColor = '#3388ff'
+            iconSymbol = '+'
     }
     
     return L.divIcon({
         className: 'custom-div-icon',
-        html: `<div style="background-color:${iconColor};" class="marker-pin"></div>`,
-        iconSize: [30, 42],
-        iconAnchor: [15, 42]
+        html: `
+            <div style="background-color:${iconColor}; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;" class="marker-pin">
+                ${iconSymbol}
+            </div>
+        `,
+        iconSize: [30, 30],
+        iconAnchor: [15, 30]
     })
 }
 
@@ -1219,8 +1238,17 @@ const updateNearbyFacilities = async () => {
     
     // Calculate distance for each facility from the center
     healthFacilities.forEach(facility => {
-        facility.distance = `${calculateDistance(center, facility.coords).toFixed(1)}km`
+        const distance = calculateDistance(center, facility.coords)
+        facility.distance = `${distance.toFixed(1)}km`
     })
+    
+    console.log(`Updated distances for ${healthFacilities.length} facilities from center: ${center}`)
+    console.log(`Sample facility distances: ${healthFacilities[0].name}: ${healthFacilities[0].distance}`)
+    
+    // Ensure the radius is reasonable
+    if (searchRadius.value <= 0) {
+        searchRadius.value = 5 // Default radius
+    }
     
     // Update markers based on filtered facilities
     updateFacilityMarkers()
@@ -1238,6 +1266,9 @@ const updateFacilityMarkers = () => {
     
     // Clear existing building references
     buildings.value = {}
+    markers.value = {}
+    
+    console.log(`Updating markers for ${visibleFacilities.value.length} visible facilities`)
     
     // Add visible facilities to the map
     visibleFacilities.value.forEach(facility => {
@@ -1255,17 +1286,24 @@ const updateFacilityMarkers = () => {
         
         buildings.value[facility.id] = building
         
-        // Add a marker if this is the selected facility
+        // Always add a marker for each facility to make them more visible
+        const marker = L.marker(facility.coords, {
+            icon: createFacilityIcon(facility.type),
+            zIndexOffset: 1000
+        })
+            .addTo(facilityLayerGroup.value)
+            .bindPopup(`
+                <strong>${facility.name}</strong><br>
+                Type: ${facility.type}<br>
+                Distance: ${facility.distance}<br>
+                Status: ${facility.isOpen ? 'Open' : 'Closed'}
+            `)
+        
+        markers.value[facility.id] = marker
+        
+        // Open popup if this is the selected facility
         if (selectedLocation.value && selectedLocation.value.id === facility.id) {
-            const marker = L.marker(facility.coords, {
-                icon: createFacilityIcon(facility.type),
-                zIndexOffset: 1000
-            })
-                .addTo(facilityLayerGroup.value)
-                .bindPopup(facility.name)
-                .openPopup()
-            
-            markers.value[facility.id] = marker
+            marker.openPopup()
         }
     })
 }
@@ -1369,13 +1407,15 @@ const initMap = () => {
         .marker-pin {
             width: 30px;
             height: 30px;
-            border-radius: 50% 50% 50% 0;
-            background: #c30b82;
+            border-radius: 50%;
             position: absolute;
-            transform: rotate(-45deg);
             left: 50%;
             top: 50%;
             margin: -15px 0 0 -15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            text-align: center;
+            line-height: 30px;
+            font-size: 16px;
         }
     `
     document.head.appendChild(style)
@@ -1398,13 +1438,47 @@ const getUserLocation = () => {
                 
             // Update facilities based on user location
             updateNearbyFacilities()
+        }, () => {
+            // Fallback if geolocation permission denied
+            console.log("Geolocation permission denied, using default location")
+            const defaultLocation = [51.505, -0.09] // London as default
+            userLocation.value = defaultLocation
+            map.value.setView(defaultLocation, 13)
+            
+            // Add default location marker
+            L.marker(defaultLocation, {
+                zIndexOffset: 1000
+            })
+                .addTo(map.value)
+                .bindPopup('Default location')
+                .openPopup()
+                
+            // Update facilities based on default location
+            updateNearbyFacilities()
         })
+    } else {
+        // Fallback for browsers without geolocation support
+        const defaultLocation = [51.505, -0.09] // London as default
+        userLocation.value = defaultLocation
+        
+        // Update facilities based on default location
+        updateNearbyFacilities()
     }
 }
 
 onMounted(() => {
     initMap()
-    getUserLocation()
+    // Set a short timeout to ensure the map is fully initialized before getting location
+    setTimeout(() => {
+        getUserLocation()
+    }, 500)
+    
+    // Set all facility types to visible by default
+    facilityFilters.value = {
+        hospital: true,
+        clinic: true,
+        pharmacy: true
+    }
 })
 </script>
 
@@ -1562,6 +1636,30 @@ onMounted(() => {
     text-align: center;
     font-size: 0.9rem;
     color: var(--text-secondary);
+    background-color: var(--main-bg);
+    border-radius: 0.5rem;
+    margin: 0.5rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.facility-legend {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
 }
 
 .map-hos-bar {
