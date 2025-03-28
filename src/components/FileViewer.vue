@@ -486,6 +486,7 @@ onMounted(() => {
   background-color: var(--main-bg);
   color: var(--text-primary);
   font-family: 'Poppins', sans-serif;
+  min-width: 100%;
 }
 
 .viewer-header {
@@ -496,6 +497,9 @@ onMounted(() => {
   background-color: var(--secondary-bg);
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  min-width: 100%;
+  flex-shrink: 0;
 }
 
 .file-info h1 {
@@ -561,6 +565,8 @@ onMounted(() => {
   position: relative;
   padding: 1rem;
   background-color: var(--main-bg);
+  width: 100%;
+  min-width: 0;
 }
 
 .loading-container,
@@ -572,11 +578,13 @@ onMounted(() => {
   justify-content: center;
   text-align: center;
   max-width: 400px;
+  width: 100%;
   padding: 2rem;
   background-color: var(--secondary-bg);
   color: var(--text-primary);
   border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  margin: 0 auto;
 }
 
 .loading-spinner {
