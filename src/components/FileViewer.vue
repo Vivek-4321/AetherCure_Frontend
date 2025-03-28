@@ -481,12 +481,17 @@ onMounted(() => {
 .file-viewer-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   background-color: var(--main-bg);
   color: var(--text-primary);
   font-family: 'Poppins', sans-serif;
-  min-width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-x: hidden;
 }
 
 .viewer-header {
@@ -497,9 +502,12 @@ onMounted(() => {
   background-color: var(--secondary-bg);
   border-bottom: 1px solid var(--border-color);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  min-width: 100%;
-  flex-shrink: 0;
+  width: 100vw;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
 }
 
 .file-info h1 {
@@ -565,8 +573,9 @@ onMounted(() => {
   position: relative;
   padding: 1rem;
   background-color: var(--main-bg);
-  width: 100%;
-  min-width: 0;
+  width: 100vw;
+  margin-top: 0;
+  box-sizing: border-box;
 }
 
 .loading-container,
