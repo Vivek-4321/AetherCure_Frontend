@@ -11,10 +11,6 @@
           <Icon icon="nrk:back" />
           Back
         </button>
-        <!-- <button @click="downloadFile" class="control-btn download-btn">
-          <Icon icon="hugeicons:download-01" />
-          Download
-        </button> -->
       </div>
     </div>
 
@@ -489,6 +485,7 @@ onMounted(() => {
   height: 100vh;
   background-color: var(--main-bg);
   color: var(--text-primary);
+  font-family: 'Poppins', sans-serif;
 }
 
 .viewer-header {
@@ -498,18 +495,22 @@ onMounted(() => {
   padding: 1rem 2rem;
   background-color: var(--secondary-bg);
   border-bottom: 1px solid var(--border-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
 .file-info h1 {
   font-size: 1.5rem;
   margin: 0;
   word-break: break-word;
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .file-info p {
   margin: 0.5rem 0 0;
   color: var(--text-secondary);
   font-size: 0.9rem;
+  opacity: 0.8;
 }
 
 .viewer-controls {
@@ -531,22 +532,24 @@ onMounted(() => {
 }
 
 .back-btn {
-  background-color: var(--main-bg);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
+  background-color: rgba(79, 70, 229, 0.1);
+  color: var(--accent-color);
+  border: 1px solid rgba(79, 70, 229, 0.2);
 }
 
 .back-btn:hover {
-  background-color: var(--border-color);
+  background-color: rgba(79, 70, 229, 0.2);
 }
 
 .download-btn {
   background-color: var(--accent-color);
   color: white;
+  border: none;
 }
 
 .download-btn:hover {
   background-color: var(--hover-accent);
+  transform: translateY(-1px);
 }
 
 .viewer-content {
@@ -557,6 +560,7 @@ onMounted(() => {
   overflow: auto;
   position: relative;
   padding: 1rem;
+  background-color: var(--main-bg);
 }
 
 .loading-container,
@@ -571,16 +575,18 @@ onMounted(() => {
   padding: 2rem;
   background-color: var(--secondary-bg);
   color: var(--text-primary);
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .loading-spinner {
   width: 50px;
   height: 50px;
-  border: 4px solid rgba(0, 0, 0, 0.1);
+  border: 4px solid rgba(79, 70, 229, 0.1);
   border-radius: 50%;
   border-top-color: var(--accent-color);
   animation: spin 1s linear infinite;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 @keyframes spin {
@@ -591,57 +597,81 @@ onMounted(() => {
   margin-top: 1rem;
   color: var(--text-secondary);
   font-size: 0.9rem;
-  background-color: var(--secondary-bg);
-  padding: 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 0.75rem 1rem;
   border-radius: 0.5rem;
+  border-left: 3px solid var(--accent-color);
 }
 
 .error-icon,
 .file-icon {
-  font-size: 3rem;
+  font-size: 3.5rem;
   color: var(--text-secondary);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .error-container h2,
 .unsupported-container h2 {
   margin-top: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .error-container p,
 .unsupported-container p {
   margin-bottom: 1.5rem;
   color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
 }
 
 .retry-btn {
-  padding: 0.5rem 1rem;
-  background-color: var(--main-bg);
+  padding: 0.5rem 1.25rem;
+  background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid var(--border-color);
   border-radius: 0.5rem;
   cursor: pointer;
-  margin-right: 0.5rem;
-  transition: background-color 0.2s ease;
+  color: var(--text-primary);
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .retry-btn:hover {
-  background-color: var(--border-color);
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
 }
 
-.download-anyway-btn {
-  padding: 0.5rem 1rem;
+.download-anyway-btn, .open-tab-btn {
+  padding: 0.5rem 1.25rem;
   background-color: var(--accent-color);
   color: white;
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
-  margin-top: 1rem;
-  transition: background-color 0.2s ease;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
-.download-anyway-btn:hover {
+.download-anyway-btn:hover, .open-tab-btn:hover {
   background-color: var(--hover-accent);
+  transform: translateY(-1px);
+}
+
+.open-tab-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+.open-tab-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 .image-viewer {
@@ -651,49 +681,68 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .image-viewer img {
   max-width: 100%;
   max-height: calc(100vh - 200px);
   object-fit: contain;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
 }
 
 .image-controls {
   position: absolute;
-  bottom: 1rem;
+  bottom: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 0.5rem;
-  background-color: rgba(var(--secondary-bg-rgb, 255, 255, 255), 0.8);
-  padding: 0.5rem;
+  gap: 0.75rem;
+  background-color: var(--secondary-bg);
+  padding: 0.75rem;
   border-radius: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  z-index: 10;
 }
 
 .zoom-btn {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
   border: none;
-  background-color: var(--main-bg);
-  color: var(--text-primary);
+  background-color: rgba(79, 70, 229, 0.1);
+  color: var(--accent-color);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-size: 1.1rem;
 }
 
 .zoom-btn:hover {
-  background-color: var(--border-color);
+  background-color: rgba(79, 70, 229, 0.2);
+  transform: translateY(-2px);
 }
 
 .pdf-viewer {
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--main-bg);
+}
+
+.pdf-viewer object,
+.pdf-viewer iframe {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
 }
 
 .text-btn {
@@ -704,6 +753,23 @@ onMounted(() => {
   cursor: pointer;
   padding: 0;
   text-decoration: underline;
+}
+
+.text-btn:hover {
+  color: var(--hover-accent);
+}
+
+/* Toast customization */
+:deep(.vue3-toastify) {
+  font-family: 'Poppins', sans-serif;
+}
+
+:deep(.toast-success) {
+  background-color: var(--accent-color) !important;
+}
+
+:deep(.toast-info) {
+  background-color: var(--hover-accent) !important;
 }
 
 /* Responsive styles */
@@ -726,6 +792,40 @@ onMounted(() => {
   
   .file-info h1 {
     font-size: 1.2rem;
+  }
+  
+  .loading-container,
+  .error-container,
+  .unsupported-container {
+    max-width: 90%;
+    padding: 1.5rem;
+  }
+  
+  .image-controls {
+    bottom: 1rem;
+    padding: 0.5rem;
+  }
+  
+  .zoom-btn {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}
+
+/* Dark theme enhancements */
+@media (prefers-color-scheme: dark) {
+  .loading-spinner {
+    border-color: rgba(255, 255, 255, 0.1);
+    border-top-color: var(--accent-color);
+  }
+  
+  .image-viewer img {
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+  }
+  
+  .pdf-viewer object,
+  .pdf-viewer iframe {
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
   }
 }
 </style>
