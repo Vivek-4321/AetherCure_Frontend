@@ -676,7 +676,7 @@ onMounted(() => {
                 </div>
             </div>
             
-            <!-- Facility filter controls -->
+            <!-- Facility filter controls
             <div class="filter-controls">
                 <div class="radius-control">
                     <label for="radius-slider">Search Radius: {{ searchRadius }}km</label>
@@ -704,13 +704,13 @@ onMounted(() => {
                         Pharmacies
                     </label>
                 </div>
-            </div>
+            </div> -->
             
             <div class="map-view-bar">
                 <div id="map"></div>
             </div>
             
-            <div class="nearby-facilities-count" v-if="userLocation">
+            <!-- <div class="nearby-facilities-count" v-if="userLocation">
                 <strong>Found {{ visibleFacilities.length }} health facilities within {{ searchRadius }}km</strong>
                 <div class="facility-legend">
                     <div class="legend-item">
@@ -723,7 +723,7 @@ onMounted(() => {
                         <div class="legend-color" style="background-color: #2ecc71;"></div> Pharmacies
                     </div>
                 </div>
-            </div>
+            </div> -->
             
             <div class="map-hos-bar" v-if="selectedLocation">
                 <div class="central-edit">
